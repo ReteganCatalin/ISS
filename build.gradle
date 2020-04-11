@@ -11,6 +11,25 @@ repositories {
     mavenCentral()
 }
 
+ext {
+    springVersion = '5.1.5.RELEASE'
+    postgresqlVersion = '42.2.5'
+    dbcpVersion = '2.2.0'
+
+    slf4jVersion = '1.7.25'
+    log4jVersion = '2.10.0'
+
+    springDataVersion = '2.1.6.RELEASE'
+    hibernateVersion = '5.4.2.Final'
+    hikariVersion = '2.7.7'
+    jaxbapiVersion = '2.3.0'
+}
+
+
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"
+
+    compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
+
 }
