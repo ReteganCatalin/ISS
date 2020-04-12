@@ -23,6 +23,8 @@ ext {
     hibernateVersion = '5.4.2.Final'
     hikariVersion = '2.7.7'
     jaxbapiVersion = '2.3.0'
+
+    javaxValidationVersion = '2.0.0.Final'
 }
 
 
@@ -31,5 +33,17 @@ dependencies {
     compile group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"
 
     compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
+
+    compile group: 'javax.validation', name: 'validation-api', version: "$javaxValidationVersion"
+    compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
+
+    compile group: 'org.springframework', name: 'spring-context-support', version: "$springVersion"
+    compile group: 'org.springframework', name: 'spring-orm', version: "$springVersion"
+
+    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion"
+
+    compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
+
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbapiVersion"
 
 }

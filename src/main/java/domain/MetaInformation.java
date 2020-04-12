@@ -18,4 +18,7 @@ public class MetaInformation {
 
     @Column(name = "topics",nullable = false)
     private String topics;
+
+    @OneToOne(mappedBy = "metaInformation",fetch = FetchType.LAZY)
+    private Proposal proposal;
 }

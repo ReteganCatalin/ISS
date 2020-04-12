@@ -58,17 +58,17 @@ class PermissionListKey implements Serializable {
 
 @Entity
 @Table(name = "Permission_list")
-public class PermissionList {
+public class PermissionForUser {
 
     @EmbeddedId
     PermissionListKey permissionListKey;
 
-    @ManyToOne
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     @MapsId("user_id")
     @JoinColumn(name = "user_id")
     User user;
 
-    @ManyToOne
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
     @MapsId("permission_id")
     @JoinColumn(name = "permission_id")
     Permission permission;

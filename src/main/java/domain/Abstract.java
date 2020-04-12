@@ -17,4 +17,6 @@ public class Abstract {
     @Column(name="byte_file", columnDefinition = "BLOB",nullable = false)
     private byte[] byteFile;
 
+    @OneToOne(mappedBy = "anAbstract", fetch = FetchType.LAZY)
+    private Proposal proposal;
 }

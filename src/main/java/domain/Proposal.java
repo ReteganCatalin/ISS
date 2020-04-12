@@ -1,6 +1,8 @@
 package domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="Proposal")
@@ -10,16 +12,31 @@ public class Proposal {
     @Column(name="proposal_id")
     private Integer proposalID;
 
-    @Column(name="user_info_id")
-    private Integer userInfoID;
+    @OneToMany(mappedBy = "proposal",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<Review> reviews = new HashSet<>();
 
-    @Column(name = "paper_id")
-    private Integer paperID;
+    @OneToMany(mappedBy = "proposal",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    Set<Author> authors = new HashSet<>();
 
-    @Column(name = "meta_inf_id")
-    private Integer metaInfID;
+    @OneToMany(mappedBy = "proposal",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    Set<Analyse> analyses = new HashSet<>();
 
-    @Column(name = "abstract_id")
-    private Integer abstractID;
+    @OneToMany(mappedBy = "proposal",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    Set<ProposalList> proposalListsForSections = new HashSet<>();
 
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_info_id")
+    private UserInfo userInfo;
+
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "meta_info_id")
+    private MetaInformation metaInformation;
+
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "abstract_id")
+    private Abstract anAbstract;
+
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "paper_id")
+    private Paper paper;
 }

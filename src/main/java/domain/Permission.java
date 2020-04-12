@@ -9,14 +9,16 @@ import java.util.Set;
 public class Permission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="serial_number")
+    @Column(name="permission_id")
     private int permission_id;
 
     @Column(name = "name", nullable = false)
     private String permissionName;
 
 
-    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<User> users = new HashSet<>();
+    @OneToMany(mappedBy = "permission",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<PermissionForUser> permissionForUser = new HashSet<>();
 
+    @OneToMany(mappedBy = "permission",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    private Set<Participation> participations = new HashSet<>();
 }

@@ -14,4 +14,7 @@ public class Paper {
     @Lob
     @Column(name = "byte_file",columnDefinition = "BLOB",nullable = false)
     private byte[] byteFile;
+
+    @OneToOne(mappedBy = "paper",fetch = FetchType.LAZY)
+    private Proposal proposal;
 }

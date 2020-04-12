@@ -10,11 +10,17 @@ public class Presentation {
     @Column(name = "presentation_id")
     private Integer presentationID;
 
-    @Column(name = "conference_id",nullable = false)
-    private Integer conferenceID;
+
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name = "conference_id")
+    Conference conference;
+
+    @ManyToOne(optional = false,fetch = FetchType.LAZY)
+    @JoinColumn(name = "section_id")
+    Section section;
 
     @Column(name = "format",nullable = false)
-    private String formar;
+    private String format;
 
     @Column(name = "byte_file",nullable = false)
     private byte[] byteFile;
