@@ -1,9 +1,17 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "abstract")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Abstract {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

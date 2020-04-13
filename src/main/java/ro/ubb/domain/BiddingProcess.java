@@ -1,11 +1,19 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
 @Entity
 @Table(name = "bidding_process")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class BiddingProcess {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

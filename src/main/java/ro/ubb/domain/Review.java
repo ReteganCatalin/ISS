@@ -1,5 +1,7 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,6 +13,9 @@ class ReviewListKey implements Serializable {
 
   @Column(name = "qualifier_id")
   private Integer qualifierID;
+
+  public ReviewListKey() {
+  }
 
   @Column(name = "user_id")
   private Integer userId;
@@ -75,6 +80,12 @@ class ReviewListKey implements Serializable {
 
 @Entity
 @Table(name = "review_list")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Review {
 
   @EmbeddedId ReviewListKey reviewListKey;

@@ -25,6 +25,9 @@ ext {
     jaxbapiVersion = '2.3.0'
 
     javaxValidationVersion = '2.0.0.Final'
+
+    lombokVersion = '1.16.12'
+
 }
 
 
@@ -43,6 +46,8 @@ dependencies {
     compile group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion"
 
     compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
+    //lombok
+    compile group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
 
     compile group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbapiVersion"
 

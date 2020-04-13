@@ -1,9 +1,17 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "participant_list")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Participation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

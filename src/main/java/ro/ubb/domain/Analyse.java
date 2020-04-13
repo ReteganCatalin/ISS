@@ -1,10 +1,13 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-class AnalyseKey {
+class AnalyseKey implements Serializable {
   @Column(name = "bid_id")
   private Integer bidID;
 
@@ -76,6 +79,12 @@ class AnalyseKey {
 
 @Entity
 @Table(name = "analyse")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Analyse {
 
   @EmbeddedId private AnalyseKey analyseKey;

@@ -1,9 +1,17 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "user_info")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class UserInfo {
 
   @Id

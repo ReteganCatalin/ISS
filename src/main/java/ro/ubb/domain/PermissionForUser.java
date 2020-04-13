@@ -1,11 +1,16 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
 class PermissionListKey implements Serializable {
+
+  public PermissionListKey() {
+  }
 
   @Column(name = "user_id")
   private Integer userID;
@@ -55,6 +60,12 @@ class PermissionListKey implements Serializable {
 
 @Entity
 @Table(name = "permission_list")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class PermissionForUser {
 
   @EmbeddedId PermissionListKey permissionListKey;

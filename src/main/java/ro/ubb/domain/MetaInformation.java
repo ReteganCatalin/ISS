@@ -1,9 +1,17 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "meta_info")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class MetaInformation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

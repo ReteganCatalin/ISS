@@ -1,9 +1,17 @@
 package ro.ubb.domain;
 
+import lombok.*;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "paper")
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@ToString
 public class Paper {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
