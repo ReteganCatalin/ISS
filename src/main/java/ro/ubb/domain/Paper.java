@@ -13,6 +13,7 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 public class Paper {
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "paper_id", nullable = false)
