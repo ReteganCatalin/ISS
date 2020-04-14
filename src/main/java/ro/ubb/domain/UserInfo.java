@@ -19,17 +19,20 @@ public class UserInfo {
   @Column(name = "user_info_id")
   private Integer userInfoId;
 
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false,length = 20)
   private String name;
 
-  @Column(name = "affiliation", nullable = false)
+  @Column(name = "affiliation", nullable = false,length = 20)
   private String affiliation;
 
-  @Column(name = "email_address", length = 320)
+  @Column(name = "email_address", length = 40)
   private String emailAddress;
 
-  @Column(name = "webpage_address", length = 320)
+  @Column(name = "webpage_address", length = 40)
   private String webPageAddress;
+
+  @Column(name = "affiliation_validated")
+  private Boolean affiliationValidated;
 
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private User user;

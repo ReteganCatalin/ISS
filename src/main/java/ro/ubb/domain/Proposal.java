@@ -27,7 +27,7 @@ public class Proposal {
   Set<Author> authors = new HashSet<>();
 
   @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<Analyse> analyses = new HashSet<>();
+  Set<Analysis> analyses = new HashSet<>();
 
   @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<ProposalList> proposalListsForSections = new HashSet<>();

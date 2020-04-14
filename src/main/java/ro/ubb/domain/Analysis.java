@@ -6,12 +6,13 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+
 @Embeddable
-class AnalyseKey implements Serializable {
+class AnalysisKey implements Serializable {
   @Column(name = "bid_id")
   private Integer bidID;
 
-  @Column(name = "user_id")
+  @Column(name = "pc_member_id")
   private Integer userID;
 
   @Column(name = "proposal_id")
@@ -33,7 +34,7 @@ class AnalyseKey implements Serializable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    AnalyseKey that = (AnalyseKey) o;
+    AnalysisKey that = (AnalysisKey) o;
     return bidID.equals(that.bidID)
         && userID.equals(that.userID)
         && proposalID.equals(that.proposalID);
@@ -44,7 +45,7 @@ class AnalyseKey implements Serializable {
     return Objects.hash(bidID, userID, proposalID);
   }
 
-  public AnalyseKey() {}
+  public AnalysisKey() {}
 
   public Integer getBidID() {
     return bidID;
@@ -70,7 +71,7 @@ class AnalyseKey implements Serializable {
     this.proposalID = proposalID;
   }
 
-  public AnalyseKey(Integer bidID, Integer userID, Integer proposalID) {
+  public AnalysisKey(Integer bidID, Integer userID, Integer proposalID) {
     this.bidID = bidID;
     this.userID = userID;
     this.proposalID = proposalID;
@@ -78,25 +79,21 @@ class AnalyseKey implements Serializable {
 }
 
 @Entity
-@Table(name = "analyse")
+@Table(name = "analysis")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @EqualsAndHashCode
 @ToString
-public class Analyse {
+public class Analysis {
 
-  @EmbeddedId private AnalyseKey analyseKey;
-
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @MapsId("bid_id")
-  @JoinColumn(name = "bid_id")
-  BiddingProcess biddingProcess;
+  @EmbeddedId
+  AnalysisKey analysisKey;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "pc_member_id",referencedColumnName = "user_id")
   User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
@@ -104,8 +101,14 @@ public class Analyse {
   @JoinColumn(name = "proposal_id")
   Proposal proposal;
 
-  @Column(name = "brief_analyse", nullable = false, columnDefinition = "TEXT")
-  private String briefAnalyse;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @MapsId("bid_id")
+  @JoinColumn(name = "bid_id")
+  BiddingProcess biddingProcess;
+
+
+  @Column(name = "brief_analysis", nullable = false, columnDefinition = "TEXT")
+  private String briefAnalysis;
 
   @Column(name = "refuse", nullable = false)
   private Boolean refuse;

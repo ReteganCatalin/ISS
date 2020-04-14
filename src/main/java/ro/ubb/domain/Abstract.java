@@ -18,13 +18,12 @@ public class Abstract {
   @Column(name = "abstract_id")
   private Integer abstractID;
 
-  @Column(name = "format", nullable = false, columnDefinition = "VARCHAR(24)")
+  @Column(name = "format", nullable = false, length = 5)
   private String format;
 
-  @Lob
-  @Column(name = "byte_file", columnDefinition = "BLOB", nullable = false)
-  private byte[] byteFile;
+  @Column(name = "byte_file_location", nullable = false, length = 40)
+  private String byteFileLocation;
 
-  @OneToOne(mappedBy = "anAbstract", fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "anAbstract",orphanRemoval = true, fetch = FetchType.LAZY)
   private Proposal proposal;
 }

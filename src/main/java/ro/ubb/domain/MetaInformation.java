@@ -18,13 +18,13 @@ public class MetaInformation {
   @Column(name = "meta_info_id")
   private Integer metaInfoId;
 
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false,length = 40)
   private String name;
 
-  @Column(name = "keywords", nullable = false)
+  @Column(name = "keywords", nullable = false,length = 40)
   private String keywords;
 
-  @Column(name = "topics", nullable = false)
+  @Column(name = "topics", nullable = false, length = 40)
   private String topics;
 
   @OneToOne(mappedBy = "metaInformation", fetch = FetchType.LAZY)

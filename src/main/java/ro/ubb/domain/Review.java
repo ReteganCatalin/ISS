@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
-
+/*
 @Embeddable
 class ReviewListKey implements Serializable {
   @Column(name = "proposal_id")
@@ -76,7 +76,7 @@ class ReviewListKey implements Serializable {
     this.qualifierID = qualifierID;
     this.userId = userId;
   }
-}
+}*/
 
 @Entity
 @Table(name = "review_list")
@@ -88,20 +88,24 @@ class ReviewListKey implements Serializable {
 @ToString
 public class Review {
 
-  @EmbeddedId ReviewListKey reviewListKey;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "review_id")
+  private Integer reviewID;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @MapsId("proposal_id")
   @JoinColumn(name = "proposal_id")
   Proposal proposal;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @MapsId("qualifier_id")
   @JoinColumn(name = "qualifier_id")
   Qualifier qualifier;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @MapsId("user_id")
   @JoinColumn(name = "user_id")
   User user;
+
+  @OneToOne(orphanRemoval = true,cascade = CascadeType.ALL,optional = false,fetch = FetchType.LAZY)
+  @JoinColumn(name="recommendation_id")
+  Recommendation recommendation;
 }

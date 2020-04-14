@@ -28,6 +28,6 @@ public class BiddingProcess {
   @Temporal(TemporalType.DATE)
   private java.util.Date deadline;
 
-  @OneToMany(mappedBy = "biddingProcess", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Set<Analyse> analyses = new HashSet<>();
+  @OneToMany(mappedBy = "biddingProcess",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private Set<Analysis> analyses = new HashSet<>();
 }

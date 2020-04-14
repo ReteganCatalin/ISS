@@ -18,7 +18,7 @@ public class Author {
   @Column(name = "author_id")
   private Integer authorId;
 
-  @Column(name = "name", nullable = false)
+  @Column(name = "name", nullable = false,length = 40)
   private String name;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)

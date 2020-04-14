@@ -18,12 +18,11 @@ public class Paper {
   @Column(name = "paper_id", nullable = false)
   private Integer paperId;
 
-  @Column(name = "format", nullable = false)
+  @Column(name = "format", nullable = false,length = 5)
   private String format;
 
-  @Lob
-  @Column(name = "byte_file", columnDefinition = "BLOB", nullable = false)
-  private byte[] byteFile;
+  @Column(name = "byte_file_location", nullable = false, length = 40)
+  private String byteFileLocation;
 
   @OneToOne(mappedBy = "paper", fetch = FetchType.LAZY)
   private Proposal proposal;

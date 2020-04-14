@@ -30,7 +30,7 @@ public class Participation {
   @JoinColumn(name = "permission_id", nullable = false)
   private Permission permission;
 
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @JoinColumn(name = "conference_id", nullable = false)
-  private Conference conference;
+//  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+//  @JoinColumn(name = "conference_id", nullable = false)
+//  private Conference conference;
 }

@@ -23,9 +23,9 @@ public class Permission {
   @Column(name = "name", nullable = false)
   private String permissionName;
 
-  @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "permission",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Set<PermissionForUser> permissionForUser = new HashSet<>();
 
-  @OneToMany(mappedBy = "permission", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "permission",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Set<Participation> participations = new HashSet<>();
 }

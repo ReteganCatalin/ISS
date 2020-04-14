@@ -3,6 +3,7 @@ package ro.ubb.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,6 +34,9 @@ public class Section {
   @Column(name = "date_of_presentation", nullable = false)
   java.util.Date dateOfPresentation;
 
+  @Column(name = "price",nullable = false)
+  private Integer price;
+
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<Participation> participations = new HashSet<>();
 
@@ -41,4 +45,8 @@ public class Section {
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<Presentation> presentations = new HashSet<>();
+
+  @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  Set<MyTicket> myTickets = new HashSet<>();
+
 }
