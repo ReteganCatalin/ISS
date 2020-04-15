@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 
+@Builder(access = AccessLevel.PUBLIC)
+@Data
 @Entity
 @Table(name="person")
 @AllArgsConstructor
@@ -17,7 +19,8 @@ public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "person_id")
-    private Integer personID;
+    private Integer person_id;
+
 
     @Column(name = "name", nullable = false, length = 5)
     private String name;
