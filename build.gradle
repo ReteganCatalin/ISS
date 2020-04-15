@@ -1,54 +1,39 @@
 plugins {
-    id 'java'
+	id 'org.springframework.boot' version '2.3.0.BUILD-SNAPSHOT'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'java'
 }
 
-group 'ro.ubb.iss'
-version '1.0-SNAPSHOT'
+group = 'ro.ubb.iss'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '14'
 
-sourceCompatibility = 1.8
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
 
 repositories {
-    mavenCentral()
+	mavenCentral()
+	maven { url 'https://repo.spring.io/milestone' }
+	maven { url 'https://repo.spring.io/snapshot' }
 }
-
-ext {
-    springVersion = '5.1.5.RELEASE'
-    postgresqlVersion = '42.2.5'
-    dbcpVersion = '2.2.0'
-
-    slf4jVersion = '1.7.25'
-    log4jVersion = '2.10.0'
-
-    springDataVersion = '2.1.6.RELEASE'
-    hibernateVersion = '5.4.2.Final'
-    hikariVersion = '2.7.7'
-    jaxbapiVersion = '2.3.0'
-
-    javaxValidationVersion = '2.0.0.Final'
-
-    lombokVersion = '1.16.12'
-
-}
-
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'org.hibernate', name: 'hibernate-core', version: "$hibernateVersion"
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+	implementation 'org.liquibase:liquibase-core'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation('org.springframework.boot:spring-boot-starter-test') {
+		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	}
+}
 
-    compile group: 'org.postgresql', name: 'postgresql', version: "$postgresqlVersion"
-
-    compile group: 'javax.validation', name: 'validation-api', version: "$javaxValidationVersion"
-    compile group: 'org.springframework', name: 'spring-context', version: "$springVersion"
-
-    compile group: 'org.springframework', name: 'spring-context-support', version: "$springVersion"
-    compile group: 'org.springframework', name: 'spring-orm', version: "$springVersion"
-
-    compile group: 'org.springframework.data', name: 'spring-data-jpa', version: "$springDataVersion"
-
-    compile group: 'com.zaxxer', name: 'HikariCP', version: "$hikariVersion"
-    //lombok
-    compile group: 'org.projectlombok', name: 'lombok', version: "$lombokVersion"
-
-    compile group: 'javax.xml.bind', name: 'jaxb-api', version: "$jaxbapiVersion"
-
+test {
+	useJUnitPlatform()
 }
