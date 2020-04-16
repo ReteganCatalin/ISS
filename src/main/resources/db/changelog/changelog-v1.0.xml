@@ -4,4 +4,30 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+    <changeSet id="create-table" author="catalin">
+        <createTable tableName="person" schemaName="public" tablespace="pg_default">
+            <column name="person_id"  type="int" autoIncrement="true" incrementBy="1" startWith="1">
+                <constraints primaryKey="true" nullable="false"></constraints>
+            </column>
+            <column name="height" type="varchar">
+                <constraints nullable="false"></constraints>
+            </column>
+            <column name="name" type="varchar">
+                <constraints nullable="false"></constraints>
+            </column>
+        </createTable>
+        <sql>
+            ALTER TABLE public.person OWNER TO postgres;
+        </sql>
+    </changeSet>
+    <changeSet id="add-address" author="catalin">
+        <addColumn schemaName="public" tableName="person">
+            <column name="address" type="varchar"></column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="add person" author="catalin">
+        <sql>
+            INSERT INTO public.person (name,height,address) VALUES ('Clara','1.80 m','Bucuresti/Avram-Iancu Street');
+        </sql>
+    </changeSet>
 </databaseChangeLog>

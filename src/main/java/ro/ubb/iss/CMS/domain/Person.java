@@ -28,5 +28,8 @@ public class Person {
     @Column(name = "height", nullable = false, length = 40)
     private String height;
 
+    @Column(name="address",nullable = false, length=30)
+    private String address;
+
 
 }

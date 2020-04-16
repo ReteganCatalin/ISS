@@ -1,6 +1,8 @@
 package ro.ubb.iss.CMS.Controller;
 
+import liquibase.Liquibase;
 import lombok.Builder;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ro.ubb.iss.CMS.Repository.personRepository;
@@ -11,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("person")
 public class TestController {
+    //public static final Logger log= liquibase.logging.LoggerFactory.
 
     @Autowired
     private personRepository PersonRepository;
@@ -18,8 +21,7 @@ public class TestController {
     @PostMapping("person")
     public String createPerson(@RequestParam String name)
     {
-        Person to_save=Person.builder().person_id(1).name(name).height("180 cm").build();
-        System.out.println(to_save);
+        Person to_save=Person.builder().name(name).height("180 cm").build();
         PersonRepository.save(to_save);
         return PersonRepository.findByName(name)+" Succesfully saved";
     }
