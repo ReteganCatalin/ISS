@@ -30,10 +30,10 @@ import javax.sql.DataSource;
 //@EnableCaching
 public class JPAConfig {
 
-    @Value("${db.jdbcUrl}")
+    @Value("${db.url}")
     private String jdbcUrl;
 
-    @Value("${db.username}")
+    @Value("${db.user_name}")
     private String username;
 
     @Value("${db.password}")
