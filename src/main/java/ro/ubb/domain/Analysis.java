@@ -15,6 +15,7 @@ import java.util.Objects;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 public class Analysis {
 
   @EmbeddedId

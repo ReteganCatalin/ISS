@@ -14,6 +14,7 @@ import java.util.Set;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 public class BiddingProcess {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

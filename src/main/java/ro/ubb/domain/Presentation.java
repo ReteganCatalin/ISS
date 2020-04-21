@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 public class Presentation {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

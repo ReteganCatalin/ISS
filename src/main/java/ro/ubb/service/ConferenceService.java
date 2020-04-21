@@ -1,0 +1,21 @@
+package ro.ubb.service;
+
+import ro.ubb.domain.Conference;
+
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+public interface ConferenceService {
+
+    Optional<Conference> findConference(int conferenceID);
+
+    List<Conference> findAll();
+
+    Conference updateConference(int conferenceID, String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline);
+
+    Conference saveConference(String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline);
+
+    void deleteConference(int conferenceID);
+
+}
