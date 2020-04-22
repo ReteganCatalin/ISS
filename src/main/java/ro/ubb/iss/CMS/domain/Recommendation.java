@@ -19,8 +19,8 @@ public class Recommendation {
     @Column(name = "recommendation_id")
     private Integer recommendationID;
 
-    @OneToOne(mappedBy = "recommendations",fetch = FetchType.LAZY)
-    @Column(name = "review_id")
+    @OneToOne(mappedBy = "recommendation",fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
     private Review review;
 
     @Column(name = "recommendation_message")
