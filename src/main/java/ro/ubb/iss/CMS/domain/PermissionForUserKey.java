@@ -6,9 +6,9 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class PermissionListKey implements Serializable {
+public class PermissionForUserKey implements Serializable {
 
-  public PermissionListKey() {
+  public PermissionForUserKey() {
   }
 
   @Column(name = "user_id")
@@ -21,7 +21,7 @@ public class PermissionListKey implements Serializable {
   public boolean equals(Object o) {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
-    PermissionListKey that = (PermissionListKey) o;
+    PermissionForUserKey that = (PermissionForUserKey) o;
     return userID.equals(that.userID) && permissionID.equals(that.permissionID);
   }
 
@@ -51,7 +51,7 @@ public class PermissionListKey implements Serializable {
     this.permissionID = permissionID;
   }
 
-  public PermissionListKey(Integer userID, Integer permissionID) {
+  public PermissionForUserKey(Integer userID, Integer permissionID) {
     this.userID = userID;
     this.permissionID = permissionID;
   }
