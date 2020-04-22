@@ -3,6 +3,8 @@ package ro.ubb.iss.CMS.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -22,5 +24,8 @@ public class Role {
 
     @Column(name = "name")
     String string;
+
+    @OneToMany(mappedBy = "role",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Participation> participations = new HashSet<>();
 
 }

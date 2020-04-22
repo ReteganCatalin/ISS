@@ -28,6 +28,4 @@ public class Permission {
   @OneToMany(mappedBy = "permission",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   private Set<PermissionForUser> permissionForUser = new HashSet<>();
 
-  @OneToMany(mappedBy = "permission",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Set<Participation> participations = new HashSet<>();
 }
