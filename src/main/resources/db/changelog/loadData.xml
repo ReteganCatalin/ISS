@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet id="test-user-info" author="catalin">
+        <loadUpdateData
+                tableName="user_info"
+                primaryKey="user_info_id"
+                encoding="UTF-8"
+                file="db/user_info.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="name" type="STRING" name="name"></column>
+            <column header="affiliation" type="STRING" name="affiliation"></column>
+            <column header="email_address" type="STRING" name="email_address"></column>
+            <column header="webpage_address" type="STRING" name="webpage_address"></column>
+            <column header="affiliation_validated" type="BOOLEAN" name="affiliation_validated"></column>
+        </loadUpdateData>
+    </changeSet>
+</databaseChangeLog>

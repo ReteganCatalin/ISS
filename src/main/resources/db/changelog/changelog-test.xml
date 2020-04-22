@@ -4,7 +4,7 @@
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
-        <changeSet id="legacy-test3" author="catalin">
+        <changeSet id="legacy-test4" author="catalin">
             <sqlFile dbms="postgresql"
                      encoding="UTF-8"
                      endDelimiter="\nGO"
@@ -13,4 +13,10 @@
                      splitStatements="true"
                      stripComments="true"></sqlFile>
         </changeSet>
+         <changeSet id="add-affiliation-validated1" author="catalin">
+            <addColumn schemaName="public" tableName="user_info">
+                <column name="affiliation_validated" type="BOOLEAN"></column>
+            </addColumn>
+        </changeSet>
+
 </databaseChangeLog>

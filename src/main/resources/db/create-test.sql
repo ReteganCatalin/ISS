@@ -2,7 +2,7 @@
 
 -- DROP SEQUENCE public.abstract_abstract_id_seq;
 
-CREATE SEQUENCE public.abstract_abstract_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.abstract_abstract_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -16,7 +16,7 @@ GO
 
 -- DROP SEQUENCE public.bidding_process_bid_id_seq;
 
-CREATE SEQUENCE public.bidding_process_bid_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.bidding_process_bid_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -30,7 +30,7 @@ GO
 
 -- DROP SEQUENCE public.conference_conference_id_seq;
 
-CREATE SEQUENCE public.conference_conference_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.conference_conference_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -44,7 +44,7 @@ GO
 
 -- DROP SEQUENCE public.meta_info_meta_info_id_seq;
 
-CREATE SEQUENCE public.meta_info_meta_info_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.meta_info_meta_info_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -58,7 +58,7 @@ GO
 
 -- DROP SEQUENCE public.paper_paper_id_seq;
 
-CREATE SEQUENCE public.paper_paper_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.paper_paper_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -72,7 +72,7 @@ GO
 
 -- DROP SEQUENCE public.participant_list_participant_list_id_seq;
 
-CREATE SEQUENCE public.participant_list_participant_list_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.participant_list_participant_list_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -86,7 +86,7 @@ GO
 
 -- DROP SEQUENCE public.permission_permission_id_seq;
 
-CREATE SEQUENCE public.permission_permission_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.permission_permission_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -100,7 +100,7 @@ GO
 
 -- DROP SEQUENCE public.proposal_proposal_id_seq;
 
-CREATE SEQUENCE public.proposal_proposal_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.proposal_proposal_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -114,7 +114,7 @@ GO
 
 -- DROP SEQUENCE public.qualifier_qualifier_id_seq;
 
-CREATE SEQUENCE public.qualifier_qualifier_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.qualifier_qualifier_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -128,7 +128,7 @@ GO
 
 -- DROP SEQUENCE public.recommendation_recommendation_id_seq;
 
-CREATE SEQUENCE public.recommendation_recommendation_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.recommendation_recommendation_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -142,7 +142,7 @@ GO
 
 -- DROP SEQUENCE public.review_list_review_id_seq;
 
-CREATE SEQUENCE public.review_list_review_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.review_list_review_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -156,7 +156,7 @@ GO
 
 -- DROP SEQUENCE public.role_role_id_seq;
 
-CREATE SEQUENCE public.role_role_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.role_role_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -170,7 +170,7 @@ GO
 
 -- DROP SEQUENCE public.section_section_id_seq;
 
-CREATE SEQUENCE public.section_section_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.section_section_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -184,7 +184,7 @@ GO
 
 -- DROP SEQUENCE public.ticketing_ticket_id_seq;
 
-CREATE SEQUENCE public.ticketing_ticket_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.ticketing_ticket_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -198,7 +198,7 @@ GO
 
 -- DROP SEQUENCE public.user_info_user_info_id_seq;
 
-CREATE SEQUENCE public.user_info_user_info_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.user_info_user_info_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -212,7 +212,7 @@ GO
 
 -- DROP SEQUENCE public.user_user_id_seq;
 
-CREATE SEQUENCE public.user_user_id_seq
+CREATE SEQUENCE IF NOT EXISTS public.user_user_id_seq
     INCREMENT 1
     START 1
     MINVALUE 1
@@ -226,13 +226,13 @@ GO
 
 -- DROP TABLE public.user_info;
 
-CREATE TABLE public.user_info
+CREATE TABLE IF NOT EXISTS public.user_info
 (
     user_info_id integer NOT NULL DEFAULT nextval('user_info_user_info_id_seq'::regclass),
-    name character varying(20) COLLATE pg_catalog."default",
-    affiliation character varying(20) COLLATE pg_catalog."default",
-    email_address character varying(40) COLLATE pg_catalog."default",
-    webpage_address character varying(40) COLLATE pg_catalog."default",
+    name character varying(40) COLLATE pg_catalog."default",
+    affiliation character varying(60) COLLATE pg_catalog."default",
+    email_address character varying(50) COLLATE pg_catalog."default",
+    webpage_address character varying(50) COLLATE pg_catalog."default",
     CONSTRAINT user_info_pkey PRIMARY KEY (user_info_id)
 )
 GO
@@ -244,7 +244,7 @@ GO
 
 -- DROP TABLE public."user";
 
-CREATE TABLE public."user"
+CREATE TABLE IF NOT EXISTS public."user"
 (
     user_id integer NOT NULL DEFAULT nextval('user_user_id_seq'::regclass),
     username character varying(20) COLLATE pg_catalog."default" NOT NULL,
@@ -268,7 +268,7 @@ GO
 
 -- DROP TABLE public.conference;
 
-CREATE TABLE public.conference
+CREATE TABLE IF NOT EXISTS public.conference
 (
     conference_id integer NOT NULL DEFAULT nextval('conference_conference_id_seq'::regclass),
     name character varying(40) COLLATE pg_catalog."default",
@@ -287,7 +287,7 @@ GO
 
 -- DROP TABLE public.bidding_process;
 
-CREATE TABLE public.bidding_process
+CREATE TABLE IF NOT EXISTS public.bidding_process
 (
     bid_id integer NOT NULL DEFAULT nextval('bidding_process_bid_id_seq'::regclass),
     conference_id integer,
@@ -307,7 +307,7 @@ GO
 
 -- DROP TABLE public.abstract;
 
-CREATE TABLE public.abstract
+CREATE TABLE IF NOT EXISTS public.abstract
 (
     abstract_id integer NOT NULL DEFAULT nextval('abstract_abstract_id_seq'::regclass),
     format character varying(5) COLLATE pg_catalog."default",
@@ -324,7 +324,7 @@ GO
 
 -- DROP TABLE public.meta_info;
 
-CREATE TABLE public.meta_info
+CREATE TABLE IF NOT EXISTS public.meta_info
 (
     meta_info_id integer NOT NULL DEFAULT nextval('meta_info_meta_info_id_seq'::regclass),
     name character varying(40) COLLATE pg_catalog."default",
@@ -343,7 +343,7 @@ GO
 
 -- DROP TABLE public.paper;
 
-CREATE TABLE public.paper
+CREATE TABLE IF NOT EXISTS public.paper
 (
     paper_id integer NOT NULL DEFAULT nextval('paper_paper_id_seq'::regclass),
     format character varying(5) COLLATE pg_catalog."default",
@@ -363,7 +363,7 @@ GO
 
 -- DROP TABLE public.proposal;
 
-CREATE TABLE public.proposal
+CREATE TABLE IF NOT EXISTS public.proposal
 (
     proposal_id integer NOT NULL DEFAULT nextval('proposal_proposal_id_seq'::regclass),
     user_info_id integer,
@@ -402,7 +402,7 @@ GO
 
 -- DROP TABLE public.analysis;
 
-CREATE TABLE public.analysis
+CREATE TABLE IF NOT EXISTS public.analysis
 (
     bid_id integer,
     user_id integer,
@@ -431,7 +431,7 @@ GO
 
 -- DROP TABLE public.author_list;
 
-CREATE TABLE public.author_list
+CREATE TABLE IF NOT EXISTS public.author_list
 (
     proposal_id integer NOT NULL,
     name character varying(40) COLLATE pg_catalog."default",
@@ -449,7 +449,7 @@ GO
 
 -- DROP TABLE public.participant_list;
 
-CREATE TABLE public.participant_list
+CREATE TABLE IF NOT EXISTS public.participant_list
 (
     participant_list_id integer NOT NULL DEFAULT nextval('participant_list_participant_list_id_seq'::regclass),
     section_id integer,
@@ -467,7 +467,7 @@ GO
 
 -- DROP TABLE public.permission;
 
-CREATE TABLE public.permission
+CREATE TABLE IF NOT EXISTS public.permission
 (
     permission_id integer NOT NULL DEFAULT nextval('permission_permission_id_seq'::regclass),
     name character varying(20) COLLATE pg_catalog."default" NOT NULL,
@@ -483,7 +483,7 @@ GO
 
 -- DROP TABLE public.permission_list;
 
-CREATE TABLE public.permission_list
+CREATE TABLE IF NOT EXISTS public.permission_list
 (
     user_id integer NOT NULL,
     permission_id integer NOT NULL,
@@ -505,7 +505,7 @@ GO
 
 -- DROP TABLE public.section;
 
-CREATE TABLE public.section
+CREATE TABLE IF NOT EXISTS public.section
 (
     section_id integer NOT NULL DEFAULT nextval('section_section_id_seq'::regclass),
     supervisor_id integer,
@@ -532,7 +532,7 @@ GO
 
 -- DROP TABLE public.proposal_list;
 
-CREATE TABLE public.proposal_list
+CREATE TABLE IF NOT EXISTS public.proposal_list
 (
     section_id integer NOT NULL,
     proposal_id integer NOT NULL,
@@ -557,7 +557,7 @@ GO
 
 -- DROP TABLE public.qualifier;
 
-CREATE TABLE public.qualifier
+CREATE TABLE IF NOT EXISTS public.qualifier
 (
     qualifier_id integer NOT NULL DEFAULT nextval('qualifier_qualifier_id_seq'::regclass),
     name character varying(40) COLLATE pg_catalog."default",
@@ -572,7 +572,7 @@ GO
 
 -- DROP TABLE public.recommendation;
 
-CREATE TABLE public.recommendation
+CREATE TABLE IF NOT EXISTS public.recommendation
 (
     recommendation_id integer NOT NULL DEFAULT nextval('recommendation_recommendation_id_seq'::regclass),
     review_id integer,
@@ -588,7 +588,7 @@ GO
 
 -- DROP TABLE public.review_list;
 
-CREATE TABLE public.review_list
+CREATE TABLE IF NOT EXISTS public.review_list
 (
     proposal_id integer,
     qualifier_id integer,
@@ -617,7 +617,7 @@ GO
 
 -- DROP TABLE public.role;
 
-CREATE TABLE public.role
+CREATE TABLE IF NOT EXISTS public.role
 (
     role_id integer NOT NULL DEFAULT nextval('role_role_id_seq'::regclass),
     name character varying COLLATE pg_catalog."default",
@@ -633,7 +633,7 @@ GO
 
 -- DROP TABLE public.role_permission_id;
 
-CREATE TABLE public.role_permission_id
+CREATE TABLE IF NOT EXISTS public.role_permission_id
 (
     permission_id integer,
     role_id integer
@@ -647,7 +647,7 @@ GO
 
 -- DROP TABLE public.role_user_list;
 
-CREATE TABLE public.role_user_list
+CREATE TABLE IF NOT EXISTS public.role_user_list
 (
     user_id integer,
     role_id integer
@@ -662,7 +662,7 @@ GO
 
 -- DROP TABLE public.ticketing;
 
-CREATE TABLE public.ticketing
+CREATE TABLE IF NOT EXISTS public.ticketing
 (
     ticket_id integer NOT NULL DEFAULT nextval('ticketing_ticket_id_seq'::regclass),
     user_id integer,

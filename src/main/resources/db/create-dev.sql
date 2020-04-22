@@ -10,7 +10,7 @@ CREATE SEQUENCE public.abstract_abstract_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.abstract_abstract_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.bidding_process_bid_id_seq
 
@@ -24,7 +24,7 @@ CREATE SEQUENCE public.bidding_process_bid_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.bidding_process_bid_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.conference_conference_id_seq
 
@@ -38,7 +38,7 @@ CREATE SEQUENCE public.conference_conference_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.conference_conference_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.meta_info_meta_info_id_seq
 
@@ -52,7 +52,7 @@ CREATE SEQUENCE public.meta_info_meta_info_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.meta_info_meta_info_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.paper_paper_id_seq
 
@@ -66,7 +66,7 @@ CREATE SEQUENCE public.paper_paper_id_seq
     CACHE 1;
 
 ALTER SEQUENCE public.paper_paper_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.participant_list_participant_list_id_seq
 
@@ -80,7 +80,7 @@ CREATE SEQUENCE public.participant_list_participant_list_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.participant_list_participant_list_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.permission_permission_id_seq
 
@@ -94,7 +94,7 @@ CREATE SEQUENCE public.permission_permission_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.permission_permission_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.proposal_proposal_id_seq
 
@@ -108,7 +108,7 @@ CREATE SEQUENCE public.proposal_proposal_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.proposal_proposal_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.qualifier_qualifier_id_seq
 
@@ -122,7 +122,7 @@ CREATE SEQUENCE public.qualifier_qualifier_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.qualifier_qualifier_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.recommendation_recommendation_id_seq
 
@@ -136,7 +136,7 @@ CREATE SEQUENCE public.recommendation_recommendation_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.recommendation_recommendation_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.review_list_review_id_seq
 
@@ -150,7 +150,7 @@ CREATE SEQUENCE public.review_list_review_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.review_list_review_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.role_role_id_seq
 
@@ -164,7 +164,7 @@ CREATE SEQUENCE public.role_role_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.role_role_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.section_section_id_seq
 
@@ -178,7 +178,7 @@ CREATE SEQUENCE public.section_section_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.section_section_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.ticketing_ticket_id_seq
 
@@ -192,7 +192,7 @@ CREATE SEQUENCE public.ticketing_ticket_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.ticketing_ticket_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.user_info_user_info_id_seq
 
@@ -206,7 +206,7 @@ CREATE SEQUENCE public.user_info_user_info_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.user_info_user_info_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- SEQUENCE: public.user_user_id_seq
 
@@ -220,7 +220,7 @@ CREATE SEQUENCE public.user_user_id_seq
     CACHE 1;
 GO
 ALTER SEQUENCE public.user_user_id_seq
-    OWNER TO "test-profile";
+    OWNER TO dev;
 GO
 -- Table: public.user_info
 
@@ -229,16 +229,16 @@ GO
 CREATE TABLE public.user_info
 (
     user_info_id integer NOT NULL DEFAULT nextval('user_info_user_info_id_seq'::regclass),
-    name character varying(20) COLLATE pg_catalog."default",
-    affiliation character varying(20) COLLATE pg_catalog."default",
-    email_address character varying(40) COLLATE pg_catalog."default",
-    webpage_address character varying(40) COLLATE pg_catalog."default",
+    name character varying(40) COLLATE pg_catalog."default",
+    affiliation character varying(60) COLLATE pg_catalog."default",
+    email_address character varying(50) COLLATE pg_catalog."default",
+    webpage_address character varying(50) COLLATE pg_catalog."default",
     CONSTRAINT user_info_pkey PRIMARY KEY (user_info_id)
 )
     GO
 
 ALTER TABLE public.user_info
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public."user"
 
@@ -261,7 +261,7 @@ CREATE TABLE public."user"
     GO
 
 ALTER TABLE public."user"
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 
 -- Table: public.conference
@@ -281,7 +281,7 @@ CREATE TABLE public.conference
     GO
 
 ALTER TABLE public.conference
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.bidding_process
 
@@ -301,7 +301,7 @@ CREATE TABLE public.bidding_process
     GO
 
 ALTER TABLE public.bidding_process
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.abstract
 
@@ -318,7 +318,7 @@ CREATE TABLE public.abstract
     GO
 
 ALTER TABLE public.abstract
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.meta_info
 
@@ -336,7 +336,7 @@ CREATE TABLE public.meta_info
 
 
 ALTER TABLE public.meta_info
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 
 -- Table: public.paper
@@ -354,7 +354,7 @@ CREATE TABLE public.paper
 
 
 ALTER TABLE public.paper
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 
 
@@ -395,7 +395,7 @@ CREATE TABLE public.proposal
     GO
 
 ALTER TABLE public.proposal
-    OWNER to "test-profile";
+    OWNER to dev;
 
 GO
 -- Table: public.analysis
@@ -425,7 +425,7 @@ CREATE TABLE public.analysis
     GO
 
 ALTER TABLE public.analysis
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.author_list
 
@@ -443,7 +443,7 @@ CREATE TABLE public.author_list
     GO
 
 ALTER TABLE public.author_list
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.participant_list
 
@@ -461,7 +461,7 @@ CREATE TABLE public.participant_list
     GO
 
 ALTER TABLE public.participant_list
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.permission
 
@@ -477,7 +477,7 @@ CREATE TABLE public.permission
     GO
 
 ALTER TABLE public.permission
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.permission_list
 
@@ -499,7 +499,7 @@ CREATE TABLE public.permission_list
     GO
 
 ALTER TABLE public.permission_list
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.section
 
@@ -526,7 +526,7 @@ CREATE TABLE public.section
     GO
 
 ALTER TABLE public.section
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.proposal_list
 
@@ -551,7 +551,7 @@ CREATE TABLE public.proposal_list
     GO
 
 ALTER TABLE public.proposal_list
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.qualifier
 
@@ -566,7 +566,7 @@ CREATE TABLE public.qualifier
     GO
 
 ALTER TABLE public.qualifier
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.recommendation
 
@@ -582,7 +582,7 @@ CREATE TABLE public.recommendation
     GO
 
 ALTER TABLE public.recommendation
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.review_list
 
@@ -611,7 +611,7 @@ CREATE TABLE public.review_list
     GO
 
 ALTER TABLE public.review_list
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.role
 
@@ -627,7 +627,7 @@ CREATE TABLE public.role
     GO
 
 ALTER TABLE public.role
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.role_permission_id
 
@@ -641,7 +641,7 @@ CREATE TABLE public.role_permission_id
     GO
 
 ALTER TABLE public.role_permission_id
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 -- Table: public.role_user_list
 
@@ -655,7 +655,7 @@ CREATE TABLE public.role_user_list
     GO
 
 ALTER TABLE public.role_user_list
-    OWNER to "test-profile";
+    OWNER to dev;
 GO
 
 -- Table: public.ticketing
@@ -673,7 +673,7 @@ CREATE TABLE public.ticketing
     GO
 
 ALTER TABLE public.ticketing
-    OWNER to "test-profile";
+    OWNER to dev;
 
 GO
 
