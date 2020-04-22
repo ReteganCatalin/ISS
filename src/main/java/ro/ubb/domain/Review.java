@@ -86,6 +86,7 @@ class ReviewListKey implements Serializable {
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 public class Review {
 
   @Id

@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Setter
 @EqualsAndHashCode
 @ToString
+@Builder
 public class UserInfo {
 
   @Id
