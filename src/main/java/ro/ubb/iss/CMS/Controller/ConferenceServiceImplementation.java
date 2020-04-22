@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.domain.Conference;
 import ro.ubb.iss.CMS.Repository.ConferenceRepository;
 
@@ -21,7 +22,7 @@ public class ConferenceServiceImplementation implements ConferenceService {
 
     @Override
     public Optional<Conference> findConference(int conferenceID) {
-        log.trace("findConference - method entered");
+        log.trace("findConference - method entered conferenceID={}",conferenceID);
         Optional<Conference> result = conferenceRepository.findById(conferenceID);
         log.trace("findConference - method exit result={}",result);
         return result;
@@ -36,6 +37,7 @@ public class ConferenceServiceImplementation implements ConferenceService {
     }
 
     @Override
+    @Transactional
     public Conference updateConference(int conferenceID, String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline) {
         log.trace("updateConference - method entered: conferenceID={}, name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}", conferenceID,name,startDate,endDate,proposalDeadline,paperDeadline);
 

@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.domain.BiddingProcess;
 import ro.ubb.iss.CMS.domain.Conference;
 import ro.ubb.iss.CMS.Repository.BiddingProcessRepository;
@@ -21,7 +22,7 @@ public class BiddingProcessServiceImplementation implements BiddingProcessServic
 
     @Override
     public Optional<BiddingProcess> findBiddingProcess(int bidID) {
-        log.trace("findBiddingProcess - method entered");
+        log.trace("findBiddingProcess - method entered bidID={}",bidID);
         Optional<BiddingProcess> result = biddingProcessRepository.findById(bidID);
         log.trace("findBiddingProcess - method exit result={}",result);
         return result;
@@ -36,6 +37,7 @@ public class BiddingProcessServiceImplementation implements BiddingProcessServic
     }
 
     @Override
+    @Transactional
     public BiddingProcess updateBiddingProcess(int bidID, Conference conferenceID, Date deadline) {
         log.trace("updateBiddingProcess - method entered: bidID={}, conferenceID={}, deadline={}", bidID,conferenceID,deadline);
 

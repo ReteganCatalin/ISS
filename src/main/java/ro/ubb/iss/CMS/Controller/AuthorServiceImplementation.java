@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.domain.Author;
 import ro.ubb.iss.CMS.domain.Proposal;
 import ro.ubb.iss.CMS.Repository.AuthorRepository;
@@ -20,7 +21,7 @@ public class AuthorServiceImplementation implements AuthorService{
 
     @Override
     public Optional<Author> findAuthor(int abstractID) {
-        log.trace("findAuthor - method entered");
+        log.trace("findAuthor - method entered abstractID={}",abstractID);
         Optional<Author> result = authorRepository.findById(abstractID);
         log.trace("findAuthor - method exit result={}",result);
         return result;
@@ -35,6 +36,7 @@ public class AuthorServiceImplementation implements AuthorService{
     }
 
     @Override
+    @Transactional
     public Author updateAuthor(int authorID, String name, Proposal proposalID) {
         log.trace("updateAuthor - method entered: authorID={}, name={}, proposalID={}", authorID,name,proposalID);
 

@@ -2,10 +2,11 @@ package ro.ubb.iss.CMS.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
+import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public class PermissionForRoleKey {
+public class PermissionForRoleKey implements Serializable {
 
     @Column(name = "role_id")
     private Integer roleID;

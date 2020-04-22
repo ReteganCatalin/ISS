@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import ro.ubb.iss.CMS.domain.Abstract;
@@ -22,7 +23,7 @@ public class AbstractServiceImplementation implements AbstractService {
 
     @Override
     public Optional<Abstract> findAbstract(int abstractID) {
-        log.trace("findAbstract - method entered");
+        log.trace("findAbstract - method entered abstractID={}",abstractID);
         Optional<Abstract> result = abstractRepository.findById(abstractID);
         log.trace("findAbstract - method exit result={}",result);
         return result;
@@ -39,6 +40,7 @@ public class AbstractServiceImplementation implements AbstractService {
     }
 
     @Override
+    @Transactional
     public Abstract updateAbstract(int abstractID, String format, String byteFileLocation) {
         log.trace("updateAbstract - method entered: abstractID={}, format={}, byteFileLocation={}", abstractID,format,byteFileLocation);
 

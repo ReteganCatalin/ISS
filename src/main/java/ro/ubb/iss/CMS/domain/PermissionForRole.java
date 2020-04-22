@@ -17,7 +17,7 @@ import javax.persistence.*;
 public class PermissionForRole {
 
     @EmbeddedId
-    PermissionForUserKey permissionForUserKey;
+    PermissionForRoleKey PermissionForRoleKey;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @MapsId("role_id")

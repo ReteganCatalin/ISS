@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Controller.AnalysisService;
 import ro.ubb.iss.CMS.domain.Analysis;
 import ro.ubb.iss.CMS.domain.AnalysisKey;
@@ -22,7 +23,7 @@ public class AnalysisServiceImplementation implements AnalysisService {
 
     @Override
     public Optional<Analysis> findAnalysis(AnalysisKey analysisKey) {
-        log.trace("findAnalysis - method entered");
+        log.trace("findAnalysis - method entered analysisKey={}",analysisKey);
         Optional<Analysis> result = analysisRepository.findById(analysisKey);
         log.trace("findAnalysis - method exit result={}",result);
         return result;
@@ -37,6 +38,7 @@ public class AnalysisServiceImplementation implements AnalysisService {
     }
 
     @Override
+    @Transactional
     public Analysis updateAnalysis(AnalysisKey analysisKey, String briefAnalysis, Boolean refuse) {
         log.trace("updateAnalysis - method entered: analysisKey={}, briefAnalysis={}, refuse={}", analysisKey,briefAnalysis,refuse);
 
@@ -59,7 +61,6 @@ public class AnalysisServiceImplementation implements AnalysisService {
 
         checkForPresence.ifPresentOrElse(analysis -> {},()->analysisRepository.save(newAnalysis));
 
-        analysisRepository.save(newAnalysis);
         log.trace("saveAnalysis - method finished result={}",checkForPresence);
         return checkForPresence;
 
