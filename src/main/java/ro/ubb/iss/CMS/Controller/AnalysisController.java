@@ -51,7 +51,7 @@ public class AnalysisController {
         log.trace("saveAnalysis - method entered analysisDto={}",analysisDto);
         Optional<Analysis> result =
                 service.saveAnalysis(
-                        analysisDto.getAnalysisKey(),
+                        new AnalysisKey(analysisDto.getBidID(),analysisDto.getUserID(),analysisDto.getUserID()),
                         analysisDto.getBriefAnalysis(),
                         analysisDto.getRefuse()
                 );

@@ -11,7 +11,7 @@ class AnalysisKey implements Serializable {
   @Column(name = "bid_id")
   private Integer bidID;
 
-  @Column(name = "pc_member_id")
+  @Column(name = "user_id")
   private Integer userID;
 
   @Column(name = "proposal_id")

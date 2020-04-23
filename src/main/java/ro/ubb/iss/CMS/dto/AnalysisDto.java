@@ -3,6 +3,8 @@ package ro.ubb.iss.CMS.dto;
 import lombok.*;
 import ro.ubb.iss.CMS.domain.AnalysisKey;
 
+import javax.persistence.Column;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -11,8 +13,10 @@ import ro.ubb.iss.CMS.domain.AnalysisKey;
 @Builder
 public class AnalysisDto {
 
-    AnalysisKey analysisKey;
-    String briefAnalysis;
-    Boolean refuse;
+    private Integer bidID;
+    private Integer userID;
+    private Integer proposalID;
+    private String briefAnalysis;
+    private Boolean refuse;
 
 }

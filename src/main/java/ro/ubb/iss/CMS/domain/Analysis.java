@@ -21,7 +21,7 @@ public class Analysis {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
-  @JoinColumn(name = "pc_member_id",referencedColumnName = "user_id")
+  @JoinColumn(name = "user_id")
   User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
