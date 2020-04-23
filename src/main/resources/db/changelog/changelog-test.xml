@@ -148,4 +148,33 @@
                                   referencedTableSchemaName="public"
                                   validate="true"/>
         </changeSet>
+        <changeSet  id="add-author-id-column" author="tamas">
+            <addColumn catalogName="CMS-TEST"
+                       schemaName="public"
+                       tableName="author_list">
+                <column name="author_id" type="integer"/>
+            </addColumn>
+        </changeSet>
+        <changeSet id="add-public-key-author-id" author="tamas" >
+            <addPrimaryKey catalogName="CMS-TEST"
+                           clustered="true"
+                           columnNames="author_id"
+                           constraintName="pk_author_id"
+                           schemaName="public"
+                           tableName="author_list"
+                           validate="true"/>
+        </changeSet>
+        <changeSet id="add-auto-increment-for-author_id" author="tamas" >
+            <addAutoIncrement catalogName="CMS-TEST"
+                              columnDataType="int"
+                              columnName="author_id"
+                              defaultOnNull="false"
+                              generationType="ALWAYS"
+                              incrementBy="1"
+                              schemaName="public"
+                              startWith="1"
+                              tableName="author_list"/>
+        </changeSet>
+
+
 </databaseChangeLog>

@@ -10,8 +10,8 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class AbstractsDto {
+public class AuthorsDto {
 
-    private Set<AbstractDto> abstractDtos;
+    Set<AuthorDto> authorDtos;
 
 }

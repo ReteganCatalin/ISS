@@ -35,7 +35,7 @@ public class Analysis {
   BiddingProcess biddingProcess;
 
 
-  @Column(name = "brief_analysis", nullable = false, columnDefinition = "TEXT")
+  @Column(name = "brief_analyse", nullable = false, columnDefinition = "TEXT")
   private String briefAnalysis;
 
   @Column(name = "refuse", nullable = false)
