@@ -1,7 +1,5 @@
 package ro.ubb.iss.CMS.Services;
 
-
-
 import ro.ubb.iss.CMS.domain.PermissionForRole;
 import ro.ubb.iss.CMS.domain.PermissionForRoleKey;
 
@@ -10,14 +8,14 @@ import java.util.Optional;
 
 public interface PermissionForRoleService {
 
-    Optional<PermissionForRole> findPermissionForRole(PermissionForRoleKey permissionForRoleKey);
+  Optional<PermissionForRole> findPermissionForRole(PermissionForRoleKey permissionForRoleKey);
 
-    List<PermissionForRole> findAll();
+  List<PermissionForRole> findAll();
 
-    //PermissionForRole updatePermissionForRole(PermissionForRoleKey permissionForRoleKey); No update needed
+  // PermissionForRole updatePermissionForRole(PermissionForRoleKey permissionForRoleKey); No update
+  // needed
 
-    Optional<PermissionForRole> savePermissionForRole(PermissionForRoleKey permissionForRoleKey);
+  Optional<PermissionForRole> savePermissionForRole(PermissionForRoleKey permissionForRoleKey);
 
-    void deletePermissionForRole(PermissionForRoleKey permissionForRoleKey);
-
+  void deletePermissionForRole(PermissionForRoleKey permissionForRoleKey);
 }

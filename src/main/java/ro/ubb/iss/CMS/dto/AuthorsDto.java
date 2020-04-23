@@ -12,6 +12,5 @@ import java.util.Set;
 @Builder
 public class AuthorsDto {
 
-    private Set<AuthorDto> authorDtos;
-
+  private Set<AuthorDto> authorDtos;
 }

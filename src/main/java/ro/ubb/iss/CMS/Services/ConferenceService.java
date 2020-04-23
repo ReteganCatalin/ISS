@@ -8,14 +8,20 @@ import java.util.Optional;
 
 public interface ConferenceService {
 
-    Optional<Conference> findConference(int conferenceID);
+  Optional<Conference> findConference(int conferenceID);
 
-    List<Conference> findAll();
+  List<Conference> findAll();
 
-    Conference updateConference(int conferenceID, String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline);
+  Conference updateConference(
+      int conferenceID,
+      String name,
+      Date startDate,
+      Date endDate,
+      Date proposalDeadline,
+      Date paperDeadline);
 
-    Conference saveConference(String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline);
+  Conference saveConference(
+      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline);
 
-    void deleteConference(int conferenceID);
-
+  void deleteConference(int conferenceID);
 }

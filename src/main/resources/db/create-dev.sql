@@ -228,10 +228,10 @@ GO
 
 CREATE TABLE public.user_info
 (
-    user_info_id integer NOT NULL DEFAULT nextval('user_info_user_info_id_seq'::regclass),
-    name character varying(40) COLLATE pg_catalog."default",
-    affiliation character varying(60) COLLATE pg_catalog."default",
-    email_address character varying(50) COLLATE pg_catalog."default",
+    user_info_id    integer NOT NULL DEFAULT nextval('user_info_user_info_id_seq'::regclass),
+    name            character varying(40) COLLATE pg_catalog."default",
+    affiliation     character varying(60) COLLATE pg_catalog."default",
+    email_address   character varying(50) COLLATE pg_catalog."default",
     webpage_address character varying(50) COLLATE pg_catalog."default",
     CONSTRAINT user_info_pkey PRIMARY KEY (user_info_id)
 )
@@ -246,10 +246,10 @@ GO
 
 CREATE TABLE public."user"
 (
-    user_id integer NOT NULL DEFAULT nextval('user_user_id_seq'::regclass),
-    username character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    password character varying(20) COLLATE pg_catalog."default" NOT NULL,
-    is_validated boolean NOT NULL,
+    user_id      integer                                            NOT NULL DEFAULT nextval('user_user_id_seq'::regclass),
+    username     character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    password     character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    is_validated boolean                                            NOT NULL,
     user_info_id integer,
     CONSTRAINT user_pkey PRIMARY KEY (user_id),
     CONSTRAINT "FK_User_Info_ID_USER_INFO" FOREIGN KEY (user_info_id)
@@ -270,12 +270,12 @@ GO
 
 CREATE TABLE public.conference
 (
-    conference_id integer NOT NULL DEFAULT nextval('conference_conference_id_seq'::regclass),
-    name character varying(40) COLLATE pg_catalog."default",
-    start_date date,
-    end_date date,
+    conference_id     integer NOT NULL DEFAULT nextval('conference_conference_id_seq'::regclass),
+    name              character varying(40) COLLATE pg_catalog."default",
+    start_date        date,
+    end_date          date,
     proposal_deadline date,
-    paper_deadline date,
+    paper_deadline    date,
     CONSTRAINT conference_pkey PRIMARY KEY (conference_id)
 )
     GO
@@ -289,9 +289,9 @@ GO
 
 CREATE TABLE public.bidding_process
 (
-    bid_id integer NOT NULL DEFAULT nextval('bidding_process_bid_id_seq'::regclass),
+    bid_id        integer NOT NULL DEFAULT nextval('bidding_process_bid_id_seq'::regclass),
     conference_id integer,
-    deadline date,
+    deadline      date,
     CONSTRAINT bidding_process_pkey PRIMARY KEY (bid_id),
     CONSTRAINT "FK_Conference_ID_CONFERENCE" FOREIGN KEY (conference_id)
         REFERENCES public.conference (conference_id) MATCH SIMPLE
@@ -309,12 +309,11 @@ GO
 
 CREATE TABLE public.abstract
 (
-    abstract_id integer NOT NULL DEFAULT nextval('abstract_abstract_id_seq'::regclass),
-    format character varying(5) COLLATE pg_catalog."default",
+    abstract_id        integer NOT NULL DEFAULT nextval('abstract_abstract_id_seq'::regclass),
+    format             character varying(5) COLLATE pg_catalog."default",
     byte_file_location character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT abstract_pkey PRIMARY KEY (abstract_id)
 )
-
     GO
 
 ALTER TABLE public.abstract
@@ -327,9 +326,9 @@ GO
 CREATE TABLE public.meta_info
 (
     meta_info_id integer NOT NULL DEFAULT nextval('meta_info_meta_info_id_seq'::regclass),
-    name character varying(40) COLLATE pg_catalog."default",
-    keywords character varying(40) COLLATE pg_catalog."default",
-    topics character varying(40) COLLATE pg_catalog."default",
+    name         character varying(40) COLLATE pg_catalog."default",
+    keywords     character varying(40) COLLATE pg_catalog."default",
+    topics       character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT meta_info_pkey PRIMARY KEY (meta_info_id)
 )
     GO
@@ -345,8 +344,8 @@ GO
 
 CREATE TABLE public.paper
 (
-    paper_id integer NOT NULL DEFAULT nextval('paper_paper_id_seq'::regclass),
-    format character varying(5) COLLATE pg_catalog."default",
+    paper_id           integer NOT NULL DEFAULT nextval('paper_paper_id_seq'::regclass),
+    format             character varying(5) COLLATE pg_catalog."default",
     byte_file_location character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT paper_pkey PRIMARY KEY (paper_id)
 )
@@ -365,11 +364,11 @@ GO
 
 CREATE TABLE public.proposal
 (
-    proposal_id integer NOT NULL DEFAULT nextval('proposal_proposal_id_seq'::regclass),
+    proposal_id  integer NOT NULL DEFAULT nextval('proposal_proposal_id_seq'::regclass),
     user_info_id integer,
-    paper_id integer,
+    paper_id     integer,
     meta_info_id integer,
-    abstract_id integer,
+    abstract_id  integer,
     CONSTRAINT proposal_pkey PRIMARY KEY (proposal_id),
     CONSTRAINT "FK_Abstract_ID" FOREIGN KEY (abstract_id)
         REFERENCES public.abstract (abstract_id) MATCH SIMPLE
@@ -404,11 +403,11 @@ GO
 
 CREATE TABLE public.analysis
 (
-    bid_id integer,
-    user_id integer,
-    proposal_id integer,
+    bid_id        integer,
+    user_id       integer,
+    proposal_id   integer,
     brief_analyse text COLLATE pg_catalog."default",
-    refuse boolean,
+    refuse        boolean,
     CONSTRAINT "FK_Bid_ID_BIDDING_PROCESS" FOREIGN KEY (bid_id)
         REFERENCES public.bidding_process (bid_id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -434,7 +433,7 @@ GO
 CREATE TABLE public.author_list
 (
     proposal_id integer NOT NULL,
-    name character varying(40) COLLATE pg_catalog."default",
+    name        character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT "FK_Proposal_ID_PROPOSAL" FOREIGN KEY (proposal_id)
         REFERENCES public.proposal (proposal_id) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -452,12 +451,11 @@ GO
 CREATE TABLE public.participant_list
 (
     participant_list_id integer NOT NULL DEFAULT nextval('participant_list_participant_list_id_seq'::regclass),
-    section_id integer,
-    user_id integer,
-    role_id integer,
+    section_id          integer,
+    user_id             integer,
+    role_id             integer,
     CONSTRAINT participant_list_pkey PRIMARY KEY (participant_list_id)
 )
-
     GO
 
 ALTER TABLE public.participant_list
@@ -469,11 +467,10 @@ GO
 
 CREATE TABLE public.permission
 (
-    permission_id integer NOT NULL DEFAULT nextval('permission_permission_id_seq'::regclass),
-    name character varying(20) COLLATE pg_catalog."default" NOT NULL,
+    permission_id integer                                            NOT NULL DEFAULT nextval('permission_permission_id_seq'::regclass),
+    name          character varying(20) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT permission_pkey PRIMARY KEY (permission_id)
 )
-
     GO
 
 ALTER TABLE public.permission
@@ -485,7 +482,7 @@ GO
 
 CREATE TABLE public.permission_list
 (
-    user_id integer NOT NULL,
+    user_id       integer NOT NULL,
     permission_id integer NOT NULL,
     CONSTRAINT "FK_Permission_ID_PERMISSION" FOREIGN KEY (permission_id)
         REFERENCES public.permission (permission_id) MATCH SIMPLE
@@ -507,9 +504,9 @@ GO
 
 CREATE TABLE public.section
 (
-    section_id integer NOT NULL DEFAULT nextval('section_section_id_seq'::regclass),
-    supervisor_id integer,
-    conference_id integer,
+    section_id           integer NOT NULL DEFAULT nextval('section_section_id_seq'::regclass),
+    supervisor_id        integer,
+    conference_id        integer,
     date_of_presentation date,
     CONSTRAINT section_pkey PRIMARY KEY (section_id),
     CONSTRAINT "FK_Conference_ID_CONFERENCE" FOREIGN KEY (conference_id)
@@ -534,7 +531,7 @@ GO
 
 CREATE TABLE public.proposal_list
 (
-    section_id integer NOT NULL,
+    section_id  integer NOT NULL,
     proposal_id integer NOT NULL,
     CONSTRAINT "FK_Proposal_ID_PROPOSAL" FOREIGN KEY (proposal_id)
         REFERENCES public.proposal (proposal_id) MATCH SIMPLE
@@ -547,7 +544,6 @@ CREATE TABLE public.proposal_list
         ON DELETE NO ACTION
         NOT VALID
 )
-
     GO
 
 ALTER TABLE public.proposal_list
@@ -560,7 +556,7 @@ GO
 CREATE TABLE public.qualifier
 (
     qualifier_id integer NOT NULL DEFAULT nextval('qualifier_qualifier_id_seq'::regclass),
-    name character varying(40) COLLATE pg_catalog."default",
+    name         character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT qualifier_pkey PRIMARY KEY (qualifier_id)
 )
     GO
@@ -574,8 +570,8 @@ GO
 
 CREATE TABLE public.recommendation
 (
-    recommendation_id integer NOT NULL DEFAULT nextval('recommendation_recommendation_id_seq'::regclass),
-    review_id integer,
+    recommendation_id      integer NOT NULL DEFAULT nextval('recommendation_recommendation_id_seq'::regclass),
+    review_id              integer,
     recommendation_message text COLLATE pg_catalog."default",
     CONSTRAINT recommendation_pkey PRIMARY KEY (recommendation_id)
 )
@@ -590,10 +586,10 @@ GO
 
 CREATE TABLE public.review_list
 (
-    proposal_id integer,
+    proposal_id  integer,
     qualifier_id integer,
-    user_id integer,
-    review_id integer NOT NULL DEFAULT nextval('review_list_review_id_seq'::regclass),
+    user_id      integer,
+    review_id    integer NOT NULL DEFAULT nextval('review_list_review_id_seq'::regclass),
     CONSTRAINT review_list_pkey PRIMARY KEY (review_id),
     CONSTRAINT "FK_Proposal_ID_PROPOSAL" FOREIGN KEY (proposal_id)
         REFERENCES public.proposal (proposal_id) MATCH SIMPLE
@@ -620,10 +616,9 @@ GO
 CREATE TABLE public.role
 (
     role_id integer NOT NULL DEFAULT nextval('role_role_id_seq'::regclass),
-    name character varying COLLATE pg_catalog."default",
+    name    character varying COLLATE pg_catalog."default",
     CONSTRAINT role_pkey PRIMARY KEY (role_id)
 )
-
     GO
 
 ALTER TABLE public.role
@@ -636,7 +631,7 @@ GO
 CREATE TABLE public.role_permission_id
 (
     permission_id integer,
-    role_id integer
+    role_id       integer
 )
     GO
 
@@ -664,10 +659,10 @@ GO
 
 CREATE TABLE public.ticketing
 (
-    ticket_id integer NOT NULL DEFAULT nextval('ticketing_ticket_id_seq'::regclass),
-    user_id integer,
+    ticket_id  integer NOT NULL DEFAULT nextval('ticketing_ticket_id_seq'::regclass),
+    user_id    integer,
     section_id integer,
-    price integer,
+    price      integer,
     CONSTRAINT ticketing_pkey PRIMARY KEY (ticket_id)
 )
     GO

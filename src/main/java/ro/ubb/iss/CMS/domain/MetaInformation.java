@@ -19,10 +19,10 @@ public class MetaInformation {
   @Column(name = "meta_info_id")
   private Integer metaInfoId;
 
-  @Column(name = "name", nullable = false,length = 40)
+  @Column(name = "name", nullable = false, length = 40)
   private String name;
 
-  @Column(name = "keywords", nullable = false,length = 40)
+  @Column(name = "keywords", nullable = false, length = 40)
   private String keywords;
 
   @Column(name = "topics", nullable = false, length = 40)

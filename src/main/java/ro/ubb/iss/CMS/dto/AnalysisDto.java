@@ -13,10 +13,9 @@ import javax.persistence.Column;
 @Builder
 public class AnalysisDto {
 
-    private Integer bidID;
-    private Integer userID;
-    private Integer proposalID;
-    private String briefAnalysis;
-    private Boolean refuse;
-
+  private Integer bidID;
+  private Integer userID;
+  private Integer proposalID;
+  private String briefAnalysis;
+  private Boolean refuse;
 }

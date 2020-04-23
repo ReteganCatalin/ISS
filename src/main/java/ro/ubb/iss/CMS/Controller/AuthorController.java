@@ -20,70 +20,65 @@ import java.util.Optional;
 @RestController
 public class AuthorController {
 
-    public static final Logger log =
-            LoggerFactory.getLogger(AuthorController.class);
+  public static final Logger log = LoggerFactory.getLogger(AuthorController.class);
 
-    @Autowired
-    private AuthorService service;
+  @Autowired private AuthorService service;
 
-    @Autowired private AuthorConverter converter;
+  @Autowired private AuthorConverter converter;
 
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @RequestMapping(value = "/authors", method = RequestMethod.GET)
-    public AuthorsDto getAllAuthors() {
-        log.trace("getAllAuthors - method entered");
-        AuthorsDto result =  new AuthorsDto(converter.convertModelsToDtos(service.findAll()));
-        log.trace("getAllAuthors - method finished: result={}", result);
-        return result;
-    }
+  @RequestMapping(value = "/authors", method = RequestMethod.GET)
+  public AuthorsDto getAllAuthors() {
+    log.trace("getAllAuthors - method entered");
+    AuthorsDto result = new AuthorsDto(converter.convertModelsToDtos(service.findAll()));
+    log.trace("getAllAuthors - method finished: result={}", result);
+    return result;
+  }
 
-    @RequestMapping(value = "/authors/{id}", method = RequestMethod.GET)
-    public AuthorDto getAuthor(@PathVariable Integer id) {
-        log.trace("getAuthor - method entered id={}",id);
-        Optional<Author> author = service.findAuthor(id);
-        AuthorDto result = null;
-        if(author.isPresent())
-            result = converter.convertModelToDto(author.get());
-        log.trace("getAuthor - method finished: result={}", result);
-        return result;
-    }
+  @RequestMapping(value = "/authors/{id}", method = RequestMethod.GET)
+  public AuthorDto getAuthor(@PathVariable Integer id) {
+    log.trace("getAuthor - method entered id={}", id);
+    Optional<Author> author = service.findAuthor(id);
+    AuthorDto result = null;
+    if (author.isPresent()) result = converter.convertModelToDto(author.get());
+    log.trace("getAuthor - method finished: result={}", result);
+    return result;
+  }
 
+  @RequestMapping(value = "/authors", method = RequestMethod.POST)
+  public AuthorDto saveAuthor(@RequestBody AuthorDto authorDto) {
+    log.trace("saveAuthor - method entered authorDto={}", authorDto);
+    Author authorToAdd = converter.convertDtoToModel(authorDto);
+    Author result =
+        service.saveAuthor(
+            authorDto.getName(),
+            entityManager.getReference(Proposal.class, authorDto.getProposalId()));
+    AuthorDto resultToReturn = converter.convertModelToDto(result);
+    log.trace("saveAuthor - method finished: result={}", resultToReturn);
+    return resultToReturn;
+  }
 
-    @RequestMapping(value = "/authors", method = RequestMethod.POST)
-    public AuthorDto saveAuthor(@RequestBody AuthorDto authorDto) {
-        log.trace("saveAuthor - method entered authorDto={}",authorDto);
-        Author authorToAdd = converter.convertDtoToModel(authorDto);
-        Author result =
-                service.saveAuthor(
-                        authorDto.getName(),
-                        entityManager.getReference(Proposal.class,authorDto.getProposalId())
-                );
-        AuthorDto resultToReturn = converter.convertModelToDto(result);
-        log.trace("saveAuthor - method finished: result={}", resultToReturn);
-        return resultToReturn;
-    }
+  @RequestMapping(value = "/authors", method = RequestMethod.PUT)
+  public AuthorDto updateAuthor(@RequestBody AuthorDto authorDto) {
+    log.trace("updateAuthor - method entered: authorDto={}", authorDto);
+    AuthorDto result =
+        converter.convertModelToDto(
+            service.updateAuthor(authorDto.getAuthorId(), authorDto.getName(),
+                    entityManager.getReference(Proposal.class, authorDto.getProposalId())
+            ));
+    log.trace("updateAuthor - method finished: result={}", result);
+    return result;
+  }
 
-    @RequestMapping(value = "/authors", method = RequestMethod.PUT)
-    public AuthorDto updateAuthor(@RequestBody AuthorDto authorDto) {
-        log.trace("updateStudent - method entered: authorDto={}",authorDto);
-        Author author = converter.convertDtoToModel(authorDto);
-        AuthorDto result = converter.convertModelToDto(service.updateAuthor(
-                author.getAuthorId(), author.getName(), author.getProposal()));
-        log.trace("updateStudent - method finished: result={}", result);
-        return result;
-    }
+  @RequestMapping(value = "/authors/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<?> deleteAuthor(@PathVariable Integer id) {
+    log.trace("deleteAuthor - method entered: id={}", id);
 
-    @RequestMapping(value = "/authors/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteAuthor(@PathVariable Integer id) {
-        log.trace("deleteAuthor - method entered: id={}", id);
+    service.deleteAuthor(id);
+    log.trace("deleteAuthor - method finished");
 
-        service.deleteAuthor(id);
-        log.trace("deleteAuthor - method finished");
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
-
-
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

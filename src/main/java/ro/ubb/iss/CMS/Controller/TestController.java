@@ -10,23 +10,20 @@ import java.util.List;
 @RestController
 @RequestMapping("person")
 public class TestController {
-    //public static final Logger log= liquibase.logging.LoggerFactory.
+  // public static final Logger log= liquibase.logging.LoggerFactory.
 
-    @Autowired
-    private personRepository PersonRepository;
+  @Autowired private personRepository PersonRepository;
 
-    @PostMapping("person")
-    public String createPerson(@RequestParam String name)
-    {
-        Person to_save=Person.builder().name(name).height("180 cm").build();
-        PersonRepository.save(to_save);
+  @PostMapping("person")
+  public String createPerson(@RequestParam String name) {
+    Person to_save = Person.builder().name(name).height("180 cm").build();
+    PersonRepository.save(to_save);
 
-        return PersonRepository.findByName(name)+" Succesfully saved";
-    }
+    return PersonRepository.findByName(name) + " Succesfully saved";
+  }
 
-    @GetMapping("person")
-    public List<Person> getAllPersons()
-    {
-        return PersonRepository.findAll();
-    }
+  @GetMapping("person")
+  public List<Person> getAllPersons() {
+    return PersonRepository.findAll();
+  }
 }

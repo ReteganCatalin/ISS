@@ -15,63 +15,88 @@ import java.util.Optional;
 @Service
 public class ConferenceServiceImplementation implements ConferenceService {
 
-    private static final Logger log = LoggerFactory.getLogger(ConferenceServiceImplementation.class);
+  private static final Logger log = LoggerFactory.getLogger(ConferenceServiceImplementation.class);
 
-    @Autowired
-    ConferenceRepository conferenceRepository;
+  @Autowired ConferenceRepository conferenceRepository;
 
-    @Override
-    public Optional<Conference> findConference(int conferenceID) {
-        log.trace("findConference - method entered conferenceID={}",conferenceID);
-        Optional<Conference> result = conferenceRepository.findById(conferenceID);
-        log.trace("findConference - method exit result={}",result);
-        return result;
-    }
+  @Override
+  public Optional<Conference> findConference(int conferenceID) {
+    log.trace("findConference - method entered conferenceID={}", conferenceID);
+    Optional<Conference> result = conferenceRepository.findById(conferenceID);
+    log.trace("findConference - method exit result={}", result);
+    return result;
+  }
 
-    @Override
-    public List<Conference> findAll() {
-        log.trace("findAll - method entered");
-        List<Conference> result = conferenceRepository.findAll();
-        log.trace("findAll - method exit result={}",result);
-        return result;
-    }
+  @Override
+  public List<Conference> findAll() {
+    log.trace("findAll - method entered");
+    List<Conference> result = conferenceRepository.findAll();
+    log.trace("findAll - method exit result={}", result);
+    return result;
+  }
 
-    @Override
-    @Transactional
-    public Conference updateConference(int conferenceID, String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline) {
-        log.trace("updateConference - method entered: conferenceID={}, name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}", conferenceID,name,startDate,endDate,proposalDeadline,paperDeadline);
+  @Override
+  @Transactional
+  public Conference updateConference(
+      int conferenceID,
+      String name,
+      Date startDate,
+      Date endDate,
+      Date proposalDeadline,
+      Date paperDeadline) {
+    log.trace(
+        "updateConference - method entered: conferenceID={}, name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}",
+        conferenceID,
+        name,
+        startDate,
+        endDate,
+        proposalDeadline,
+        paperDeadline);
 
-        Optional<Conference> abstractOptional = conferenceRepository.findById(conferenceID);
+    Optional<Conference> abstractOptional = conferenceRepository.findById(conferenceID);
 
-        abstractOptional.ifPresent(
-                newConference -> {
-                    newConference.setName(name);
-                    newConference.setStartDate(startDate);
-                    newConference.setEndDate(endDate);
-                    newConference.setProposalDeadline(proposalDeadline);
-                    newConference.setPaperDeadline(paperDeadline);
-                    log.debug("updateConference - updated: newConference={}", newConference);
-                });
-        log.trace("updateConference - method finished result={}",abstractOptional);
-        return abstractOptional.orElse(null);
-    }
+    abstractOptional.ifPresent(
+        newConference -> {
+          newConference.setName(name);
+          newConference.setStartDate(startDate);
+          newConference.setEndDate(endDate);
+          newConference.setProposalDeadline(proposalDeadline);
+          newConference.setPaperDeadline(paperDeadline);
+          log.debug("updateConference - updated: newConference={}", newConference);
+        });
+    log.trace("updateConference - method finished result={}", abstractOptional);
+    return abstractOptional.orElse(null);
+  }
 
-    @Override
-    public Conference saveConference(String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline) {
-        log.trace("saveConference - method entered: name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}",name,startDate,endDate,proposalDeadline,paperDeadline);
-        Conference newConference = Conference.builder().name(name).startDate(startDate).endDate(endDate).proposalDeadline(proposalDeadline).paperDeadline(paperDeadline).build();
+  @Override
+  public Conference saveConference(
+      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline) {
+    log.trace(
+        "saveConference - method entered: name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}",
+        name,
+        startDate,
+        endDate,
+        proposalDeadline,
+        paperDeadline);
+    Conference newConference =
+        Conference.builder()
+            .name(name)
+            .startDate(startDate)
+            .endDate(endDate)
+            .proposalDeadline(proposalDeadline)
+            .paperDeadline(paperDeadline)
+            .build();
 
-        conferenceRepository.save(newConference);
+    conferenceRepository.save(newConference);
 
-        log.trace("saveConference - method finished result={}",newConference);
-        return newConference;
-    }
+    log.trace("saveConference - method finished result={}", newConference);
+    return newConference;
+  }
 
-    @Override
-    public void deleteConference(int conferenceID) {
-        log.trace("deleteConference - method entered: conferenceID={}", conferenceID);
-        conferenceRepository.deleteById(conferenceID);
-        log.trace("deleteConference - method finished");
-
-    }
+  @Override
+  public void deleteConference(int conferenceID) {
+    log.trace("deleteConference - method entered: conferenceID={}", conferenceID);
+    conferenceRepository.deleteById(conferenceID);
+    log.trace("deleteConference - method finished");
+  }
 }

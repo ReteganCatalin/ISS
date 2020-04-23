@@ -2,15 +2,16 @@ package ro.ubb.iss.CMS.dto;
 
 import lombok.*;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode
 @ToString
 @Builder
-public class AuthorDto {
+public class ConferencesDto {
 
-  private Integer authorId;
-  private String name;
-  private Integer proposalId;
+    Set<ConferenceDto> conferenceDtos;
+
 }

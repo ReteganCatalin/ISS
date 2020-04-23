@@ -1,6 +1,5 @@
 package ro.ubb.iss.CMS.domain;
 
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -8,7 +7,7 @@ import javax.persistence.*;
 @Builder(access = AccessLevel.PUBLIC)
 @Data
 @Entity
-@Table(name="person")
+@Table(name = "person")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -16,20 +15,17 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 public class Person {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "person_id")
-    private Integer person_id;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "person_id")
+  private Integer person_id;
 
+  @Column(name = "name", nullable = false, length = 5)
+  private String name;
 
-    @Column(name = "name", nullable = false, length = 5)
-    private String name;
+  @Column(name = "height", nullable = false, length = 40)
+  private String height;
 
-    @Column(name = "height", nullable = false, length = 40)
-    private String height;
-
-    @Column(name="address",nullable = false, length=30)
-    private String address;
-
-
+  @Column(name = "address", nullable = false, length = 30)
+  private String address;
 }

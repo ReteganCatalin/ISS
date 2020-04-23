@@ -7,14 +7,13 @@ import java.util.Optional;
 
 public interface PaperService {
 
-    Optional<Paper> findPaper(int paperID);
+  Optional<Paper> findPaper(int paperID);
 
-    List<Paper> findAll();
+  List<Paper> findAll();
 
-    Paper updatePaper(int paperID, String format, String byteFileLocation);
+  Paper updatePaper(int paperID, String format, String byteFileLocation);
 
-    Paper savePaper(String format, String byteFileLocation);
+  Paper savePaper(String format, String byteFileLocation);
 
-    void deletePaper(int paperID);
-
+  void deletePaper(int paperID);
 }

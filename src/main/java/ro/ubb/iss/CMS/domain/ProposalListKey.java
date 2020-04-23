@@ -8,9 +8,9 @@ import java.util.Objects;
 @Embeddable
 public class ProposalListKey implements Serializable {
 
-  public ProposalListKey() {
-  }
-  public ProposalListKey(Integer sectionID,Integer proposalID,Integer conferenceID) {
+  public ProposalListKey() {}
+
+  public ProposalListKey(Integer sectionID, Integer proposalID, Integer conferenceID) {
     this.sectionID = sectionID;
     this.proposalID = proposalID;
     this.conferenceID = conferenceID;
@@ -18,11 +18,14 @@ public class ProposalListKey implements Serializable {
 
   @Override
   public String toString() {
-    return "ProposalListKey{" +
-            "sectionID=" + sectionID +
-            ", proposalID=" + proposalID +
-            ", conferenceID=" + conferenceID +
-            '}';
+    return "ProposalListKey{"
+        + "sectionID="
+        + sectionID
+        + ", proposalID="
+        + proposalID
+        + ", conferenceID="
+        + conferenceID
+        + '}';
   }
 
   @Override
@@ -30,9 +33,9 @@ public class ProposalListKey implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ProposalListKey that = (ProposalListKey) o;
-    return sectionID.equals(that.sectionID) &&
-            proposalID.equals(that.proposalID) &&
-            conferenceID.equals(that.conferenceID);
+    return sectionID.equals(that.sectionID)
+        && proposalID.equals(that.proposalID)
+        && conferenceID.equals(that.conferenceID);
   }
 
   @Override

@@ -12,6 +12,5 @@ import java.util.Set;
 @Builder
 public class AbstractsDto {
 
-    private Set<AbstractDto> abstractDtos;
-
+  private Set<AbstractDto> abstractDtos;
 }

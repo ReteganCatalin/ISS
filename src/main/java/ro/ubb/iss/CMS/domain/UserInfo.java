@@ -22,10 +22,10 @@ public class UserInfo {
   @Column(name = "user_info_id")
   private Integer userInfoId;
 
-  @Column(name = "name", nullable = false,length = 20)
+  @Column(name = "name", nullable = false, length = 20)
   private String name;
 
-  @Column(name = "affiliation", nullable = false,length = 20)
+  @Column(name = "affiliation", nullable = false, length = 20)
   private String affiliation;
 
   @Column(name = "email_address", length = 40)

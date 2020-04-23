@@ -4,5 +4,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import ro.ubb.iss.CMS.domain.User;
 
-public interface UserRepository extends JpaRepository<User,Integer> {
-}
+public interface UserRepository extends JpaRepository<User, Integer> {}

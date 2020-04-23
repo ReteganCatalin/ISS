@@ -20,7 +20,7 @@ public class Paper {
   @Column(name = "paper_id", nullable = false)
   private Integer paperId;
 
-  @Column(name = "format", nullable = false,length = 5)
+  @Column(name = "format", nullable = false, length = 5)
   private String format;
 
   @Column(name = "byte_file_location", nullable = false, length = 40)

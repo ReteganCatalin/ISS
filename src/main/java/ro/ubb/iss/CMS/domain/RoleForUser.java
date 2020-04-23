@@ -15,16 +15,15 @@ import javax.persistence.*;
 @Builder
 public class RoleForUser {
 
-    @EmbeddedId
-    RoleForUserKey roleForUserKey;
+  @EmbeddedId RoleForUserKey roleForUserKey;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @MapsId("user_id")
-    @JoinColumn(name = "user_id")
-    private User user;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @MapsId("user_id")
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @MapsId("role_id")
-    @JoinColumn(name = "role_id")
-    private Role role;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @MapsId("role_id")
+  @JoinColumn(name = "role_id")
+  private Role role;
 }

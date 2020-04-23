@@ -25,6 +25,6 @@ public class Abstract {
   @Column(name = "byte_file_location", nullable = false, length = 40)
   private String byteFileLocation;
 
-  @OneToOne(mappedBy = "anAbstract",orphanRemoval = true, fetch = FetchType.LAZY)
+  @OneToOne(mappedBy = "anAbstract", orphanRemoval = true, fetch = FetchType.LAZY)
   private Proposal proposal;
 }

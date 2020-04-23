@@ -106,7 +106,11 @@ public class Review {
   @JoinColumn(name = "user_id")
   User user;
 
-  @OneToOne(orphanRemoval = true,cascade = CascadeType.ALL,optional = false,fetch = FetchType.LAZY)
-  @JoinColumn(name="recommendation_id")
+  @OneToOne(
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      optional = false,
+      fetch = FetchType.LAZY)
+  @JoinColumn(name = "recommendation_id")
   Recommendation recommendation;
 }

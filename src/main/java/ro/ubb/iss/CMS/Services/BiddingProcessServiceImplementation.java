@@ -15,60 +15,67 @@ import java.util.Optional;
 
 @Service
 public class BiddingProcessServiceImplementation implements BiddingProcessService {
-    private static final Logger log = LoggerFactory.getLogger(BiddingProcessServiceImplementation.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(BiddingProcessServiceImplementation.class);
 
-    @Autowired
-    BiddingProcessRepository biddingProcessRepository;
+  @Autowired BiddingProcessRepository biddingProcessRepository;
 
-    @Override
-    public Optional<BiddingProcess> findBiddingProcess(int bidID) {
-        log.trace("findBiddingProcess - method entered bidID={}",bidID);
-        Optional<BiddingProcess> result = biddingProcessRepository.findById(bidID);
-        log.trace("findBiddingProcess - method exit result={}",result);
-        return result;
-    }
+  @Override
+  public Optional<BiddingProcess> findBiddingProcess(int bidID) {
+    log.trace("findBiddingProcess - method entered bidID={}", bidID);
+    Optional<BiddingProcess> result = biddingProcessRepository.findById(bidID);
+    log.trace("findBiddingProcess - method exit result={}", result);
+    return result;
+  }
 
-    @Override
-    public List<BiddingProcess> findAll() {
-        log.trace("findAll - method entered");
-        List<BiddingProcess> result = biddingProcessRepository.findAll();
-        log.trace("findAll - method exit result={}",result);
-        return result;
-    }
+  @Override
+  public List<BiddingProcess> findAll() {
+    log.trace("findAll - method entered");
+    List<BiddingProcess> result = biddingProcessRepository.findAll();
+    log.trace("findAll - method exit result={}", result);
+    return result;
+  }
 
-    @Override
-    @Transactional
-    public BiddingProcess updateBiddingProcess(int bidID, Conference conferenceID, Date deadline) {
-        log.trace("updateBiddingProcess - method entered: bidID={}, conferenceID={}, deadline={}", bidID,conferenceID,deadline);
+  @Override
+  @Transactional
+  public BiddingProcess updateBiddingProcess(int bidID, Conference conferenceID, Date deadline) {
+    log.trace(
+        "updateBiddingProcess - method entered: bidID={}, conferenceID={}, deadline={}",
+        bidID,
+        conferenceID,
+        deadline);
 
-        Optional<BiddingProcess> abstractOptional = biddingProcessRepository.findById(bidID);
+    Optional<BiddingProcess> abstractOptional = biddingProcessRepository.findById(bidID);
 
-        abstractOptional.ifPresent(
-                newBid -> {
-                    newBid.setConference(conferenceID);
-                    newBid.setDeadline(deadline);
-                    log.debug("updateBiddingProcess - updated: newBid={}", newBid);
-                });
-        log.trace("updateBiddingProcess - method finished result={}",abstractOptional);
-        return abstractOptional.orElse(null);
-    }
+    abstractOptional.ifPresent(
+        newBid -> {
+          newBid.setConference(conferenceID);
+          newBid.setDeadline(deadline);
+          log.debug("updateBiddingProcess - updated: newBid={}", newBid);
+        });
+    log.trace("updateBiddingProcess - method finished result={}", abstractOptional);
+    return abstractOptional.orElse(null);
+  }
 
-    @Override
-    public BiddingProcess saveBiddingProcess(Conference conferenceID, Date deadline) {
-        log.trace("saveBiddingProcess - method entered: conferenceID={}, deadline={}", conferenceID,deadline);
-        BiddingProcess newBiddingProcess = BiddingProcess.builder().conference(conferenceID).deadline(deadline).build();
+  @Override
+  public BiddingProcess saveBiddingProcess(Conference conferenceID, Date deadline) {
+    log.trace(
+        "saveBiddingProcess - method entered: conferenceID={}, deadline={}",
+        conferenceID,
+        deadline);
+    BiddingProcess newBiddingProcess =
+        BiddingProcess.builder().conference(conferenceID).deadline(deadline).build();
 
-        biddingProcessRepository.save(newBiddingProcess);
+    biddingProcessRepository.save(newBiddingProcess);
 
-        log.trace("saveBiddingProcess - method finished result={}",newBiddingProcess);
-        return newBiddingProcess;
-    }
+    log.trace("saveBiddingProcess - method finished result={}", newBiddingProcess);
+    return newBiddingProcess;
+  }
 
-    @Override
-    public void deleteBiddingProcess(int bidID) {
-        log.trace("deleteBiddingProcess - method entered: bidID={}", bidID);
-        biddingProcessRepository.deleteById(bidID);
-        log.trace("deleteBiddingProcess - method finished");
-
-    }
+  @Override
+  public void deleteBiddingProcess(int bidID) {
+    log.trace("deleteBiddingProcess - method entered: bidID={}", bidID);
+    biddingProcessRepository.deleteById(bidID);
+    log.trace("deleteBiddingProcess - method finished");
+  }
 }

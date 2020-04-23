@@ -14,63 +14,64 @@ import java.util.Optional;
 
 @Service
 public class AbstractServiceImplementation implements AbstractService {
-    private static final Logger log = LoggerFactory.getLogger(AbstractServiceImplementation.class);
+  private static final Logger log = LoggerFactory.getLogger(AbstractServiceImplementation.class);
 
-    @Autowired
-    private AbstractRepository abstractRepository;
+  @Autowired private AbstractRepository abstractRepository;
 
+  @Override
+  public Optional<Abstract> findAbstract(int abstractID) {
+    log.trace("findAbstract - method entered abstractID={}", abstractID);
+    Optional<Abstract> result = abstractRepository.findById(abstractID);
+    log.trace("findAbstract - method exit result={}", result);
+    return result;
+  }
 
-    @Override
-    public Optional<Abstract> findAbstract(int abstractID) {
-        log.trace("findAbstract - method entered abstractID={}",abstractID);
-        Optional<Abstract> result = abstractRepository.findById(abstractID);
-        log.trace("findAbstract - method exit result={}",result);
-        return result;
+  @Override
+  @GetMapping("abstract")
+  public List<Abstract> findAll() {
+    log.trace("findAbstract - method entered");
+    List<Abstract> result = abstractRepository.findAll();
+    log.trace("findAbstract - method exit result={}", result);
+    return result;
+  }
 
-    }
+  @Override
+  @Transactional
+  public Abstract updateAbstract(int abstractID, String format, String byteFileLocation) {
+    log.trace(
+        "updateAbstract - method entered: abstractID={}, format={}, byteFileLocation={}",
+        abstractID,
+        format,
+        byteFileLocation);
 
-    @Override
-    @GetMapping("abstract")
-    public List<Abstract> findAll() {
-        log.trace("findAbstract - method entered");
-        List<Abstract> result = abstractRepository.findAll();
-        log.trace("findAbstract - method exit result={}",result);
-        return result;
-    }
+    Optional<Abstract> abstractOptional = abstractRepository.findById(abstractID);
 
-    @Override
-    @Transactional
-    public Abstract updateAbstract(int abstractID, String format, String byteFileLocation) {
-        log.trace("updateAbstract - method entered: abstractID={}, format={}, byteFileLocation={}", abstractID,format,byteFileLocation);
+    abstractOptional.ifPresent(
+        newAbstract -> {
+          newAbstract.setByteFileLocation(format);
+          newAbstract.setFormat(byteFileLocation);
+          log.debug("updateAbstract - updated: newAbstract={}", newAbstract);
+        });
+    log.trace("updateAbstract - method finished result={}", abstractOptional);
+    return abstractOptional.orElse(null);
+  }
 
-        Optional<Abstract> abstractOptional = abstractRepository.findById(abstractID);
+  @Override
+  public Abstract saveAbstract(String format, String byteFileLocation) {
+    log.trace(
+        "saveAbstract - method entered: format={}, byteFileLocation={}", format, byteFileLocation);
+    Abstract newAbstract =
+        Abstract.builder().format(format).byteFileLocation(byteFileLocation).build();
 
-        abstractOptional.ifPresent(
-                newAbstract -> {
-                    newAbstract.setByteFileLocation(format);
-                    newAbstract.setFormat(byteFileLocation);
-                    log.debug("updateAbstract - updated: newAbstract={}", newAbstract);
-                });
-        log.trace("updateAbstract - method finished result={}",abstractOptional);
-        return abstractOptional.orElse(null);
-    }
+    abstractRepository.save(newAbstract);
+    log.trace("saveAbstract - method finished result={}", newAbstract);
+    return newAbstract;
+  }
 
-    @Override
-    public Abstract saveAbstract(String format, String byteFileLocation) {
-        log.trace("saveAbstract - method entered: format={}, byteFileLocation={}", format,byteFileLocation);
-        Abstract newAbstract = Abstract.builder().format(format).byteFileLocation(byteFileLocation).build();
-
-        abstractRepository.save(newAbstract);
-        log.trace("saveAbstract - method finished result={}",newAbstract);
-        return newAbstract;
-    }
-
-
-    @Override
-    public void deleteAbstract(int abstractID) {
-        log.trace("deleteAbstract - method entered: abstractID={}", abstractID);
-        abstractRepository.deleteById(abstractID);
-        log.trace("deleteAbstract - method finished");
-
-    }
+  @Override
+  public void deleteAbstract(int abstractID) {
+    log.trace("deleteAbstract - method entered: abstractID={}", abstractID);
+    abstractRepository.deleteById(abstractID);
+    log.trace("deleteAbstract - method finished");
+  }
 }

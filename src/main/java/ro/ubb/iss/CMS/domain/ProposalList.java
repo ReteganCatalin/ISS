@@ -17,8 +17,7 @@ import javax.persistence.*;
 @Builder
 public class ProposalList {
 
-  @EmbeddedId
-  ProposalListKey proposalListKey;
+  @EmbeddedId ProposalListKey proposalListKey;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("section_id")

@@ -35,7 +35,7 @@ public class Section {
   @Column(name = "date_of_presentation", nullable = false)
   java.util.Date dateOfPresentation;
 
-  @Column(name = "price",nullable = false)
+  @Column(name = "price", nullable = false)
   private Integer price;
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -49,5 +49,4 @@ public class Section {
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   Set<MyTicket> myTickets = new HashSet<>();
-
 }

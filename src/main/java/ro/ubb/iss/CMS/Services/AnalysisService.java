@@ -7,14 +7,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface AnalysisService {
-    Optional<Analysis> findAnalysis(AnalysisKey analysisKey);
+  Optional<Analysis> findAnalysis(AnalysisKey analysisKey);
 
-    List<Analysis> findAll();
+  List<Analysis> findAll();
 
-    Analysis updateAnalysis(AnalysisKey analysisKey, String briefAnalysis, Boolean refuse);
+  Analysis updateAnalysis(AnalysisKey analysisKey, String briefAnalysis, Boolean refuse);
 
-    Optional<Analysis> saveAnalysis(AnalysisKey analysisKey,String briefAnalysis, Boolean refuse);
+  Optional<Analysis> saveAnalysis(AnalysisKey analysisKey, String briefAnalysis, Boolean refuse);
 
-    void deleteAnalysis(AnalysisKey analysisKey);
-
+  void deleteAnalysis(AnalysisKey analysisKey);
 }

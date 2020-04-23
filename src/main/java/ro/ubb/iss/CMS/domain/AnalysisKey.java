@@ -6,8 +6,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Embeddable
-public
-class AnalysisKey implements Serializable {
+public class AnalysisKey implements Serializable {
   @Column(name = "bid_id")
   private Integer bidID;
 

@@ -12,6 +12,5 @@ import java.util.Set;
 @Builder
 public class AnalysesDto {
 
-    private Set<AnalysisDto> analysisDtoSet;
-
+  private Set<AnalysisDto> analysisDtoSet;
 }

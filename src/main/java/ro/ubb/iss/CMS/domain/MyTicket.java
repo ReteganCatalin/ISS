@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.domain;
 import lombok.*;
 
 import javax.persistence.*;
+
 @Entity
 @Table(name = "ticketing")
 @AllArgsConstructor
@@ -14,19 +15,19 @@ import javax.persistence.*;
 @Builder
 public class MyTicket {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ticket_id")
-    private Integer ticketID;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ticket_id")
+  private Integer ticketID;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name="user_id")
-    private User user;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "user_id")
+  private User user;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @JoinColumn(name = "section_id")
-    private Section section;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @JoinColumn(name = "section_id")
+  private Section section;
 
-    @Column(name = "price")
-    private Integer price;
+  @Column(name = "price")
+  private Integer price;
 }

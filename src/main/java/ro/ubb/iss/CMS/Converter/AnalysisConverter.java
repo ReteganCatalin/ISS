@@ -7,15 +7,25 @@ import ro.ubb.iss.CMS.dto.AnalysisDto;
 
 @Component
 public class AnalysisConverter implements BaseConverter<Analysis, AnalysisDto> {
-    @Override
-    public Analysis convertDtoToModel(AnalysisDto analysisDto) {
-        return Analysis.builder().analysisKey(new AnalysisKey(analysisDto.getBidID(),analysisDto.getUserID(),analysisDto.getProposalID())).briefAnalysis(analysisDto.getBriefAnalysis()).refuse(analysisDto.getRefuse()).build();
-    }
+  @Override
+  public Analysis convertDtoToModel(AnalysisDto analysisDto) {
+    return Analysis.builder()
+        .analysisKey(
+            new AnalysisKey(
+                analysisDto.getBidID(), analysisDto.getUserID(), analysisDto.getProposalID()))
+        .briefAnalysis(analysisDto.getBriefAnalysis())
+        .refuse(analysisDto.getRefuse())
+        .build();
+  }
 
-    @Override
-    public AnalysisDto convertModelToDto(Analysis analysis) {
-        return AnalysisDto.builder().bidID(analysis.getAnalysisKey().getBidID()).proposalID(analysis.getAnalysisKey().getProposalID()).
-                userID(analysis.getAnalysisKey().getUserID())
-                .briefAnalysis(analysis.getBriefAnalysis()).refuse(analysis.getRefuse()).build();
-    }
+  @Override
+  public AnalysisDto convertModelToDto(Analysis analysis) {
+    return AnalysisDto.builder()
+        .bidID(analysis.getAnalysisKey().getBidID())
+        .proposalID(analysis.getAnalysisKey().getProposalID())
+        .userID(analysis.getAnalysisKey().getUserID())
+        .briefAnalysis(analysis.getBriefAnalysis())
+        .refuse(analysis.getRefuse())
+        .build();
+  }
 }

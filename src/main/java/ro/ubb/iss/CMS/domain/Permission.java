@@ -25,7 +25,10 @@ public class Permission {
   @Column(name = "name", nullable = false)
   private String permissionName;
 
-  @OneToMany(mappedBy = "permission",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(
+      mappedBy = "permission",
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY)
   private Set<PermissionForUser> permissionForUser = new HashSet<>();
-
 }

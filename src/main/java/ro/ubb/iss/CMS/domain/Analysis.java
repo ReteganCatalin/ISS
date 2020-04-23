@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-
 @Entity
 @Table(name = "analysis")
 @NoArgsConstructor
@@ -16,8 +15,7 @@ import javax.persistence.*;
 @Builder
 public class Analysis {
 
-  @EmbeddedId
-  AnalysisKey analysisKey;
+  @EmbeddedId AnalysisKey analysisKey;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
@@ -33,7 +31,6 @@ public class Analysis {
   @MapsId("bid_id")
   @JoinColumn(name = "bid_id")
   BiddingProcess biddingProcess;
-
 
   @Column(name = "brief_analyse", nullable = false, columnDefinition = "TEXT")
   private String briefAnalysis;

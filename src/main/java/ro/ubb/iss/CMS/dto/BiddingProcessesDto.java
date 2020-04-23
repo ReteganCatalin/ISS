@@ -2,15 +2,15 @@ package ro.ubb.iss.CMS.dto;
 
 import lombok.*;
 
+import java.util.Set;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode
 @ToString
 @Builder
-public class AuthorDto {
+public class BiddingProcessesDto {
 
-  private Integer authorId;
-  private String name;
-  private Integer proposalId;
+  private Set<BiddingProcessDto> biddingProcessDtos;
 }

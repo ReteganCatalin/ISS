@@ -30,5 +30,4 @@ public class Participation {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "role_id", nullable = false)
   private Role role;
-
 }

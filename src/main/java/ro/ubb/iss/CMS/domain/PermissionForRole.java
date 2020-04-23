@@ -1,6 +1,5 @@
 package ro.ubb.iss.CMS.domain;
 
-
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,18 +15,15 @@ import javax.persistence.*;
 @Builder
 public class PermissionForRole {
 
-    @EmbeddedId
-    PermissionForRoleKey PermissionForRoleKey;
+  @EmbeddedId PermissionForRoleKey PermissionForRoleKey;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @MapsId("role_id")
-    @JoinColumn(name = "role_id")
-    Role role;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @MapsId("role_id")
+  @JoinColumn(name = "role_id")
+  Role role;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @MapsId("permission_id")
-    @JoinColumn(name = "permission_id")
-    Permission permission;
-
-
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @MapsId("permission_id")
+  @JoinColumn(name = "permission_id")
+  Permission permission;
 }

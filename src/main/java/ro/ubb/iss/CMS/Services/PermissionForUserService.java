@@ -8,14 +8,14 @@ import java.util.Optional;
 
 public interface PermissionForUserService {
 
-    Optional<PermissionForUser> findPermissionForUser(PermissionForUserKey permissionForUserKey);
+  Optional<PermissionForUser> findPermissionForUser(PermissionForUserKey permissionForUserKey);
 
-    List<PermissionForUser> findAll();
+  List<PermissionForUser> findAll();
 
-    //PermissionForRole updatePermissionForUser(PermissionForRoleKey permissionForRoleKey); No update needed
+  // PermissionForRole updatePermissionForUser(PermissionForRoleKey permissionForRoleKey); No update
+  // needed
 
-    Optional<PermissionForUser> savePermissionForUser(PermissionForUserKey permissionForUserKey);
+  Optional<PermissionForUser> savePermissionForUser(PermissionForUserKey permissionForUserKey);
 
-    void deletePermissionForUser(PermissionForUserKey permissionForUserKey);
-
+  void deletePermissionForUser(PermissionForUserKey permissionForUserKey);
 }

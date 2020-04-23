@@ -8,8 +8,7 @@ import java.util.Objects;
 @Embeddable
 public class PermissionForUserKey implements Serializable {
 
-  public PermissionForUserKey() {
-  }
+  public PermissionForUserKey() {}
 
   @Column(name = "user_id")
   private Integer userID;

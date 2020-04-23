@@ -22,7 +22,7 @@ public class Conference {
   @Column(name = "conference_id")
   private Integer conferenceID;
 
-  @Column(name = "name", nullable = false,length = 40)
+  @Column(name = "name", nullable = false, length = 40)
   private String name;
 
   @Column(name = "start_date", nullable = false)
@@ -41,18 +41,35 @@ public class Conference {
   @Temporal(TemporalType.DATE)
   java.util.Date paperDeadline;
 
-//  @OneToMany(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//  Set<Participation> participations = new HashSet<>();
+  //  @OneToMany(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch =
+  // FetchType.LAZY)
+  //  Set<Participation> participations = new HashSet<>();
 
-  @OneToMany(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(
+      mappedBy = "conference",
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY)
   Set<Section> sections = new HashSet<>();
 
-  @OneToMany(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(
+      mappedBy = "conference",
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY)
   Set<ProposalList> proposalLists = new HashSet<>();
 
-  @OneToMany(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(
+      mappedBy = "conference",
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY)
   Set<Presentation> presentations = new HashSet<>();
 
-  @OneToOne(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToOne(
+      mappedBy = "conference",
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY)
   BiddingProcess biddingProcess;
 }
