@@ -12,12 +12,10 @@ import java.util.Date;
 @Builder
 public class ConferenceDto {
 
-    private Integer conferenceID;
-    private String name;
-    private Date startDate;
-    private Date endDate;
-    private Date proposalDeadline;
-    private Date paperDeadline;
-
-
+  private Integer conferenceID;
+  private String name;
+  private Date startDate;
+  private Date endDate;
+  private Date proposalDeadline;
+  private Date paperDeadline;
 }

@@ -65,9 +65,10 @@ public class AuthorController {
     log.trace("updateAuthor - method entered: authorDto={}", authorDto);
     AuthorDto result =
         converter.convertModelToDto(
-            service.updateAuthor(authorDto.getAuthorId(), authorDto.getName(),
-                    entityManager.getReference(Proposal.class, authorDto.getProposalId())
-            ));
+            service.updateAuthor(
+                authorDto.getAuthorId(),
+                authorDto.getName(),
+                entityManager.getReference(Proposal.class, authorDto.getProposalId())));
     log.trace("updateAuthor - method finished: result={}", result);
     return result;
   }

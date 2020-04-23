@@ -32,7 +32,8 @@ public class BiddingProcessController {
   @RequestMapping(value = "/biddings", method = RequestMethod.GET)
   public BiddingProcessesDto getAllBiddingProcesses() {
     log.trace("getAllBiddingProcesses - method entered");
-    BiddingProcessesDto result = new BiddingProcessesDto(converter.convertModelsToDtos(service.findAll()));
+    BiddingProcessesDto result =
+        new BiddingProcessesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllBiddingProcesses - method finished: result={}", result);
     return result;
   }
@@ -51,9 +52,10 @@ public class BiddingProcessController {
   public BiddingProcessDto saveBiddingProcess(@RequestBody BiddingProcessDto biddingProcessDto) {
     log.trace("saveBiddingProcess - method entered biddingProcessDto={}", biddingProcessDto);
 
-
     BiddingProcess result =
-        service.saveBiddingProcess(entityManager.getReference(Conference.class,biddingProcessDto.getConferenceID()), biddingProcessDto.getDeadline());
+        service.saveBiddingProcess(
+            entityManager.getReference(Conference.class, biddingProcessDto.getConferenceID()),
+            biddingProcessDto.getDeadline());
 
     BiddingProcessDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveBiddingProcess - method finished: result={}", resultToReturn);
@@ -66,9 +68,9 @@ public class BiddingProcessController {
     BiddingProcessDto result =
         converter.convertModelToDto(
             service.updateBiddingProcess(
-                    biddingProcessDto.getBidID(),
-                entityManager.getReference(Conference.class,biddingProcessDto.getConferenceID()),
-                    biddingProcessDto.getDeadline()));
+                biddingProcessDto.getBidID(),
+                entityManager.getReference(Conference.class, biddingProcessDto.getConferenceID()),
+                biddingProcessDto.getDeadline()));
     log.trace("updateBidding - method finished: result={}", result);
     return result;
   }

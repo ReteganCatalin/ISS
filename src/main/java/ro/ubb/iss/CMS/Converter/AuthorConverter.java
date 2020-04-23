@@ -16,8 +16,11 @@ public class AuthorConverter implements BaseConverter<Author, AuthorDto> {
 
   @Override
   public Author convertDtoToModel(AuthorDto authorDto) {
-    return Author.builder().authorId(authorDto.getAuthorId()).name(authorDto.getName())
-            .proposal(entityManager.getReference(Proposal.class,authorDto.getProposalId())).build();
+    return Author.builder()
+        .authorId(authorDto.getAuthorId())
+        .name(authorDto.getName())
+        .proposal(entityManager.getReference(Proposal.class, authorDto.getProposalId()))
+        .build();
   }
 
   @Override

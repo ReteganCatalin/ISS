@@ -12,6 +12,5 @@ import java.util.Set;
 @Builder
 public class ConferencesDto {
 
-    Set<ConferenceDto> conferenceDtos;
-
+  Set<ConferenceDto> conferenceDtos;
 }
