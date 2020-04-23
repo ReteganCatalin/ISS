@@ -13,4 +13,139 @@
                  splitStatements="true"
                  stripComments="true"></sqlFile>
     </changeSet>
+    <changeSet id="add-affiliation-validated1" author="catalin">
+        <addColumn schemaName="public" tableName="user_info">
+            <column name="affiliation_validated" type="BOOLEAN"></column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="add-FK" author="catalin">
+        <addForeignKeyConstraint  baseColumnNames="section_id"
+                                  baseTableName="participant_list"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_section_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="section_id"
+                                  referencedTableName="section"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+        <addForeignKeyConstraint  baseColumnNames="user_id"
+                                  baseTableName="participant_list"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_user_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="user_id"
+                                  referencedTableName="user"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+        <addForeignKeyConstraint  baseColumnNames="role_id"
+                                  baseTableName="participant_list"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_role_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="role_id"
+                                  referencedTableName="role"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+    </changeSet>
+    <changeSet id="add-FK-ticketing" author="catalin">
+        <addForeignKeyConstraint  baseColumnNames="section_id"
+                                  baseTableName="ticketing"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_section_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="section_id"
+                                  referencedTableName="section"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+        <addForeignKeyConstraint  baseColumnNames="user_id"
+                                  baseTableName="ticketing"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_user_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="user_id"
+                                  referencedTableName="user"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+    </changeSet>
+    <changeSet id="add-FK-recommendation" author="catalin">
+        <addForeignKeyConstraint  baseColumnNames="review_id"
+                                  baseTableName="recommendation"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_review_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="review_id"
+                                  referencedTableName="review_list"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+    </changeSet>
+    <changeSet id="add-FK-permission" author="catalin">
+        <addForeignKeyConstraint  baseColumnNames="permission_id"
+                                  baseTableName="role_permission_id"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_permission_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="permission_id"
+                                  referencedTableName="permission"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+        <addForeignKeyConstraint  baseColumnNames="role_id"
+                                  baseTableName="role_permission_id"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_role_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="role_id"
+                                  referencedTableName="role"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+    </changeSet>
+    <changeSet id="add-FK-role-user-id" author="catalin">
+        <addForeignKeyConstraint  baseColumnNames="user_id"
+                                  baseTableName="role_user_list"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_user_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="user_id"
+                                  referencedTableName="user"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+        <addForeignKeyConstraint  baseColumnNames="role_id"
+                                  baseTableName="role_user_list"
+                                  baseTableSchemaName="public"
+                                  constraintName="fk_role_id"
+                                  deferrable="true"
+                                  initiallyDeferred="true"
+                                  onDelete="CASCADE"
+                                  onUpdate="CASCADE"
+                                  referencedColumnNames="role_id"
+                                  referencedTableName="role"
+                                  referencedTableSchemaName="public"
+                                  validate="true"/>
+    </changeSet>
 </databaseChangeLog>
