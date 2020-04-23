@@ -1,8 +1,5 @@
 package ro.ubb.iss.CMS.Controller;
 
-import liquibase.Liquibase;
-import lombok.Builder;
-import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ro.ubb.iss.CMS.Repository.personRepository;

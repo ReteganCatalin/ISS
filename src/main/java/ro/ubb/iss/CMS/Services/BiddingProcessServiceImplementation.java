@@ -1,4 +1,4 @@
-package ro.ubb.iss.CMS.Controller;
+package ro.ubb.iss.CMS.Services;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

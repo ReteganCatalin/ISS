@@ -1,9 +1,6 @@
-package ro.ubb.iss.CMS.Controller;
+package ro.ubb.iss.CMS.Services;
 
-import ro.ubb.iss.CMS.domain.MyTicket;
 import ro.ubb.iss.CMS.domain.Paper;
-import ro.ubb.iss.CMS.domain.Section;
-import ro.ubb.iss.CMS.domain.User;
 
 import java.util.List;
 import java.util.Optional;

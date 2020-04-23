@@ -1,4 +1,4 @@
-package ro.ubb.iss.CMS.Controller;
+package ro.ubb.iss.CMS.Services;
 
 
 
