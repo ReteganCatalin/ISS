@@ -1,8 +1,7 @@
-package ro.ubb.iss.CMS.Converter;
+package ro.ubb.iss.CMS.converter;
 
 import org.springframework.stereotype.Component;
 import ro.ubb.iss.CMS.domain.*;
-import ro.ubb.iss.CMS.dto.PermissionForRoleDto;
 import ro.ubb.iss.CMS.dto.PermissionForUserDto;
 
 import javax.persistence.EntityManager;

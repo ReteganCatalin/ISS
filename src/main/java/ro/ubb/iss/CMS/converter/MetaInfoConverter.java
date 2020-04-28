@@ -1,10 +1,8 @@
-package ro.ubb.iss.CMS.Converter;
+package ro.ubb.iss.CMS.converter;
 
 import org.springframework.stereotype.Component;
 import ro.ubb.iss.CMS.domain.MetaInformation;
 import ro.ubb.iss.CMS.dto.MetaInfoDto;
-
-import javax.persistence.Column;
 
 @Component
 public class MetaInfoConverter implements BaseConverter<MetaInformation, MetaInfoDto> {

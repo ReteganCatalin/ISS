@@ -1,4 +1,4 @@
-package ro.ubb.iss.CMS.Controller;
+package ro.ubb.iss.CMS.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package ro.ubb.iss.CMS.Controller;
+package ro.ubb.iss.CMS.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
-import ro.ubb.iss.CMS.Converter.ParticipationConverter;
+import ro.ubb.iss.CMS.converter.ParticipationConverter;
 import ro.ubb.iss.CMS.Services.ParticipationService;
 import ro.ubb.iss.CMS.domain.Participation;
 import ro.ubb.iss.CMS.domain.Role;

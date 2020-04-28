@@ -1,8 +1,7 @@
-package ro.ubb.iss.CMS.Converter;
+package ro.ubb.iss.CMS.converter;
 
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 public interface BaseConverter<Model, Dto> {

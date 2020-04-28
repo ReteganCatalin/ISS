@@ -1,4 +1,4 @@
-package ro.ubb.iss.CMS.Converter;
+package ro.ubb.iss.CMS.converter;
 
 import org.springframework.stereotype.Component;
 import ro.ubb.iss.CMS.domain.Participation;

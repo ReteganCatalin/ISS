@@ -1,12 +1,8 @@
-package ro.ubb.iss.CMS.Converter;
+package ro.ubb.iss.CMS.converter;
 
 import org.springframework.stereotype.Component;
 import ro.ubb.iss.CMS.domain.Abstract;
 import ro.ubb.iss.CMS.dto.AbstractDto;
-
-import java.util.Collection;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Component
 public class AbstractConverter implements BaseConverter<Abstract, AbstractDto> {
