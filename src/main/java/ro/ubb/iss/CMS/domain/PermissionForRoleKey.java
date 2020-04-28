@@ -16,6 +16,11 @@ public class PermissionForRoleKey implements Serializable {
 
   public PermissionForRoleKey() {}
 
+  public PermissionForRoleKey(Integer roleID, Integer permissionID) {
+    this.roleID = roleID;
+    this.permissionID = permissionID;
+  }
+
   @Override
   public String toString() {
     return "PermissionForRoleKey{" + "userID=" + roleID + ", permissionID=" + permissionID + '}';

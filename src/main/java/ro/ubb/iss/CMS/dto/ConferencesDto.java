@@ -2,6 +2,7 @@ package ro.ubb.iss.CMS.dto;
 
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -12,5 +13,5 @@ import java.util.Set;
 @Builder
 public class ConferencesDto {
 
-  Set<ConferenceDto> conferenceDtos;
+  private List<ConferenceDto> conferenceDtos;
 }

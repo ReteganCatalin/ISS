@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Converter.BiddingProcessConverter;
 import ro.ubb.iss.CMS.Services.BiddingProcessService;
 import ro.ubb.iss.CMS.domain.BiddingProcess;
@@ -41,9 +42,9 @@ public class BiddingProcessController {
   @RequestMapping(value = "/biddings/{id}", method = RequestMethod.GET)
   public BiddingProcessDto getBiddingProcess(@PathVariable Integer id) {
     log.trace("getBiddingProcess - method entered id={}", id);
-    Optional<BiddingProcess> anAbstract = service.findBiddingProcess(id);
+    Optional<BiddingProcess> biddingProcess = service.findBiddingProcess(id);
     BiddingProcessDto result = null;
-    if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
+    if (biddingProcess.isPresent()) result = converter.convertModelToDto(biddingProcess.get());
     log.trace("getBiddingProcess - method finished: result={}", result);
     return result;
   }
@@ -79,7 +80,13 @@ public class BiddingProcessController {
   public ResponseEntity<?> deleteBidding(@PathVariable Integer id) {
     log.trace("deleteBidding - method entered: id={}", id);
 
-    service.deleteBiddingProcess(id);
+    try {
+      service.deleteBiddingProcess(id);
+    } catch (RestClientException ex) {
+      log.trace("deleteBidding - exception caught ex={}", ex.getMessage());
+      log.trace("deleteBidding - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     log.trace("deleteBidding - method finished");
 
     return new ResponseEntity<>(HttpStatus.OK);

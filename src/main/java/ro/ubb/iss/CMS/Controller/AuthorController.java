@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Converter.AuthorConverter;
 import ro.ubb.iss.CMS.Services.AuthorService;
 import ro.ubb.iss.CMS.domain.Author;
@@ -77,7 +78,13 @@ public class AuthorController {
   public ResponseEntity<?> deleteAuthor(@PathVariable Integer id) {
     log.trace("deleteAuthor - method entered: id={}", id);
 
-    service.deleteAuthor(id);
+    try {
+      service.deleteAuthor(id);
+    } catch (RestClientException ex) {
+      log.trace("deleteAuthor - exception caught ex={}", ex.getMessage());
+      log.trace("deleteAuthor - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     log.trace("deleteAuthor - method finished");
 
     return new ResponseEntity<>(HttpStatus.OK);

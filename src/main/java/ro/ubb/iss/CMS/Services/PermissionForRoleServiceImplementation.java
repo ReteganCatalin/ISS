@@ -43,7 +43,7 @@ public class PermissionForRoleServiceImplementation implements PermissionForRole
     log.trace(
         "savePermissionForRole - method entered: permissionForRoleKey={}", permissionForRoleKey);
     PermissionForRole newPermissionForRole =
-        PermissionForRole.builder().PermissionForRoleKey(permissionForRoleKey).build();
+        PermissionForRole.builder().permissionForRoleKey(permissionForRoleKey).build();
     Optional<PermissionForRole> checkForPresence =
         permissionForRoleRepository.findById(permissionForRoleKey);
 

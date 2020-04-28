@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Converter.AnalysisConverter;
 import ro.ubb.iss.CMS.Services.AnalysisService;
 import ro.ubb.iss.CMS.domain.Analysis;
@@ -48,7 +49,7 @@ public class AnalysisController {
     Optional<Analysis> result =
         service.saveAnalysis(
             new AnalysisKey(
-                analysisDto.getBidID(), analysisDto.getUserID(), analysisDto.getUserID()),
+                analysisDto.getBidID(), analysisDto.getUserID(), analysisDto.getProposalID()),
             analysisDto.getBriefAnalysis(),
             analysisDto.getRefuse());
     AnalysisDto resultToReturn = null;
@@ -71,9 +72,15 @@ public class AnalysisController {
 
   @RequestMapping(value = "/analyses/{analysisKey}", method = RequestMethod.DELETE)
   public ResponseEntity<?> deleteAnalysis(@PathVariable AnalysisKey analysisKey) {
-    log.trace("deleteAnalysis - method entered: id={}", analysisKey);
+    log.trace("deleteAnalysis - method entered: analysisKey={}", analysisKey);
 
-    service.deleteAnalysis(analysisKey);
+    try {
+      service.deleteAnalysis(analysisKey);
+    } catch (RestClientException ex) {
+      log.trace("deleteAnalysis - exception caught ex={}", ex.getMessage());
+      log.trace("deleteAnalysis - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     log.trace("deleteAnalysis - method finished");
 
     return new ResponseEntity<>(HttpStatus.OK);

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Converter.AbstractConverter;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.domain.Abstract;
@@ -69,8 +70,13 @@ public class AbstractController {
   @RequestMapping(value = "/abstracts/{id}", method = RequestMethod.DELETE)
   public ResponseEntity<?> deleteAbstract(@PathVariable Integer id) {
     log.trace("deleteAbstract - method entered: id={}", id);
-
-    service.deleteAbstract(id);
+    try {
+      service.deleteAbstract(id);
+    } catch (RestClientException ex) {
+      log.trace("deleteAbstract - exception caught ex={}", ex.getMessage());
+      log.trace("deleteAbstract - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     log.trace("deleteAbstract - method finished");
 
     return new ResponseEntity<>(HttpStatus.OK);

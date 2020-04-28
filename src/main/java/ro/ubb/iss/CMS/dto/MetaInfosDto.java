@@ -11,7 +11,6 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class AbstractsDto {
-
-  private List<AbstractDto> abstractDtos;
+public class MetaInfosDto {
+  private List<MetaInfoDto> metaInfoDtos;
 }

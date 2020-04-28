@@ -2,8 +2,7 @@ package ro.ubb.iss.CMS.dto;
 
 import lombok.*;
 
-import java.util.List;
-import java.util.Set;
+import javax.persistence.Column;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -11,7 +10,9 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class AbstractsDto {
+public class PermissionForUserDto {
 
-  private List<AbstractDto> abstractDtos;
+  private Integer userID;
+
+  private Integer permissionID;
 }

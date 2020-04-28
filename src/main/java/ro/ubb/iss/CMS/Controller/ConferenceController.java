@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Converter.ConferenceConverter;
 import ro.ubb.iss.CMS.Services.ConferenceService;
 import ro.ubb.iss.CMS.domain.Conference;
@@ -34,9 +35,9 @@ public class ConferenceController {
   @RequestMapping(value = "/conferences/{id}", method = RequestMethod.GET)
   public ConferenceDto getConference(@PathVariable Integer id) {
     log.trace("getConference - method entered id={}", id);
-    Optional<Conference> anAbstract = service.findConference(id);
+    Optional<Conference> conference = service.findConference(id);
     ConferenceDto result = null;
-    if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
+    if (conference.isPresent()) result = converter.convertModelToDto(conference.get());
     log.trace("getConference - method finished: result={}", result);
     return result;
   }
@@ -77,7 +78,13 @@ public class ConferenceController {
   public ResponseEntity<?> deleteConference(@PathVariable Integer id) {
     log.trace("deleteConference - method entered: id={}", id);
 
-    service.deleteConference(id);
+    try {
+      service.deleteConference(id);
+    } catch (RestClientException ex) {
+      log.trace("deleteConference - exception caught ex={}", ex.getMessage());
+      log.trace("deleteConference - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
     log.trace("deleteConference - method finished");
 
     return new ResponseEntity<>(HttpStatus.OK);
