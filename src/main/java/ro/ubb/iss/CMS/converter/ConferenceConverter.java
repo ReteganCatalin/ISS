@@ -10,6 +10,7 @@ public class ConferenceConverter implements BaseConverter<Conference, Conference
   public Conference convertDtoToModel(ConferenceDto conferenceDto) {
     return Conference.builder()
         .conferenceID(conferenceDto.getConferenceID())
+        .name(conferenceDto.getName())
         .endDate(conferenceDto.getEndDate())
         .startDate(conferenceDto.getStartDate())
         .paperDeadline(conferenceDto.getPaperDeadline())
@@ -21,6 +22,7 @@ public class ConferenceConverter implements BaseConverter<Conference, Conference
   public ConferenceDto convertModelToDto(Conference conference) {
     return ConferenceDto.builder()
         .conferenceID(conference.getConferenceID())
+        .name(conference.getName())
         .endDate(conference.getEndDate())
         .startDate(conference.getStartDate())
         .proposalDeadline(conference.getProposalDeadline())
