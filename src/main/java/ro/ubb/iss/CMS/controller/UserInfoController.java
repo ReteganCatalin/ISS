@@ -38,7 +38,7 @@ public class UserInfoController {
 
 
     @RequestMapping(value = "/user_info/{id}", method = RequestMethod.GET)
-    public UserInfoDto getUserInfo(@PathVariable Integer id) {
+    public UserInfoDto getUserInfo(@PathVariable int id) {
         log.trace("getUserInfo - method entered id={}", id);
         Optional<UserInfo> userInfo = service.findUserInfo(id);
         UserInfoDto result = null;

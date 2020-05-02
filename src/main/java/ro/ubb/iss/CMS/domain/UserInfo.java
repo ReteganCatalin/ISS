@@ -20,29 +20,29 @@ public class UserInfo {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_info_id")
-  private Integer userInfoId;
+  public Integer userInfoId;
 
   @Column(name = "name", nullable = false, length = 20)
-  private String name;
+  public String name;
 
   @Column(name = "affiliation", nullable = false, length = 20)
-  private String affiliation;
+  public String affiliation;
 
   @Column(name = "email_address", length = 40)
-  private String emailAddress;
+  public String emailAddress;
 
   @Column(name = "webpage_address", length = 40)
-  private String webPageAddress;
+  public String webPageAddress;
 
   @Column(name = "affiliation_validated")
-  private Boolean affiliationValidated;
+  public Boolean affiliationValidated;
 
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private User user;
+  public User user;
 
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Proposal proposal;
+  public Proposal proposal;
 
   @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Section section;
+  public Section section;
 }
