@@ -1,10 +1,11 @@
 package ro.ubb.iss.CMS.Services;
 
+import org.springframework.stereotype.Service;
 import ro.ubb.iss.CMS.domain.UserInfo;
 
 import java.util.List;
 import java.util.Optional;
-
+@Service
 public class UserInfoServiceImplementation implements UserInfoService {
   @Override
   public Optional<UserInfo> findUserInfo(int userInfoID) {
