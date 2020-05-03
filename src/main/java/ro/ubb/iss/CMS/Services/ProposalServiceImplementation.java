@@ -3,12 +3,14 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import ro.ubb.iss.CMS.Repository.ProposalRepository;
 import ro.ubb.iss.CMS.domain.*;
 
 import java.util.List;
 import java.util.Optional;
 
+@Component
 public class ProposalServiceImplementation implements ProposalService {
   private static final Logger log = LoggerFactory.getLogger(ProposalServiceImplementation.class);
 

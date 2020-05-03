@@ -11,11 +11,11 @@
                  path="db/create-test.sql"
                  relativeToChangelogFile="false"
                  splitStatements="true"
-                 stripComments="true"></sqlFile>
+                 stripComments="true"/>
     </changeSet>
     <changeSet id="add-affiliation-validated1" author="catalin">
         <addColumn schemaName="public" tableName="user_info">
-            <column name="affiliation_validated" type="BOOLEAN"></column>
+            <column name="affiliation_validated" type="BOOLEAN"/>
         </addColumn>
     </changeSet>
     <changeSet id="add-FK" author="catalin">
@@ -175,6 +175,69 @@
                           startWith="1"
                           tableName="author_list"/>
     </changeSet>
+    <changeSet author="tamas" id="createTable-presentation">
+        <createTable catalogName="CMS-TEST"
+                     remarks="Presentation"
+                     schemaName="public"
+                     tableName="presentation">
+            <column name="presentation_id" type="int" autoIncrement="true" incrementBy="1" startWith="1"/>
+            <column name="conference_id" type="int"/>
+            <column name="section_id" type="int"/>
+            <column name="format" type="varchar(50)"/>
+            <column name="byte_file_location" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="add-public-key-presentation-id" author="tamas">
+        <addPrimaryKey catalogName="CMS-TEST"
+                       clustered="true"
+                       columnNames="presentation_id"
+                       constraintName="pk_presentation_id"
+                       schemaName="public"
+                       tableName="presentation"
+                       validate="true"/>
+    </changeSet>
 
+    <changeSet id="add-FK-conference-presentation" author="tamas">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="presentation"
+                                 baseTableSchemaName="public"
+                                 constraintName="FK_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
+
+    <changeSet id="add-FK-section-presentation" author="tamas">
+        <addForeignKeyConstraint baseColumnNames="section_id"
+                                 baseTableName="presentation"
+                                 baseTableSchemaName="public"
+                                 constraintName="FK_section_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="section_id"
+                                 referencedTableName="section"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
+
+    <changeSet author="tamas" id="renameTable-user-to-users">
+        <renameTable catalogName="CMS-TEST"
+                     newTableName="users"
+                     oldTableName="user"
+                     schemaName="public"/>
+    </changeSet>
+
+    <changeSet author="tamas" id="add-price-column-to-section">
+        <addColumn schemaName="public" tableName="section">
+            <column name="price" type="int"/>
+        </addColumn>
+    </changeSet>
 
 </databaseChangeLog>

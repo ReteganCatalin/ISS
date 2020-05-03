@@ -1,8 +1,6 @@
 package ro.ubb.iss.CMS.domain;
 
 import lombok.*;
-import ro.ubb.iss.CMS.domain.Proposal;
-import ro.ubb.iss.CMS.domain.Section;
 
 import javax.persistence.*;
 

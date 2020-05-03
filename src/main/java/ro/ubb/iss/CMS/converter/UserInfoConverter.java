@@ -24,6 +24,7 @@ public class UserInfoConverter implements BaseConverter<UserInfo, UserInfoDto> {
                 .affiliation(userInfoDto.getAffiliation())
                 .emailAddress(userInfoDto.getEmailAddress())
                 .affiliationValidated(userInfoDto.getAffiliationValidated())
+                .webPageAddress(userInfoDto.getWebPageAddress())
                 .build();
     }
 
@@ -35,6 +36,7 @@ public class UserInfoConverter implements BaseConverter<UserInfo, UserInfoDto> {
                 .affiliation(userInfo.getAffiliation())
                 .emailAddress(userInfo.getEmailAddress())
                 .affiliationValidated(userInfo.getAffiliationValidated())
+                .webPageAddress(userInfo.getWebPageAddress())
                 .build();
     }
 }

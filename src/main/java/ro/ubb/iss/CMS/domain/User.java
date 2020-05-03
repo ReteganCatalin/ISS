@@ -1,7 +1,6 @@
 package ro.ubb.iss.CMS.domain;
 
 import lombok.*;
-import ro.ubb.iss.CMS.domain.*;
 
 import javax.persistence.*;
 import java.util.HashSet;
