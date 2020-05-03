@@ -2,6 +2,7 @@ package ro.ubb.iss.CMS.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import ro.ubb.iss.CMS.Repository.personRepository;
 import ro.ubb.iss.CMS.domain.Person;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 public class TestController {
   // public static final Logger log= liquibase.logging.LoggerFactory.
 
-  @Autowired private ro.ubb.iss.CMS.Repository.PersonRepository PersonRepository;
+  @Autowired private personRepository PersonRepository;
 
   @PostMapping("person")
   public String createPerson(@RequestParam String name) {
