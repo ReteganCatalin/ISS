@@ -49,10 +49,10 @@ public class ProposalServiceImplementation implements ProposalService {
 
     abstractOptional.ifPresent(
             newProposal -> {
-              newProposal.setUserInfoID(userInfoID);
-              newProposal.setPaperID(paperID);
-              newProposal.setMetaInfoID(metaInfoID);
-              newProposal.setAbstractID(abstractID);
+              newProposal.setUserInfo(userInfoID);
+              newProposal.setPaper(paperID);
+              newProposal.setMetaInformation(metaInfoID);
+              newProposal.setAnAbstract(abstractID);
               log.debug("updateProposal - updated: newProposal={}", newProposal);
             });
     log.trace("updateProposal - method finished result={}", abstractOptional);
@@ -70,10 +70,10 @@ public class ProposalServiceImplementation implements ProposalService {
             abstractID);
     Proposal newProposal =
             Proposal.builder()
-                    .userInfoID(userInfoID)
-                    .paperID(paperID)
-                    .metaInfoID(metaInfoID)
-                    .abstractID(abstractID)
+                    .userInfo(userInfoID)
+                    .paper(paperID)
+                    .metaInformation(metaInfoID)
+                    .anAbstract(abstractID)
                     .build();
 
     proposalRepository.save(newProposal);

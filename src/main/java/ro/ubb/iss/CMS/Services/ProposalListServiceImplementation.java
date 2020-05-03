@@ -30,40 +30,36 @@ public class ProposalListServiceImplementation implements ProposalListService {
     return result;
   }
 
-  @Override
-  public ProposalList updateProposal(
-      ProposalListKey proposalKey, String briefAnalysis, Boolean refuse) {
-    log.trace(
-            "updateProposal - method entered: proposalKey={}, briefAnalysis={}, refuse={}",
-            proposalKey,
-            briefAnalysis,
-            refuse);
-
-    Optional<ProposalList> abstractOptional = proposalListRepository.findById(proposalKey);
-
-    abstractOptional.ifPresent(
-            newProposalList -> {
-              newProposalList.setBriefAnalysis(briefAnalysis);
-              newProposalList.setRefuse(refuse);
-              log.debug("updateProposal - updated: newProposalList={}", newProposalList);
-            });
-    log.trace("updateProposal - method finished result={}", abstractOptional);
-    return abstractOptional.orElse(null);
-  }
+//  @Override
+//  public ProposalList updateProposal(
+//      ProposalListKey proposalKey) {
+//    log.trace(
+//            "updateProposal - method entered: proposalKey={}, briefAnalysis={}, refuse={}",
+//            proposalKey,
+//            briefAnalysis,
+//            refuse);
+//
+//    Optional<ProposalList> abstractOptional = proposalListRepository.findById(proposalKey);
+//
+//    abstractOptional.ifPresent(
+//            newProposalList -> {
+//              newProposalList.setProposal(briefAnalysis);
+//              newProposalList.setRefuse(refuse);
+//              log.debug("updateProposal - updated: newProposalList={}", newProposalList);
+//            });
+//    log.trace("updateProposal - method finished result={}", abstractOptional);
+//    return abstractOptional.orElse(null);
+//  }
 
   @Override
   public Optional<ProposalList> saveProposal(
-      ProposalListKey proposalKey, String briefAnalysis, Boolean refuse) {
+      ProposalListKey proposalKey) {
     log.trace(
-            "saveProposal - method entered: proposalKey={}, briefAnalysis={}, refuse={}",
-            proposalKey,
-            briefAnalysis,
-            refuse);
-    ProposalList newProposalList =
+            "saveProposal - method entered: proposalListKey={}",
+            proposalKey);
+            ProposalList newProposalList =
             ProposalList.builder()
-                    .proposalKey(proposalKey)
-                    .briefAnalysis(briefAnalysis)
-                    .refuse(refuse)
+                    .proposalListKey(proposalKey)
                     .build();
     Optional<ProposalList> checkForPresence = proposalListRepository.findById(proposalKey);
 

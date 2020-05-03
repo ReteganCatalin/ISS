@@ -49,8 +49,8 @@ public class SectionServiceImplementation implements SectionService {
 
     abstractOptional.ifPresent(
             newSection -> {
-              newSection.setSupervisorID(supervisorID);
-              newSection.setConferenceID(conferenceID);
+              newSection.setSupervisor(supervisorID);
+              newSection.setConference(conferenceID);
               newSection.setDateOfPresentation(dateOfPresentation);
               log.debug("updateSection - updated: newSection={}", newSection);
             });
@@ -67,8 +67,8 @@ public class SectionServiceImplementation implements SectionService {
             dateOfPresentation);
     Section newSection =
             Section.builder()
-                    .supervisorID(supervisorID)
-                    .conferenceID(conferenceID)
+                    .supervisor(supervisorID)
+                    .conference(conferenceID)
                     .dateOfPresentation(dateOfPresentation)
                     .build();
 

@@ -45,9 +45,9 @@ public class ReviewServiceImplementation implements ReviewService {
 
     abstractOptional.ifPresent(
             newReview -> {
-              newReview.setProposalID(proposalID);
-              newReview.setQualifierID(qualifierID);
-              newReview.setUserID(userID);
+              newReview.setProposal(proposalID);
+              newReview.setQualifier(qualifierID);
+              newReview.setUser(userID);
               log.debug("updateReview - updated: newReview={}", newReview);
             });
     log.trace("updateReview - method finished result={}", abstractOptional);
@@ -63,9 +63,9 @@ public class ReviewServiceImplementation implements ReviewService {
             userID);
     Review newReview =
             Review.builder()
-                    .proposalID(proposalID)
-                    .qualifierID(qualifierID)
-                    .userID(userID)
+                    .proposal(proposalID)
+                    .qualifier(qualifierID)
+                    .user(userID)
                     .build();
 
     reviewRepository.save(newReview);

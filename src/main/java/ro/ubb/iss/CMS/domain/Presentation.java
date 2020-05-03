@@ -31,6 +31,6 @@ public class Presentation {
   @Column(name = "format", nullable = false)
   private String format;
 
-  @Column(name = "byte_file", nullable = false)
-  private byte[] byteFile;
+  @Column(name = "byte_file_location", nullable = false, length = 40)
+  private String byteFileLocation;
 }

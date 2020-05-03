@@ -11,10 +11,10 @@ public interface ProposalListService {
 
   List<ProposalList> findAll();
 
-  ProposalList updateProposal(ProposalListKey proposalKey, String briefAnalysis, Boolean refuse);
+//  ProposalList updateProposal(ProposalListKey proposalKey, String briefAnalysis, Boolean refuse);
 
   Optional<ProposalList> saveProposal(
-      ProposalListKey proposalKey, String briefAnalysis, Boolean refuse);
+      ProposalListKey proposalKey);
 
   void deleteProposal(ProposalListKey proposalKey);
 }

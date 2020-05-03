@@ -43,7 +43,7 @@ public class RecommendationServiceImplementation implements RecommendationServic
 
     abstractOptional.ifPresent(
             newRecommendation -> {
-              newRecommendation.setReviewID(reviewID);
+              newRecommendation.setReview(reviewID);
               newRecommendation.setRecommendationMessage(recommendationMessage);
               log.debug("updateRecommendation - updated: newRecommendation={}", newRecommendation);
             });
@@ -59,7 +59,7 @@ public class RecommendationServiceImplementation implements RecommendationServic
             recommendationMessage);
     Recommendation newRecommendation =
             Recommendation.builder()
-                    .reviewID(reviewID)
+                    .review(reviewID)
                     .recommendationMessage(recommendationMessage)
                     .build();
 
