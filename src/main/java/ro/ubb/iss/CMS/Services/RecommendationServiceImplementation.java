@@ -1,33 +1,78 @@
 package ro.ubb.iss.CMS.Services;
 
-import ro.ubb.iss.CMS.domain.Recommendation;
-import ro.ubb.iss.CMS.domain.Review;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import ro.ubb.iss.CMS.Repository.RecommendationRepository;
+import ro.ubb.iss.CMS.domain.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class RecommendationServiceImplementation implements RecommendationService {
+  private static final Logger log = LoggerFactory.getLogger(RecommendationServiceImplementation.class);
+
+  @Autowired
+  private RecommendationRepository recommendationRepository;
   @Override
   public Optional<Recommendation> findRecommendation(int recommendationID) {
-    return Optional.empty();
+    log.trace("findRecommendation - method entered recommendationID={}", recommendationID);
+    Optional<Recommendation> result = recommendationRepository.findById(recommendationID);
+    log.trace("findRecommendation - method exit result={}", result);
+    return result;
   }
 
   @Override
   public List<Recommendation> findAll() {
-    return null;
+    log.trace("findAll - method entered");
+    List<Recommendation> result = recommendationRepository.findAll();
+    log.trace("findAll - method exit result={}", result);
+    return result;
   }
 
   @Override
   public Recommendation updateRecommendation(
       int recommendationID, Review reviewID, String recommendationMessage) {
-    return null;
+    log.trace(
+            "updateRecommendation - method entered: recommendationID={}, reviewID={}, recommendationMessage={}",
+            recommendationID,
+            reviewID,
+            recommendationMessage);
+
+    Optional<Recommendation> abstractOptional = recommendationRepository.findById(recommendationID);
+
+    abstractOptional.ifPresent(
+            newRecommendation -> {
+              newRecommendation.setReview(reviewID);
+              newRecommendation.setRecommendationMessage(recommendationMessage);
+              log.debug("updateRecommendation - updated: newRecommendation={}", newRecommendation);
+            });
+    log.trace("updateRecommendation - method finished result={}", abstractOptional);
+    return abstractOptional.orElse(null);
   }
 
   @Override
   public Recommendation saveRecommendation(Review reviewID, String recommendationMessage) {
-    return null;
+    log.trace(
+            "saveRecommendation - method entered: reviewID={}, recommendationMessage={}",
+            reviewID,
+            recommendationMessage);
+    Recommendation newRecommendation =
+            Recommendation.builder()
+                    .review(reviewID)
+                    .recommendationMessage(recommendationMessage)
+                    .build();
+
+    recommendationRepository.save(newRecommendation);
+
+    log.trace("saveRecommendation - method finished result={}", newRecommendation);
+    return newRecommendation;
   }
 
   @Override
-  public void deleteRecommendation(int recommendationID) {}
+  public void deleteRecommendation(int recommendationID) {
+    log.trace("deleteRecommendation - method entered: recommendationID={}", recommendationID);
+    recommendationRepository.deleteById(recommendationID);
+    log.trace("deleteRecommendation - method finished");
+  }
 }

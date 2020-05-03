@@ -3,8 +3,8 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
+import ro.ubb.iss.CMS.Repository.AbstractRepository;
 import ro.ubb.iss.CMS.Repository.UserInfoRepository;
 import ro.ubb.iss.CMS.domain.UserInfo;
 
@@ -27,25 +27,62 @@ public class UserInfoServiceImplementation implements UserInfoService {
 
   @Override
   public List<UserInfo> findAll() {
-    log.trace("findAbstract - method entered");
-    List<UserInfo> result;
-    result = userInfoRepository.findAll();
-    log.trace("findAbstract - method exit result={}", result);
+    log.trace("findAll - method entered");
+    List<UserInfo> result = userInfoRepository.findAll();
+    log.trace("findAll - method exit result={}", result);
     return result;
   }
 
   @Override
   public UserInfo updateUserInfo(
       int userInfoID, String name, String affiliation, String emailAddress, String webpageAddress) {
-    return null;
+    log.trace(
+            "updateUserInfo - method entered: userInfoID={}, name={}, affiliation={}, emailAddress={}, webpageAddress={}",
+            userInfoID,
+            name,
+            affiliation,
+            emailAddress,
+            webpageAddress);
+
+    Optional<UserInfo> abstractOptional = userInfoRepository.findById(userInfoID);
+
+    abstractOptional.ifPresent(
+            newUserInfo -> {
+              newUserInfo.setName(name);
+              newUserInfo.setAffiliation(affiliation);
+              newUserInfo.setEmailAddress(emailAddress);
+              newUserInfo.setWebPageAddress(webpageAddress);
+              log.debug("updateUserInfo - updated: newUserInfo={}", newUserInfo);
+            });
+    log.trace("updateUserInfo - method finished result={}", abstractOptional);
+    return abstractOptional.orElse(null);
   }
 
   @Override
   public UserInfo saveUserInfo(
       String name, String affiliation, String emailAddress, String webpageAddress) {
-    return null;
+    log.trace(
+            "saveUserInfo - method entered: name={}, emailAddress={}, webpageAddress={}",
+            name,
+            emailAddress,
+            webpageAddress);
+    UserInfo newUserInfo =
+            UserInfo.builder()
+                    .name(name)
+                    .emailAddress(emailAddress)
+                    .webPageAddress(webpageAddress)
+                    .build();
+
+    userInfoRepository.save(newUserInfo);
+
+    log.trace("saveUserInfo - method finished result={}", newUserInfo);
+    return newUserInfo;
   }
 
   @Override
-  public void deleteUserInfo(int userInfoID) {}
+  public void deleteUserInfo(int userInfoID) {
+    log.trace("deleteUserInfo - method entered: userInfoID={}", userInfoID);
+    userInfoRepository.deleteById(userInfoID);
+    log.trace("deleteUserInfo - method finished");
+  }
 }
