@@ -1,19 +1,33 @@
 package ro.ubb.iss.CMS.Services;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import ro.ubb.iss.CMS.Repository.ProposalRepository;
 import ro.ubb.iss.CMS.domain.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ProposalServiceImplementation implements ProposalService {
+  private static final Logger log = LoggerFactory.getLogger(ProposalServiceImplementation.class);
+
+  @Autowired
+  private ProposalRepository proposalRepository;
   @Override
   public Optional<Proposal> findProposal(int proposalID) {
-    return Optional.empty();
+    log.trace("findProposal - method entered proposalID={}", proposalID);
+    Optional<Proposal> result = proposalRepository.findById(proposalID);
+    log.trace("findProposal - method exit result={}", result);
+    return result;
   }
 
   @Override
   public List<Proposal> findAll() {
-    return null;
+    log.trace("findAll - method entered");
+    List<Proposal> result = proposalRepository.findAll();
+    log.trace("findAll - method exit result={}", result);
+    return result;
   }
 
   @Override
@@ -23,15 +37,55 @@ public class ProposalServiceImplementation implements ProposalService {
       Paper paperID,
       MetaInformation metaInfoID,
       Abstract abstractID) {
-    return null;
+    log.trace(
+            "updateProposal - method entered: proposalID={}, userInfoID={}, paperID={}, metaInfoID={}, abstractID={}",
+            proposalID,
+            userInfoID,
+            paperID,
+            metaInfoID,
+            abstractID);
+
+    Optional<Proposal> abstractOptional = proposalRepository.findById(proposalID);
+
+    abstractOptional.ifPresent(
+            newProposal -> {
+              newProposal.setUserInfoID(userInfoID);
+              newProposal.setPaperID(paperID);
+              newProposal.setMetaInfoID(metaInfoID);
+              newProposal.setAbstractID(abstractID);
+              log.debug("updateProposal - updated: newProposal={}", newProposal);
+            });
+    log.trace("updateProposal - method finished result={}", abstractOptional);
+    return abstractOptional.orElse(null);
   }
 
   @Override
   public Proposal saveProposal(
       UserInfo userInfoID, Paper paperID, MetaInformation metaInfoID, Abstract abstractID) {
-    return null;
+    log.trace(
+            "saveProposal - method entered: userInfoID={}, paperID={}, metaInfoID={}, abstractID={}",
+            userInfoID,
+            paperID,
+            metaInfoID,
+            abstractID);
+    Proposal newProposal =
+            Proposal.builder()
+                    .userInfoID(userInfoID)
+                    .paperID(paperID)
+                    .metaInfoID(metaInfoID)
+                    .abstractID(abstractID)
+                    .build();
+
+    proposalRepository.save(newProposal);
+
+    log.trace("saveProposal - method finished result={}", newProposal);
+    return newProposal;
   }
 
   @Override
-  public void deleteProposal(int proposalID) {}
+  public void deleteProposal(int proposalID) {
+    log.trace("deleteProposal - method entered: proposalID={}", proposalID);
+    proposalRepository.deleteById(proposalID);
+    log.trace("deleteProposal - method finished");
+  }
 }

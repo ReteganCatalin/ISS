@@ -1,35 +1,83 @@
 package ro.ubb.iss.CMS.Services;
 
-import ro.ubb.iss.CMS.domain.Proposal;
-import ro.ubb.iss.CMS.domain.Qualifier;
-import ro.ubb.iss.CMS.domain.Review;
-import ro.ubb.iss.CMS.domain.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import ro.ubb.iss.CMS.Repository.ReviewRepository;
+import ro.ubb.iss.CMS.Repository.SectionRepository;
+import ro.ubb.iss.CMS.domain.*;
 
 import java.util.List;
 import java.util.Optional;
 
 public class ReviewServiceImplementation implements ReviewService {
+  private static final Logger log = LoggerFactory.getLogger(ReviewServiceImplementation.class);
+
+  @Autowired
+  private ReviewRepository reviewRepository;
   @Override
   public Optional<Review> findReview(int reviewID) {
-    return Optional.empty();
+    log.trace("findReview - method entered reviewID={}", reviewID);
+    Optional<Review> result = reviewRepository.findById(reviewID);
+    log.trace("findReview - method exit result={}", result);
+    return result;
   }
 
   @Override
   public List<Review> findAll() {
-    return null;
+    log.trace("findAll - method entered");
+    List<Review> result = reviewRepository.findAll();
+    log.trace("findAll - method exit result={}", result);
+    return result;
   }
 
   @Override
   public Review updateReview(
       int reviewID, Proposal proposalID, Qualifier qualifierID, User userID) {
-    return null;
+    log.trace(
+            "updateReview - method entered: reviewID={}, proposalID={}, qualifierID={}, userID={}",
+            reviewID,
+            proposalID,
+            qualifierID,
+            userID);
+
+    Optional<Review> abstractOptional = reviewRepository.findById(reviewID);
+
+    abstractOptional.ifPresent(
+            newReview -> {
+              newReview.setProposalID(proposalID);
+              newReview.setQualifierID(qualifierID);
+              newReview.setUserID(userID);
+              log.debug("updateReview - updated: newReview={}", newReview);
+            });
+    log.trace("updateReview - method finished result={}", abstractOptional);
+    return abstractOptional.orElse(null);
   }
 
   @Override
   public Review saveReview(Proposal proposalID, Qualifier qualifierID, User userID) {
-    return null;
+    log.trace(
+            "saveReview - method entered: proposalID={}, qualifierID={}, userID={}",
+            proposalID,
+            qualifierID,
+            userID);
+    Review newReview =
+            Review.builder()
+                    .proposalID(proposalID)
+                    .qualifierID(qualifierID)
+                    .userID(userID)
+                    .build();
+
+    reviewRepository.save(newReview);
+
+    log.trace("saveReview - method finished result={}", newReview);
+    return newReview;
   }
 
   @Override
-  public void deleteReview(int reviewID) {}
+  public void deleteReview(int reviewID) {
+    log.trace("deleteReview - method entered: reviewID={}", reviewID);
+    reviewRepository.deleteById(reviewID);
+    log.trace("deleteReview - method finished");
+  }
 }
