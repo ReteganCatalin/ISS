@@ -49,8 +49,8 @@ public class PresentationServiceImplementation implements PresentationService {
 
     abstractOptional.ifPresent(
             newPresentation -> {
-              newPresentation.setSectionID(sectionID);
-              newPresentation.setConferenceID(conferenceID);
+              newPresentation.setSection(sectionID);
+              newPresentation.setConference(conferenceID);
               newPresentation.setFormat(format);
               newPresentation.setByteFileLocation(byteFileLocation);
               log.debug("updatePresentation - updated: newPresentation={}", newPresentation);
@@ -70,8 +70,8 @@ public class PresentationServiceImplementation implements PresentationService {
             byteFileLocation);
     Presentation newPresentation =
             Presentation.builder()
-                    .sectionID(sectionID)
-                    .conferenceID(conferenceID)
+                    .section(sectionID)
+                    .conference(conferenceID)
                     .format(format)
                     .byteFileLocation(byteFileLocation)
                     .build();

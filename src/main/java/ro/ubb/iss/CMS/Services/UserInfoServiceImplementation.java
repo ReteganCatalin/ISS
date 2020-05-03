@@ -52,7 +52,7 @@ public class UserInfoServiceImplementation implements UserInfoService {
               newUserInfo.setName(name);
               newUserInfo.setAffiliation(affiliation);
               newUserInfo.setEmailAddress(emailAddress);
-              newUserInfo.setWebpageAddress(webpageAddress);
+              newUserInfo.setWebPageAddress(webpageAddress);
               log.debug("updateUserInfo - updated: newUserInfo={}", newUserInfo);
             });
     log.trace("updateUserInfo - method finished result={}", abstractOptional);
@@ -71,7 +71,7 @@ public class UserInfoServiceImplementation implements UserInfoService {
             UserInfo.builder()
                     .name(name)
                     .emailAddress(emailAddress)
-                    .webpageAddress(webpageAddress)
+                    .webPageAddress(webpageAddress)
                     .build();
 
     userInfoRepository.save(newUserInfo);
