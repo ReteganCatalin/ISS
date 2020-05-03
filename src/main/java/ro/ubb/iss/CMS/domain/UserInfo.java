@@ -43,6 +43,4 @@ public class UserInfo {
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   public Proposal proposal;
 
-  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  public Section section;
 }

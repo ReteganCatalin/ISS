@@ -20,7 +20,9 @@ import ro.ubb.iss.CMS.dto.UserInfoDto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class UserInfoController {
@@ -35,6 +37,16 @@ public class UserInfoController {
     @PersistenceContext // or even @Autowired
     private EntityManager entityManager;
 
+    @RequestMapping(value = "/user_info", method = RequestMethod.GET)
+    public List<UserInfoDto> getAllUserInfos() {
+        log.trace("getAllUserInfos - method entered");
+    List<UserInfoDto> userInfoDtos =
+        service.findAll().stream()
+            .map(elem -> converter.convertModelToDto(elem))
+            .collect(Collectors.toList());
+        log.trace("getAllUserInfos - method finished");
+        return userInfoDtos;
+    }
 
 
     @RequestMapping(value = "/user_info/{id}", method = RequestMethod.GET)

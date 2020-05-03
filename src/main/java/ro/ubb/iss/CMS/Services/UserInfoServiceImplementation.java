@@ -3,12 +3,12 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.jpa.JpaSystemException;
 import org.springframework.stereotype.Service;
-import ro.ubb.iss.CMS.Repository.AbstractRepository;
 import ro.ubb.iss.CMS.Repository.UserInfoRepository;
-import ro.ubb.iss.CMS.domain.Analysis;
 import ro.ubb.iss.CMS.domain.UserInfo;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 @Service
@@ -27,7 +27,11 @@ public class UserInfoServiceImplementation implements UserInfoService {
 
   @Override
   public List<UserInfo> findAll() {
-    return null;
+    log.trace("findAbstract - method entered");
+    List<UserInfo> result;
+    result = userInfoRepository.findAll();
+    log.trace("findAbstract - method exit result={}", result);
+    return result;
   }
 
   @Override

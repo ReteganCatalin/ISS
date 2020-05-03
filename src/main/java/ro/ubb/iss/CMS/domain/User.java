@@ -36,6 +36,9 @@ public class User {
   @JoinColumn(name = "user_info_id")
   private UserInfo userInfo;
 
+  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  public Section section;
+
   @OneToMany(
       mappedBy = "user",
       orphanRemoval = true,
