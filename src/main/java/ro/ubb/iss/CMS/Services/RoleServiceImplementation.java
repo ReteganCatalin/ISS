@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.QualifierRepository;
 import ro.ubb.iss.CMS.Repository.RoleRepository;
 import ro.ubb.iss.CMS.domain.Qualifier;
@@ -33,6 +34,7 @@ public class RoleServiceImplementation implements RoleService {
     }
 
     @Override
+    @Transactional
     public Role updateRole(int roleID, String name) {
         log.trace(
                 "updateRole - method entered: roleID={}, name={}",

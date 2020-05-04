@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.SectionRepository;
 import ro.ubb.iss.CMS.Repository.UserInfoRepository;
 import ro.ubb.iss.CMS.domain.Conference;
@@ -36,6 +37,7 @@ public class SectionServiceImplementation implements SectionService {
   }
 
   @Override
+  @Transactional
   public Section updateSection(
       int sectionID, User supervisorID, Conference conferenceID, Date dateOfPresentation) {
     log.trace(

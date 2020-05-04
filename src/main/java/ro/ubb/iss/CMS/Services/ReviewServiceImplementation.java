@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.ReviewRepository;
 import ro.ubb.iss.CMS.Repository.SectionRepository;
 import ro.ubb.iss.CMS.domain.*;
@@ -32,6 +33,7 @@ public class ReviewServiceImplementation implements ReviewService {
   }
 
   @Override
+  @Transactional
   public Review updateReview(
       int reviewID, Proposal proposalID, Qualifier qualifierID, User userID) {
     log.trace(

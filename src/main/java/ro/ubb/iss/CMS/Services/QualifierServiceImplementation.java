@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.QualifierRepository;
 import ro.ubb.iss.CMS.domain.Qualifier;
 import ro.ubb.iss.CMS.domain.Section;
@@ -34,6 +35,7 @@ public class QualifierServiceImplementation implements QualifierService {
   }
 
   @Override
+  @Transactional
   public Qualifier updateQualifier(int qualifierID, String name) {
     log.trace(
             "updateQualifier - method entered: qualifierID={}, name={}",

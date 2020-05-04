@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.AbstractRepository;
 import ro.ubb.iss.CMS.Repository.UserInfoRepository;
 import ro.ubb.iss.CMS.domain.Analysis;
@@ -35,6 +36,7 @@ public class UserInfoServiceImplementation implements UserInfoService {
   }
 
   @Override
+  @Transactional
   public UserInfo updateUserInfo(
       int userInfoID, String name, String affiliation, String emailAddress, String webpageAddress) {
     log.trace(

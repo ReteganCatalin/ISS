@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.ProposalRepository;
 import ro.ubb.iss.CMS.domain.*;
 
@@ -31,6 +32,7 @@ public class ProposalServiceImplementation implements ProposalService {
   }
 
   @Override
+  @Transactional
   public Proposal updateProposal(
       int proposalID,
       UserInfo userInfoID,
