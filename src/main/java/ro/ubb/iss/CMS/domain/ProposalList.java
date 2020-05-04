@@ -22,15 +22,15 @@ public class ProposalList {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("section_id")
   @JoinColumn(name = "section_id")
-  Section section;
+  @EqualsAndHashCode.Exclude Section section;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("proposal_id")
   @JoinColumn(name = "proposal_id")
-  Proposal proposal;
+  @EqualsAndHashCode.Exclude Proposal proposal;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("conference_id")
   @JoinColumn(name = "conference_id")
-  Conference conference;
+  @EqualsAndHashCode.Exclude Conference conference;
 }

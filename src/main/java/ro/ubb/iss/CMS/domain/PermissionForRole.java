@@ -20,10 +20,10 @@ public class PermissionForRole {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("role_id")
   @JoinColumn(name = "role_id")
-  Role role;
+  @EqualsAndHashCode.Exclude Role role;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("permission_id")
   @JoinColumn(name = "permission_id")
-  Permission permission;
+  @EqualsAndHashCode.Exclude Permission permission;
 }

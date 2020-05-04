@@ -26,16 +26,16 @@ public class Proposal {
   private Integer proposalID;
 
   @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<Review> reviews = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<Review> reviews = new HashSet<>();
 
   @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<Author> authors = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<Author> authors = new HashSet<>();
 
   @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<Analysis> analyses = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<Analysis> analyses = new HashSet<>();
 
   @OneToMany(mappedBy = "proposal", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<ProposalList> proposalListsForSections = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<ProposalList> proposalListsForSections = new HashSet<>();
 
   @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_info_id")

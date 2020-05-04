@@ -20,17 +20,17 @@ public class Analysis {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
   @JoinColumn(name = "user_id")
-  User user;
+  @EqualsAndHashCode.Exclude User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("proposal_id")
   @JoinColumn(name = "proposal_id")
-  Proposal proposal;
+  @EqualsAndHashCode.Exclude Proposal proposal;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("bid_id")
   @JoinColumn(name = "bid_id")
-  BiddingProcess biddingProcess;
+  @EqualsAndHashCode.Exclude BiddingProcess biddingProcess;
 
   @Column(name = "brief_analyse", nullable = false, columnDefinition = "TEXT")
   private String briefAnalysis;

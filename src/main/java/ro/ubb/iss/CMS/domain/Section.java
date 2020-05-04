@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "sections")
+@Table(name = "section")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,11 +20,11 @@ public class Section {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "sectiond_id")
+  @Column(name = "section_id")
   private Integer sectionID;
 
   @OneToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "supervisor_id", referencedColumnName = "user_info_id")
+  @JoinColumn(name = "supervisor_id", referencedColumnName = "user_id")
   private User supervisor;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -39,14 +39,14 @@ public class Section {
   private Integer price;
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<Participation> participations = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<Participation> participations = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<ProposalList> proposalLists = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<ProposalList> proposalLists = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<Presentation> presentations = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<Presentation> presentations = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  Set<MyTicket> myTickets = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<MyTicket> myTickets = new HashSet<>();
 }

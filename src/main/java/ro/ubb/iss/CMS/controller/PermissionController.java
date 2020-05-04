@@ -25,58 +25,58 @@ public class PermissionController {
   @Autowired private PermissionConverter converter;
 
   @RequestMapping(value = "/permissions", method = RequestMethod.GET)
-  public PermissionsDto getAllMetaInformations() {
-    log.trace("getAllConferences - method entered");
+  public PermissionsDto getAllPermissions() {
+    log.trace("getAllPermissions - method entered");
     PermissionsDto result = new PermissionsDto(converter.convertModelsToDtos(service.findAll()));
-    log.trace("getAllConferences - method finished: result={}", result);
+    log.trace("getAllPermissions - method finished: result={}", result);
     return result;
   }
 
   @RequestMapping(value = "/permissions/{id}", method = RequestMethod.GET)
-  public PermissionDto getMetaInformation(@PathVariable Integer id) {
-    log.trace("getConference - method entered id={}", id);
+  public PermissionDto getPermission(@PathVariable Integer id) {
+    log.trace("getPermission - method entered id={}", id);
     Optional<Permission> metaInformation = service.findPermission(id);
     PermissionDto result = null;
     if (metaInformation.isPresent()) result = converter.convertModelToDto(metaInformation.get());
-    log.trace("getConference - method finished: result={}", result);
+    log.trace("getPermission - method finished: result={}", result);
     return result;
   }
 
   @RequestMapping(value = "/permissions", method = RequestMethod.POST)
-  public PermissionDto saveMetaInformation(@RequestBody PermissionDto permissionDto) {
-    log.trace("saveConference - method entered permissionDto={}", permissionDto);
+  public PermissionDto savePermission(@RequestBody PermissionDto permissionDto) {
+    log.trace("savePermission - method entered permissionDto={}", permissionDto);
     Permission result =
         service.savePermission(
             permissionDto.getPermissionName());
     PermissionDto resultToReturn = converter.convertModelToDto(result);
-    log.trace("saveConference - method finished: result={}", resultToReturn);
+    log.trace("savePermission - method finished: result={}", resultToReturn);
     return resultToReturn;
   }
 
   @RequestMapping(value = "/permissions", method = RequestMethod.PUT)
-  public PermissionDto updateMetaInformation(@RequestBody PermissionDto permissionDto) {
-    log.trace("updateConference - method entered: permissionDto={}", permissionDto);
+  public PermissionDto updatePermission(@RequestBody PermissionDto permissionDto) {
+    log.trace("updatePermission - method entered: permissionDto={}", permissionDto);
     PermissionDto result =
         converter.convertModelToDto(
             service.updatePermission(
                 permissionDto.getPermissionID(),
                 permissionDto.getPermissionName()));
-    log.trace("updateConference - method finished: result={}", result);
+    log.trace("updatePermission - method finished: result={}", result);
     return result;
   }
 
   @RequestMapping(value = "/permissions/{id}", method = RequestMethod.DELETE)
-  public ResponseEntity<?> deleteMetaInformation(@PathVariable Integer id) {
-    log.trace("deleteConference - method entered: id={}", id);
+  public ResponseEntity<?> deletePermission(@PathVariable Integer id) {
+    log.trace("deletePermission - method entered: id={}", id);
 
     try {
       service.deletePermission(id);
     } catch (RestClientException ex) {
-      log.trace("deleteConference - exception caught ex={}", ex.getMessage());
-      log.trace("deleteConference - method finished bad");
+      log.trace("deletePermission - exception caught ex={}", ex.getMessage());
+      log.trace("deletePermission - method finished bad");
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-    log.trace("deleteConference - method finished");
+    log.trace("deletePermission - method finished");
 
     return new ResponseEntity<>(HttpStatus.OK);
   }

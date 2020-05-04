@@ -20,10 +20,10 @@ public class PermissionForUser {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
   @JoinColumn(name = "user_id")
-  User user;
+  @EqualsAndHashCode.Exclude User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("permission_id")
   @JoinColumn(name = "permission_id")
-  Permission permission;
+  @EqualsAndHashCode.Exclude Permission permission;
 }

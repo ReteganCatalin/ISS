@@ -50,26 +50,26 @@ public class Conference {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  Set<Section> sections = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<Section> sections = new HashSet<>();
 
   @OneToMany(
       mappedBy = "conference",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  Set<ProposalList> proposalLists = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<ProposalList> proposalLists = new HashSet<>();
 
   @OneToMany(
       mappedBy = "conference",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  Set<Presentation> presentations = new HashSet<>();
+  @EqualsAndHashCode.Exclude Set<Presentation> presentations = new HashSet<>();
 
   @OneToOne(
       mappedBy = "conference",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  BiddingProcess biddingProcess;
+  @EqualsAndHashCode.Exclude BiddingProcess biddingProcess;
 }

@@ -27,5 +27,5 @@ public class Paper {
   private String byteFileLocation;
 
   @OneToOne(mappedBy = "paper", fetch = FetchType.LAZY)
-  private Proposal proposal;
+  @EqualsAndHashCode.Exclude private Proposal proposal;
 }
