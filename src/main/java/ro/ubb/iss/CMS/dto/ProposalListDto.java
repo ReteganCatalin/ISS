@@ -11,4 +11,5 @@ import lombok.*;
 public class ProposalListDto {
     private Integer sectionID;
     private Integer proposalID;
+    private Integer conferenceID;
 }
