@@ -1,0 +1,13 @@
+<div *ngFor='let conference of conferenceObserver | async'>
+  <div class="container-fluid p-5">
+    <div class="card">
+      <img src="assets/test-img.jpg" alt="..." class="card-img-top">
+      <div class="card-body">
+        <h2 class="card-title">{{conference.name}}</h2>
+        <p class="card-text">Some text about the conference</p>
+        <button class="btn btn-primary">See proposals</button>
+      </div>
+    </div>
+  </div>
+</div>
+
