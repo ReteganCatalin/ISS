@@ -6,7 +6,11 @@ import {ConferencesPageComponent} from './conferences-page/conferences-page.comp
 
 const routes: Routes = [
   {path: 'add-conference', component: AddConferenceComponent},
-  {path: 'conferences-page', component: ConferencesPageComponent}];
+  {path: 'conferences-page', component: ConferencesPageComponent},
+  {path: 'main-page', loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule)},
+  {path: '', redirectTo: 'main-page', pathMatch: 'full'}
+
+  ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
