@@ -9,6 +9,5 @@ import {HttpClient} from '@angular/common/http';
 export class AppComponent {
   title = 'CMS';
   constructor(private http: HttpClient) {
-    http.get('http://localhost:8081/user_info/1').subscribe(data => console.log(data));
   }
 }

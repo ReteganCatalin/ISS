@@ -1,2 +1,46 @@
-<p>main-page works!</p>
-<router-outlet></router-outlet>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand m-0 h-100" href="">CMS</a>
+</nav>
+
+<div class="container-fluid red h-full">
+  <div class="row red h-100">
+    <div class="col-2 red h-100 border-right p-0 bg-light">
+      <div class="d-flex flex-column mt-1 menu">
+        <a class="nav-link active" routerLink = "conferences"> <i class="fas fa-home"></i> Conferences</a>
+        <a class="nav-link" routerLink = "conferences"> <i class="fas fa-file"></i> My proposals</a>
+        <a class="nav-link" routerLink = "conferences"> <i class="fas fa-ticket-alt"></i> Tickets</a>
+      </div>
+      <div class="my-conferences pt-4">
+        <div class="d-flex p-3 justify-content-between">
+          <h6 class="m-0">My conferences </h6>
+          <a class="nav-link p-0 plus" data-toggle="modal" data-target="#create-conference"><i class="fas fa-plus-circle"></i></a>
+        </div>
+      </div>
+
+      <div class="modal fade" id="create-conference" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Add Conference</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <div #addConferenceForm></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div class="h-100 col-10 overflow-auto">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+

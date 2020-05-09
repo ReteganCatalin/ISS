@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {AddConferenceComponent} from './add-conference/add-conference.component';
+import {AddConferenceComponent} from './main-page/custom-components/add-conference/add-conference.component';
 import {ConferencesPageComponent} from './conferences-page/conferences-page.component';
 
 

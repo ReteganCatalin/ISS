@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { Conference} from '../shared/models/Conference';
+import {Component, OnInit} from '@angular/core';
+import { Conference} from '../../../shared/models/Conference';
 import {HttpClient} from '@angular/common/http';
 
 @Component({
