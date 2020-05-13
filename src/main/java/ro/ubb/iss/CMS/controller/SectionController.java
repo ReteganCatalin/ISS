@@ -24,75 +24,73 @@ import java.util.Optional;
 @RestController
 public class SectionController {
 
-    public static final Logger log = LoggerFactory.getLogger(SectionController.class);
+  public static final Logger log = LoggerFactory.getLogger(SectionController.class);
 
-    @Autowired
-    private SectionService service;
+  @Autowired private SectionService service;
 
-    @Autowired private SectionConverter converter;
+  @Autowired private SectionConverter converter;
 
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @RequestMapping(value = "/sections", method = RequestMethod.GET)
-    public SectionsDto getAllSections() {
-        log.trace("getAllSections - method entered");
-        SectionsDto result = new SectionsDto(converter.convertModelsToDtos(service.findAll()));
-        log.trace("getAllSections - method finished: result={}", result);
-        return result;
+  @RequestMapping(value = "/sections", method = RequestMethod.GET)
+  public SectionsDto getAllSections() {
+    log.trace("getAllSections - method entered");
+    SectionsDto result = new SectionsDto(converter.convertModelsToDtos(service.findAll()));
+    log.trace("getAllSections - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/sections/{id}", method = RequestMethod.GET)
+  public SectionDto getSection(@PathVariable Integer id) {
+    log.trace("getSection - method entered id={}", id);
+    Optional<Section> anAbstract = service.findSection(id);
+    SectionDto result = null;
+    if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
+    log.trace("getSection - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/sections", method = RequestMethod.POST)
+  public SectionDto saveSection(@RequestBody SectionDto sectionDto) {
+    log.trace("saveSection - method entered sectionDto={}", sectionDto);
+    Section result =
+        service.saveSection(
+            entityManager.getReference(User.class, sectionDto.getSupervisorID()),
+            entityManager.getReference(Conference.class, sectionDto.getConferenceID()),
+            sectionDto.getDateOfPresentation());
+
+    SectionDto resultToReturn = converter.convertModelToDto(result);
+    log.trace("saveSection - method finished: result={}", resultToReturn);
+    return resultToReturn;
+  }
+
+  @RequestMapping(value = "/sections", method = RequestMethod.PUT)
+  public SectionDto updateSection(@RequestBody SectionDto sectionDto) {
+    log.trace("updateSection - method entered: sectionDto={}", sectionDto);
+    SectionDto result =
+        converter.convertModelToDto(
+            service.updateSection(
+                sectionDto.getSectionID(),
+                entityManager.getReference(User.class, sectionDto.getSupervisorID()),
+                entityManager.getReference(Conference.class, sectionDto.getConferenceID()),
+                sectionDto.getDateOfPresentation()));
+    log.trace("updateSection - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/sections/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<?> deleteSection(@PathVariable Integer id) {
+    log.trace("deleteSection - method entered: id={}", id);
+    try {
+      service.deleteSection(id);
+    } catch (RestClientException ex) {
+      log.trace("deleteSection - exception caught ex={}", ex.getMessage());
+      log.trace("deleteSection - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    log.trace("deleteSection - method finished");
 
-    @RequestMapping(value = "/sections/{id}", method = RequestMethod.GET)
-    public SectionDto getSection(@PathVariable Integer id) {
-        log.trace("getSection - method entered id={}", id);
-        Optional<Section> anAbstract = service.findSection(id);
-        SectionDto result = null;
-        if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
-        log.trace("getSection - method finished: result={}", result);
-        return result;
-    }
-
-    @RequestMapping(value = "/sections", method = RequestMethod.POST)
-    public SectionDto saveSection(@RequestBody SectionDto sectionDto) {
-        log.trace("saveSection - method entered sectionDto={}", sectionDto);
-        Section result =
-                service.saveSection(entityManager.getReference(User.class,sectionDto.getUserId()),
-                        entityManager.getReference(Conference.class,sectionDto.getConferenceId()),
-                        sectionDto.getDate()
-                        );
-
-        SectionDto resultToReturn = converter.convertModelToDto(result);
-        log.trace("saveSection - method finished: result={}", resultToReturn);
-        return resultToReturn;
-    }
-
-    @RequestMapping(value = "/sections", method = RequestMethod.PUT)
-    public SectionDto updateSection(@RequestBody SectionDto sectionDto) {
-        log.trace("updateSection - method entered: sectionDto={}", sectionDto);
-        SectionDto result =
-                converter.convertModelToDto(
-                        service.updateSection(
-                                sectionDto.getSectionId(),
-                                entityManager.getReference(User.class,sectionDto.getUserId()),
-                                entityManager.getReference(Conference.class,sectionDto.getConferenceId()),
-                                sectionDto.getDate()
-                        ));
-        log.trace("updateSection - method finished: result={}", result);
-        return result;
-    }
-
-    @RequestMapping(value = "/sections/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteSection(@PathVariable Integer id) {
-        log.trace("deleteSection - method entered: id={}", id);
-        try {
-            service.deleteSection(id);
-        } catch (RestClientException ex) {
-            log.trace("deleteSection - exception caught ex={}", ex.getMessage());
-            log.trace("deleteSection - method finished bad");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        log.trace("deleteSection - method finished");
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

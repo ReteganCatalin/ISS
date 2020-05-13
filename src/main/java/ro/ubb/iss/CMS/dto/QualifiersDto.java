@@ -11,5 +11,5 @@ import java.util.List;
 @ToString
 @Builder
 public class QualifiersDto {
-    List<QualifierDto> qualifierDtoList;
+  List<QualifierDto> qualifierDtoList;
 }

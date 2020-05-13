@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.RecommendationRepository;
 import ro.ubb.iss.CMS.domain.*;
@@ -10,11 +11,13 @@ import ro.ubb.iss.CMS.domain.*;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class RecommendationServiceImplementation implements RecommendationService {
-  private static final Logger log = LoggerFactory.getLogger(RecommendationServiceImplementation.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(RecommendationServiceImplementation.class);
 
-  @Autowired
-  private RecommendationRepository recommendationRepository;
+  @Autowired private RecommendationRepository recommendationRepository;
+
   @Override
   public Optional<Recommendation> findRecommendation(int recommendationID) {
     log.trace("findRecommendation - method entered recommendationID={}", recommendationID);
@@ -36,19 +39,19 @@ public class RecommendationServiceImplementation implements RecommendationServic
   public Recommendation updateRecommendation(
       int recommendationID, Review reviewID, String recommendationMessage) {
     log.trace(
-            "updateRecommendation - method entered: recommendationID={}, reviewID={}, recommendationMessage={}",
-            recommendationID,
-            reviewID,
-            recommendationMessage);
+        "updateRecommendation - method entered: recommendationID={}, reviewID={}, recommendationMessage={}",
+        recommendationID,
+        reviewID,
+        recommendationMessage);
 
     Optional<Recommendation> abstractOptional = recommendationRepository.findById(recommendationID);
 
     abstractOptional.ifPresent(
-            newRecommendation -> {
-              newRecommendation.setReview(reviewID);
-              newRecommendation.setRecommendationMessage(recommendationMessage);
-              log.debug("updateRecommendation - updated: newRecommendation={}", newRecommendation);
-            });
+        newRecommendation -> {
+          newRecommendation.setReview(reviewID);
+          newRecommendation.setRecommendationMessage(recommendationMessage);
+          log.debug("updateRecommendation - updated: newRecommendation={}", newRecommendation);
+        });
     log.trace("updateRecommendation - method finished result={}", abstractOptional);
     return abstractOptional.orElse(null);
   }
@@ -56,14 +59,14 @@ public class RecommendationServiceImplementation implements RecommendationServic
   @Override
   public Recommendation saveRecommendation(Review reviewID, String recommendationMessage) {
     log.trace(
-            "saveRecommendation - method entered: reviewID={}, recommendationMessage={}",
-            reviewID,
-            recommendationMessage);
+        "saveRecommendation - method entered: reviewID={}, recommendationMessage={}",
+        reviewID,
+        recommendationMessage);
     Recommendation newRecommendation =
-            Recommendation.builder()
-                    .review(reviewID)
-                    .recommendationMessage(recommendationMessage)
-                    .build();
+        Recommendation.builder()
+            .review(reviewID)
+            .recommendationMessage(recommendationMessage)
+            .build();
 
     recommendationRepository.save(newRecommendation);
 

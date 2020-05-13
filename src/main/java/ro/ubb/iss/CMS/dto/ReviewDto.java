@@ -9,8 +9,8 @@ import lombok.*;
 @ToString
 @Builder
 public class ReviewDto {
-    private Integer reviewID;
-    private Integer proposalID;
-    private Integer qualifierID;
-    private Integer userID;
+  private Integer reviewID;
+  private Integer proposalID;
+  private Integer qualifierID;
+  private Integer userID;
 }

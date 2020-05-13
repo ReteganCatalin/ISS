@@ -9,27 +9,29 @@ import javax.persistence.PersistenceContext;
 
 @Component
 public class ProposalConverter implements BaseConverter<Proposal, ProposalDto> {
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
-    @Override
-    public Proposal convertDtoToModel(ProposalDto proposalDto) {
-        return Proposal.builder()
-                .proposalID(proposalDto.getProposalID())
-                .userInfo(entityManager.getReference(UserInfo.class, proposalDto.getUserInfoID()))
-                .paper(entityManager.getReference(Paper.class, proposalDto.getPaperID()))
-                .metaInformation(entityManager.getReference(MetaInformation.class, proposalDto.getMetaInfoID()))
-                .anAbstract(entityManager.getReference(Abstract.class, proposalDto.getAbstractID()))
-                .build();
-    }
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @Override
-    public ProposalDto convertModelToDto(Proposal proposal) {
-        return Proposal.builder()
-                .proposalID(proposal.getProposalID())
-                .userInfo(proposal.getUserInfoID())
-                .paper(proposal.getPaperID())
-                .metaInformation(proposal.getMetaInfoID())
-                .anAbstract(proposal.getAbstractID())
-                .build();
-    }
+  @Override
+  public Proposal convertDtoToModel(ProposalDto proposalDto) {
+    return Proposal.builder()
+        .proposalID(proposalDto.getProposalID())
+        .userInfo(entityManager.getReference(UserInfo.class, proposalDto.getUserInfoID()))
+        .paper(entityManager.getReference(Paper.class, proposalDto.getPaperID()))
+        .metaInformation(
+            entityManager.getReference(MetaInformation.class, proposalDto.getMetaInfoID()))
+        .anAbstract(entityManager.getReference(Abstract.class, proposalDto.getAbstractID()))
+        .build();
+  }
+
+  @Override
+  public ProposalDto convertModelToDto(Proposal proposal) {
+    return ProposalDto.builder()
+        .proposalID(proposal.getProposalID())
+        .userInfoID(proposal.getUserInfo().getUserInfoId())
+        .paperID(proposal.getPaper().getPaperId())
+        .metaInfoID(proposal.getMetaInformation().getMetaInfoId())
+        .abstractID(proposal.getAnAbstract().getAbstractID())
+        .build();
+  }
 }

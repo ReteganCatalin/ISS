@@ -27,70 +27,72 @@ import java.util.Optional;
 @RestController
 public class RecommendationController {
 
-    public static final Logger log = LoggerFactory.getLogger(RecommendationController.class);
+  public static final Logger log = LoggerFactory.getLogger(RecommendationController.class);
 
-    @Autowired
-    private RecommendationService service;
+  @Autowired private RecommendationService service;
 
-    @Autowired private RecommendationConverter converter;
+  @Autowired private RecommendationConverter converter;
 
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @RequestMapping(value = "/recommendations", method = RequestMethod.GET)
-    public RecommendationsDto getAllRecommendations() {
-        log.trace("getAllRecommendations - method entered");
-        RecommendationsDto result = new RecommendationsDto(converter.convertModelsToDtos(service.findAll()));
-        log.trace("getAllRecommendations - method finished: result={}", result);
-        return result;
+  @RequestMapping(value = "/recommendations", method = RequestMethod.GET)
+  public RecommendationsDto getAllRecommendations() {
+    log.trace("getAllRecommendations - method entered");
+    RecommendationsDto result =
+        new RecommendationsDto(converter.convertModelsToDtos(service.findAll()));
+    log.trace("getAllRecommendations - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/recommendations/{id}", method = RequestMethod.GET)
+  public RecommendationDto getRecommendation(@PathVariable Integer id) {
+    log.trace("getRecommendation - method entered id={}", id);
+    Optional<Recommendation> anAbstract = service.findRecommendation(id);
+    RecommendationDto result = null;
+    if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
+    log.trace("getRecommendation - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/recommendations", method = RequestMethod.POST)
+  public RecommendationDto saveRecommendation(@RequestBody RecommendationDto recommendationDto) {
+    log.trace("saveRecommendation - method entered recommendationDto={}", recommendationDto);
+    Recommendation result =
+        service.saveRecommendation(
+            entityManager.getReference(Review.class, recommendationDto.getReviewID()),
+            recommendationDto.getRecommendationMessage());
+
+    RecommendationDto resultToReturn = converter.convertModelToDto(result);
+    log.trace("saveRecommendation - method finished: result={}", resultToReturn);
+    return resultToReturn;
+  }
+
+  @RequestMapping(value = "/recommendations", method = RequestMethod.PUT)
+  public RecommendationDto updateRecommendation(@RequestBody RecommendationDto recommendationDto) {
+    log.trace("updateRecommendation - method entered: recommendationDto={}", recommendationDto);
+    RecommendationDto result =
+        converter.convertModelToDto(
+            service.updateRecommendation(
+                recommendationDto.getRecommendationID(),
+                entityManager.getReference(Review.class, recommendationDto.getReviewID()),
+                recommendationDto.getRecommendationMessage()));
+    log.trace("updateRecommendation - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/recommendations/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<?> deleteRecommendation(@PathVariable Integer id) {
+    log.trace("deleteRecommendation - method entered: id={}", id);
+    try {
+      service.deleteRecommendation(id);
+    } catch (RestClientException ex) {
+      log.trace("deleteRecommendation - exception caught ex={}", ex.getMessage());
+      log.trace("deleteRecommendation - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    log.trace("deleteRecommendation - method finished");
 
-    @RequestMapping(value = "/recommendations/{id}", method = RequestMethod.GET)
-    public RecommendationDto getRecommendation(@PathVariable Integer id) {
-        log.trace("getRecommendation - method entered id={}", id);
-        Optional<Recommendation> anAbstract = service.findRecommendation(id);
-        RecommendationDto result = null;
-        if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
-        log.trace("getRecommendation - method finished: result={}", result);
-        return result;
-    }
-
-    @RequestMapping(value = "/recommendations", method = RequestMethod.POST)
-    public RecommendationDto saveRecommendation(@RequestBody RecommendationDto recommendationDto) {
-        log.trace("saveRecommendation - method entered recommendationDto={}", recommendationDto);
-        Recommendation result =
-                service.saveRecommendation(entityManager.getReference(Review.class,recommendationDto.getReviewId()), recommendationDto.getRecommendationMessage());
-
-        RecommendationDto resultToReturn = converter.convertModelToDto(result);
-        log.trace("saveRecommendation - method finished: result={}", resultToReturn);
-        return resultToReturn;
-    }
-
-    @RequestMapping(value = "/recommendations", method = RequestMethod.PUT)
-    public RecommendationDto updateRecommendation(@RequestBody RecommendationDto recommendationDto) {
-        log.trace("updateRecommendation - method entered: recommendationDto={}", recommendationDto);
-        RecommendationDto result =
-                converter.convertModelToDto(
-                        service.updateRecommendation(
-                                recommendationDto.getRecommendationId(),
-                                entityManager.getReference(Review.class,recommendationDto.getReviewId()),
-                                recommendationDto.getRecommendationMessage()));
-        log.trace("updateRecommendation - method finished: result={}", result);
-        return result;
-    }
-
-    @RequestMapping(value = "/recommendations/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteRecommendation(@PathVariable Integer id) {
-        log.trace("deleteRecommendation - method entered: id={}", id);
-        try {
-            service.deleteRecommendation(id);
-        } catch (RestClientException ex) {
-            log.trace("deleteRecommendation - exception caught ex={}", ex.getMessage());
-            log.trace("deleteRecommendation - method finished bad");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        log.trace("deleteRecommendation - method finished");
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

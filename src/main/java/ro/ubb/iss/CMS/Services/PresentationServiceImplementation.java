@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.PresentationRepository;
 import ro.ubb.iss.CMS.domain.*;
@@ -10,11 +11,13 @@ import ro.ubb.iss.CMS.domain.*;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class PresentationServiceImplementation implements PresentationService {
-  private static final Logger log = LoggerFactory.getLogger(PresentationServiceImplementation.class);
+  private static final Logger log =
+      LoggerFactory.getLogger(PresentationServiceImplementation.class);
 
-  @Autowired
-  private PresentationRepository presentationRepository;
+  @Autowired private PresentationRepository presentationRepository;
+
   @Override
   public Optional<Presentation> findPresentation(int presentationID) {
     log.trace("findPresentation - method entered presentationID={}", presentationID);
@@ -40,23 +43,23 @@ public class PresentationServiceImplementation implements PresentationService {
       String format,
       String byteFileLocation) {
     log.trace(
-            "updatePresentation - method entered: presentationID={}, sectionID={}, conferenceID={}, format={}, byteFileLocation={}",
-            presentationID,
-            sectionID,
-            conferenceID,
-            format,
-            byteFileLocation);
+        "updatePresentation - method entered: presentationID={}, sectionID={}, conferenceID={}, format={}, byteFileLocation={}",
+        presentationID,
+        sectionID,
+        conferenceID,
+        format,
+        byteFileLocation);
 
     Optional<Presentation> abstractOptional = presentationRepository.findById(presentationID);
 
     abstractOptional.ifPresent(
-            newPresentation -> {
-              newPresentation.setSection(sectionID);
-              newPresentation.setConference(conferenceID);
-              newPresentation.setFormat(format);
-              newPresentation.setByteFileLocation(byteFileLocation);
-              log.debug("updatePresentation - updated: newPresentation={}", newPresentation);
-            });
+        newPresentation -> {
+          newPresentation.setSection(sectionID);
+          newPresentation.setConference(conferenceID);
+          newPresentation.setFormat(format);
+          newPresentation.setByteFileLocation(byteFileLocation);
+          log.debug("updatePresentation - updated: newPresentation={}", newPresentation);
+        });
     log.trace("updatePresentation - method finished result={}", abstractOptional);
     return abstractOptional.orElse(null);
   }
@@ -65,18 +68,18 @@ public class PresentationServiceImplementation implements PresentationService {
   public Presentation savePresentation(
       Section sectionID, Conference conferenceID, String format, String byteFileLocation) {
     log.trace(
-            "savePresentation - method entered: sectionID={}, conferenceID={}, format={}, byteFileLocation={}",
-            sectionID,
-            conferenceID,
-            format,
-            byteFileLocation);
+        "savePresentation - method entered: sectionID={}, conferenceID={}, format={}, byteFileLocation={}",
+        sectionID,
+        conferenceID,
+        format,
+        byteFileLocation);
     Presentation newPresentation =
-            Presentation.builder()
-                    .section(sectionID)
-                    .conference(conferenceID)
-                    .format(format)
-                    .byteFileLocation(byteFileLocation)
-                    .build();
+        Presentation.builder()
+            .section(sectionID)
+            .conference(conferenceID)
+            .format(format)
+            .byteFileLocation(byteFileLocation)
+            .build();
 
     presentationRepository.save(newPresentation);
 

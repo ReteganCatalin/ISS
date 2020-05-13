@@ -11,9 +11,9 @@ import ro.ubb.iss.CMS.domain.Section;
 @ToString
 @Builder
 public class PresentationDto {
-    private Integer presentationID;
-    private Section sectionID;
-    private Conference conferenceID;
-    private String format;
-    private String byteFileLocation;
+  private Integer presentationID;
+  private Integer sectionID;
+  private Integer conferenceID;
+  private String format;
+  private String byteFileLocation;
 }

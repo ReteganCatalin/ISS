@@ -31,7 +31,6 @@ public class MyTicketController {
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
 
-
   @RequestMapping(value = "/mytickets", method = RequestMethod.GET)
   public MyTicketsDto getAllMyTickets() {
     log.trace("getAllMyTickets - method entered");
@@ -55,9 +54,9 @@ public class MyTicketController {
     log.trace("saveMyTicket - method entered myTicketDto={}", myTicketDto);
     MyTicket result =
         service.saveMyTicket(
-            entityManager.getReference(User.class,myTicketDto.getUserID()),
-                entityManager.getReference(Section.class,myTicketDto.getSectionID()),
-                myTicketDto.getPrice());
+            entityManager.getReference(User.class, myTicketDto.getUserID()),
+            entityManager.getReference(Section.class, myTicketDto.getSectionID()),
+            myTicketDto.getPrice());
     MyTicketDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveMyTicket - method finished: result={}", resultToReturn);
     return resultToReturn;
@@ -70,9 +69,9 @@ public class MyTicketController {
         converter.convertModelToDto(
             service.updateMyTicket(
                 myTicketDto.getTicketID(),
-                    entityManager.getReference(User.class,myTicketDto.getUserID()),
-                    entityManager.getReference(Section.class,myTicketDto.getSectionID()),
-                    myTicketDto.getPrice()));
+                entityManager.getReference(User.class, myTicketDto.getUserID()),
+                entityManager.getReference(Section.class, myTicketDto.getSectionID()),
+                myTicketDto.getPrice()));
     log.trace("updateMyTicket - method finished: result={}", result);
     return result;
   }

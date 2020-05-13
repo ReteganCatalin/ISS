@@ -29,5 +29,6 @@ public class MetaInformation {
   private String topics;
 
   @OneToOne(mappedBy = "metaInformation", fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude private Proposal proposal;
+  @EqualsAndHashCode.Exclude
+  private Proposal proposal;
 }

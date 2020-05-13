@@ -9,7 +9,7 @@ import lombok.*;
 @ToString
 @Builder
 public class RecommendationDto {
-    private Integer recommendationID;
-    private Integer reviewID;
-    private String recommendationMessage;
+  private Integer recommendationID;
+  private Integer reviewID;
+  private String recommendationMessage;
 }

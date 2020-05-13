@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.ReviewRepository;
 import ro.ubb.iss.CMS.Repository.SectionRepository;
@@ -11,11 +12,12 @@ import ro.ubb.iss.CMS.domain.*;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class ReviewServiceImplementation implements ReviewService {
   private static final Logger log = LoggerFactory.getLogger(ReviewServiceImplementation.class);
 
-  @Autowired
-  private ReviewRepository reviewRepository;
+  @Autowired private ReviewRepository reviewRepository;
+
   @Override
   public Optional<Review> findReview(int reviewID) {
     log.trace("findReview - method entered reviewID={}", reviewID);
@@ -37,21 +39,21 @@ public class ReviewServiceImplementation implements ReviewService {
   public Review updateReview(
       int reviewID, Proposal proposalID, Qualifier qualifierID, User userID) {
     log.trace(
-            "updateReview - method entered: reviewID={}, proposalID={}, qualifierID={}, userID={}",
-            reviewID,
-            proposalID,
-            qualifierID,
-            userID);
+        "updateReview - method entered: reviewID={}, proposalID={}, qualifierID={}, userID={}",
+        reviewID,
+        proposalID,
+        qualifierID,
+        userID);
 
     Optional<Review> abstractOptional = reviewRepository.findById(reviewID);
 
     abstractOptional.ifPresent(
-            newReview -> {
-              newReview.setProposal(proposalID);
-              newReview.setQualifier(qualifierID);
-              newReview.setUser(userID);
-              log.debug("updateReview - updated: newReview={}", newReview);
-            });
+        newReview -> {
+          newReview.setProposal(proposalID);
+          newReview.setQualifier(qualifierID);
+          newReview.setUser(userID);
+          log.debug("updateReview - updated: newReview={}", newReview);
+        });
     log.trace("updateReview - method finished result={}", abstractOptional);
     return abstractOptional.orElse(null);
   }
@@ -59,16 +61,12 @@ public class ReviewServiceImplementation implements ReviewService {
   @Override
   public Review saveReview(Proposal proposalID, Qualifier qualifierID, User userID) {
     log.trace(
-            "saveReview - method entered: proposalID={}, qualifierID={}, userID={}",
-            proposalID,
-            qualifierID,
-            userID);
+        "saveReview - method entered: proposalID={}, qualifierID={}, userID={}",
+        proposalID,
+        qualifierID,
+        userID);
     Review newReview =
-            Review.builder()
-                    .proposal(proposalID)
-                    .qualifier(qualifierID)
-                    .user(userID)
-                    .build();
+        Review.builder().proposal(proposalID).qualifier(qualifierID).user(userID).build();
 
     reviewRepository.save(newReview);
 

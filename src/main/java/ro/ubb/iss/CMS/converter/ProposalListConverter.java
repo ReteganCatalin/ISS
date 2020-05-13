@@ -10,29 +10,29 @@ import javax.persistence.PersistenceContext;
 
 @Component
 public class ProposalListConverter implements BaseConverter<ProposalList, ProposalListDto> {
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
-    @Override
-    public ProposalList convertDtoToModel(ProposalListDto proposalListDto) {
-        return ProposalList.builder()
-                .proposalListKey(
-                        new ProposalListKey(
-                                proposalListDto.getSectionID(),
-                                proposalListDto.getProposalID(),
-                                proposalListDto.getConferenceID()
-                                ))
-                .section(entityManager.getReference(Section.class, proposalListDto.getSectionID()))
-                .proposal(entityManager.getReference(Proposal.class, proposalListDto.getProposalID()))
-                .conference(entityManager.getReference(Conference.class,proposalListDto.getConferenceID()))
-                .build();
-    }
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @Override
-    public ProposalListDto convertModelToDto(ProposalList proposalList) {
-        return ProposalListDto.builder()
-                .sectionID(proposalList.getSection().getSectionID())
-                .proposalID(proposalList.getProposal().getProposalID())
-                .conferenceID(proposalList.getConference().getConferenceID())
-                .build();
-    }
+  @Override
+  public ProposalList convertDtoToModel(ProposalListDto proposalListDto) {
+    return ProposalList.builder()
+        .proposalListKey(
+            new ProposalListKey(
+                proposalListDto.getSectionID(),
+                proposalListDto.getProposalID(),
+                proposalListDto.getConferenceID()))
+        .section(entityManager.getReference(Section.class, proposalListDto.getSectionID()))
+        .proposal(entityManager.getReference(Proposal.class, proposalListDto.getProposalID()))
+        .conference(entityManager.getReference(Conference.class, proposalListDto.getConferenceID()))
+        .build();
+  }
+
+  @Override
+  public ProposalListDto convertModelToDto(ProposalList proposalList) {
+    return ProposalListDto.builder()
+        .sectionID(proposalList.getSection().getSectionID())
+        .proposalID(proposalList.getProposal().getProposalID())
+        .conferenceID(proposalList.getConference().getConferenceID())
+        .build();
+  }
 }

@@ -11,5 +11,5 @@ import java.util.List;
 @ToString
 @Builder
 public class RolesForUserDto {
-    List<RoleForUserDto> roleForUserDtoList;
+  List<RoleForUserDto> roleForUserDtoList;
 }

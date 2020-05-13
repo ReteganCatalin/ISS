@@ -39,14 +39,18 @@ public class Section {
   private Integer price;
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude Set<Participation> participations = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  Set<Participation> participations = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude Set<ProposalList> proposalLists = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  Set<ProposalList> proposalLists = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude Set<Presentation> presentations = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  Set<Presentation> presentations = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude Set<MyTicket> myTickets = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  Set<MyTicket> myTickets = new HashSet<>();
 }

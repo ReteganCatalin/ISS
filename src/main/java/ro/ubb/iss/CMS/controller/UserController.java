@@ -27,76 +27,75 @@ import java.util.Optional;
 @RestController
 public class UserController {
 
-    public static final Logger log = LoggerFactory.getLogger(UserController.class);
+  public static final Logger log = LoggerFactory.getLogger(UserController.class);
 
-    @Autowired
-    private UserService service;
+  @Autowired private UserService service;
 
-    @Autowired private UserConverter converter;
+  @Autowired private UserConverter converter;
 
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
-    public UsersDto getAllUsers() {
-        log.trace("getAllUsers - method entered");
-        UsersDto result = new UsersDto(converter.convertModelsToDtos(service.findAll()));
-        log.trace("getAllUsers - method finished: result={}", result);
-        return result;
+  @RequestMapping(value = "/users", method = RequestMethod.GET)
+  public UsersDto getAllUsers() {
+    log.trace("getAllUsers - method entered");
+    UsersDto result = new UsersDto(converter.convertModelsToDtos(service.findAll()));
+    log.trace("getAllUsers - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
+  public UserDto getUser(@PathVariable Integer id) {
+    log.trace("getUser - method entered id={}", id);
+    Optional<User> anAbstract = service.findUser(id);
+    UserDto result = null;
+    if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
+    log.trace("getUser - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/users", method = RequestMethod.POST)
+  public UserDto saveUser(@RequestBody UserDto userDto) {
+    log.trace("saveUser - method entered userDto={}", userDto);
+    User result =
+        service.saveUser(
+            userDto.getUsername(),
+            userDto.getPassword(),
+            userDto.getIsValidated(),
+            entityManager.getReference(UserInfo.class, userDto.getUserInfoID()));
+
+    UserDto resultToReturn = converter.convertModelToDto(result);
+    log.trace("saveUser - method finished: result={}", resultToReturn);
+    return resultToReturn;
+  }
+
+  @RequestMapping(value = "/users", method = RequestMethod.PUT)
+  public UserDto updateUser(@RequestBody UserDto userDto) {
+    log.trace("updateUser - method entered: userDto={}", userDto);
+    UserDto result =
+        converter.convertModelToDto(
+            service.updateUser(
+                userDto.getUserID(),
+                userDto.getUsername(),
+                userDto.getPassword(),
+                userDto.getIsValidated(),
+                entityManager.getReference(UserInfo.class, userDto.getUserInfoID())));
+    log.trace("updateUser - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
+  public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
+    log.trace("deleteUser - method entered: id={}", id);
+    try {
+      service.deleteUser(id);
+    } catch (RestClientException ex) {
+      log.trace("deleteUser - exception caught ex={}", ex.getMessage());
+      log.trace("deleteUser - method finished bad");
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
+    log.trace("deleteUser - method finished");
 
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-    public UserDto getUser(@PathVariable Integer id) {
-        log.trace("getUser - method entered id={}", id);
-        Optional<User> anAbstract = service.findUser(id);
-        UserDto result = null;
-        if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
-        log.trace("getUser - method finished: result={}", result);
-        return result;
-    }
-
-    @RequestMapping(value = "/users", method = RequestMethod.POST)
-    public UserDto saveUser(@RequestBody UserDto userDto) {
-        log.trace("saveUser - method entered userDto={}", userDto);
-        User result =
-                service.saveUser(userDto.getUsername(),
-                        userDto.getPassword(),
-                        userDto.getIsValidated(),
-                        entityManager.getReference(UserInfo.class,userDto.getUserInfoId()));
-
-        UserDto resultToReturn = converter.convertModelToDto(result);
-        log.trace("saveUser - method finished: result={}", resultToReturn);
-        return resultToReturn;
-    }
-
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)
-    public UserDto updateUser(@RequestBody UserDto userDto) {
-        log.trace("updateUser - method entered: userDto={}", userDto);
-        UserDto result =
-                converter.convertModelToDto(
-                        service.updateUser(
-                                userDto.getUserId(),
-                                userDto.getUsername(),
-                                userDto.getPassword(),
-                                userDto.getIsValidated(),
-                                entityManager.getReference(UserInfo.class,userDto.getUserInfoId())
-                        ));
-        log.trace("updateUser - method finished: result={}", result);
-        return result;
-    }
-
-    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteUser(@PathVariable Integer id) {
-        log.trace("deleteUser - method entered: id={}", id);
-        try {
-            service.deleteUser(id);
-        } catch (RestClientException ex) {
-            log.trace("deleteUser - exception caught ex={}", ex.getMessage());
-            log.trace("deleteUser - method finished bad");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        log.trace("deleteUser - method finished");
-
-        return new ResponseEntity<>(HttpStatus.OK);
-    }
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
 }

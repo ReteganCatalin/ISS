@@ -9,6 +9,6 @@ import lombok.*;
 @ToString
 @Builder
 public class RoleForUserDto {
-    private Integer userID;
-    private Integer roleID;
+  private Integer userID;
+  private Integer roleID;
 }

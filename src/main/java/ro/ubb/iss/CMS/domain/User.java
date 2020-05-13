@@ -37,37 +37,50 @@ public class User {
   private UserInfo userInfo;
 
   @OneToMany(
-      mappedBy = "user",
-      orphanRemoval = true,
       cascade = CascadeType.ALL,
-      fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude Set<PermissionForUser> permissionForUser = new HashSet<>();
+      fetch = FetchType.LAZY,
+      orphanRemoval = true,
+      mappedBy = "user")
+  @EqualsAndHashCode.Exclude
+  Set<PcMember> pcMembers = new HashSet<>();
 
   @OneToMany(
       mappedBy = "user",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude Set<Review> reviewsForUser = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  Set<PermissionForUser> permissionForUser = new HashSet<>();
 
   @OneToMany(
       mappedBy = "user",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude private Set<Analysis> analyses = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  Set<Review> reviewsForUser = new HashSet<>();
 
   @OneToMany(
       mappedBy = "user",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude private Set<Participation> participations = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  private Set<Analysis> analyses = new HashSet<>();
 
   @OneToMany(
       mappedBy = "user",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude private Set<MyTicket> myTickets = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  private Set<Participation> participations = new HashSet<>();
+
+  @OneToMany(
+      mappedBy = "user",
+      orphanRemoval = true,
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
+  private Set<MyTicket> myTickets = new HashSet<>();
 }

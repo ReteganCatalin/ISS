@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role_user_list")
+@Table(name = "pc_members")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -13,19 +13,17 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class RoleForUser {
+public class PcMember {
 
-  @EmbeddedId RoleForUserKey roleForUserKey;
+  @EmbeddedId PcMemberKey pcMemberKey;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
   @JoinColumn(name = "user_id")
-  @EqualsAndHashCode.Exclude
   private User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @MapsId("role_id")
-  @JoinColumn(name = "role_id")
-  @EqualsAndHashCode.Exclude
-  private Role role;
+  @MapsId("conference_id")
+  @JoinColumn(name = "conference_id")
+  private Conference conference;
 }

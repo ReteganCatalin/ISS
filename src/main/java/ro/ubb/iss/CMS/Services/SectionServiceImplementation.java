@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.Services;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.SectionRepository;
 import ro.ubb.iss.CMS.Repository.UserInfoRepository;
@@ -15,11 +16,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class SectionServiceImplementation implements SectionService {
   private static final Logger log = LoggerFactory.getLogger(SectionServiceImplementation.class);
 
-  @Autowired
-  private SectionRepository sectionRepository;
+  @Autowired private SectionRepository sectionRepository;
+
   @Override
   public Optional<Section> findSection(int sectionID) {
     log.trace("findSection - method entered sectionID={}", sectionID);
@@ -41,21 +43,21 @@ public class SectionServiceImplementation implements SectionService {
   public Section updateSection(
       int sectionID, User supervisorID, Conference conferenceID, Date dateOfPresentation) {
     log.trace(
-            "updateSection - method entered: sectionID={}, supervisorID={}, conferenceID={}, dateOfPresentation={}",
-            sectionID,
-            supervisorID,
-            conferenceID,
-            dateOfPresentation);
+        "updateSection - method entered: sectionID={}, supervisorID={}, conferenceID={}, dateOfPresentation={}",
+        sectionID,
+        supervisorID,
+        conferenceID,
+        dateOfPresentation);
 
     Optional<Section> abstractOptional = sectionRepository.findById(sectionID);
 
     abstractOptional.ifPresent(
-            newSection -> {
-              newSection.setSupervisor(supervisorID);
-              newSection.setConference(conferenceID);
-              newSection.setDateOfPresentation(dateOfPresentation);
-              log.debug("updateSection - updated: newSection={}", newSection);
-            });
+        newSection -> {
+          newSection.setSupervisor(supervisorID);
+          newSection.setConference(conferenceID);
+          newSection.setDateOfPresentation(dateOfPresentation);
+          log.debug("updateSection - updated: newSection={}", newSection);
+        });
     log.trace("updateSection - method finished result={}", abstractOptional);
     return abstractOptional.orElse(null);
   }
@@ -63,16 +65,16 @@ public class SectionServiceImplementation implements SectionService {
   @Override
   public Section saveSection(User supervisorID, Conference conferenceID, Date dateOfPresentation) {
     log.trace(
-            "saveSection - method entered: supervisorID={}, conferenceID={}, dateOfPresentation={}",
-            supervisorID,
-            conferenceID,
-            dateOfPresentation);
+        "saveSection - method entered: supervisorID={}, conferenceID={}, dateOfPresentation={}",
+        supervisorID,
+        conferenceID,
+        dateOfPresentation);
     Section newSection =
-            Section.builder()
-                    .supervisor(supervisorID)
-                    .conference(conferenceID)
-                    .dateOfPresentation(dateOfPresentation)
-                    .build();
+        Section.builder()
+            .supervisor(supervisorID)
+            .conference(conferenceID)
+            .dateOfPresentation(dateOfPresentation)
+            .build();
 
     sectionRepository.save(newSection);
 

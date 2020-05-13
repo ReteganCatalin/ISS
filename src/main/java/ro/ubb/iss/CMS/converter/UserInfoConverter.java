@@ -13,30 +13,30 @@ import javax.persistence.PersistenceContext;
 @Component
 public class UserInfoConverter implements BaseConverter<UserInfo, UserInfoDto> {
 
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @Override
-    public UserInfo convertDtoToModel(UserInfoDto userInfoDto) {
-        return UserInfo.builder()
-                .userInfoId(userInfoDto.getUserInfoId())
-                .name(userInfoDto.getName())
-                .affiliation(userInfoDto.getAffiliation())
-                .emailAddress(userInfoDto.getEmailAddress())
-                .affiliationValidated(userInfoDto.getAffiliationValidated())
-                .webPageAddress(userInfoDto.getWebPageAddress())
-                .build();
-    }
+  @Override
+  public UserInfo convertDtoToModel(UserInfoDto userInfoDto) {
+    return UserInfo.builder()
+        .userInfoId(userInfoDto.getUserInfoId())
+        .name(userInfoDto.getName())
+        .affiliation(userInfoDto.getAffiliation())
+        .emailAddress(userInfoDto.getEmailAddress())
+        .affiliationValidated(userInfoDto.getAffiliationValidated())
+        .webPageAddress(userInfoDto.getWebPageAddress())
+        .build();
+  }
 
-    @Override
-    public UserInfoDto convertModelToDto(UserInfo userInfo) {
-        return UserInfoDto.builder()
-                .userInfoId(userInfo.getUserInfoId())
-                .name(userInfo.getName())
-                .affiliation(userInfo.getAffiliation())
-                .emailAddress(userInfo.getEmailAddress())
-                .affiliationValidated(userInfo.getAffiliationValidated())
-                .webPageAddress(userInfo.getWebPageAddress())
-                .build();
-    }
+  @Override
+  public UserInfoDto convertModelToDto(UserInfo userInfo) {
+    return UserInfoDto.builder()
+        .userInfoId(userInfo.getUserInfoId())
+        .name(userInfo.getName())
+        .affiliation(userInfo.getAffiliation())
+        .emailAddress(userInfo.getEmailAddress())
+        .affiliationValidated(userInfo.getAffiliationValidated())
+        .webPageAddress(userInfo.getWebPageAddress())
+        .build();
+  }
 }

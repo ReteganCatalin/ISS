@@ -11,11 +11,11 @@
                  path="db/create-test.sql"
                  relativeToChangelogFile="false"
                  splitStatements="true"
-                 stripComments="true"></sqlFile>
+                 stripComments="true"/>
     </changeSet>
     <changeSet id="add-affiliation-validated1" author="catalin">
         <addColumn schemaName="public" tableName="user_info">
-            <column name="affiliation_validated" type="BOOLEAN"></column>
+            <column name="affiliation_validated" type="BOOLEAN"/>
         </addColumn>
     </changeSet>
     <changeSet id="add-FK" author="catalin">
@@ -174,6 +174,49 @@
                           schemaName="public"
                           startWith="1"
                           tableName="author_list"/>
+    </changeSet>
+
+    <changeSet author="tamas" id="createTable-for-pc-members-for-conference">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="pc_members">
+            <column name="conference_id" type="int"/>
+            <column name="user_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="tamas" id="add composite primary key for pcmembers">
+        <addPrimaryKey columnNames="conference_id, user_id"
+                       constraintName="PK_PC_MEMBERS_TABLE"
+                       tableName="pc_members"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains" author="tamas">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="pc_members"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="pc_members"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_user_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_id"
+                                 referencedTableName="users"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
     </changeSet>
 
 

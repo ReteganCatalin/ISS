@@ -11,8 +11,8 @@ import java.util.Date;
 @ToString
 @Builder
 public class SectionDto {
-    private Integer sectionID;
-    private Integer supervisorID;
-    private Integer conferenceID;
-    private Date dateOfPresentation;
+  private Integer sectionID;
+  private Integer supervisorID;
+  private Integer conferenceID;
+  private Date dateOfPresentation;
 }

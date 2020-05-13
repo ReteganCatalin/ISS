@@ -45,9 +45,7 @@ public class PermissionController {
   @RequestMapping(value = "/permissions", method = RequestMethod.POST)
   public PermissionDto savePermission(@RequestBody PermissionDto permissionDto) {
     log.trace("savePermission - method entered permissionDto={}", permissionDto);
-    Permission result =
-        service.savePermission(
-            permissionDto.getPermissionName());
+    Permission result = service.savePermission(permissionDto.getPermissionName());
     PermissionDto resultToReturn = converter.convertModelToDto(result);
     log.trace("savePermission - method finished: result={}", resultToReturn);
     return resultToReturn;
@@ -59,8 +57,7 @@ public class PermissionController {
     PermissionDto result =
         converter.convertModelToDto(
             service.updatePermission(
-                permissionDto.getPermissionID(),
-                permissionDto.getPermissionName()));
+                permissionDto.getPermissionID(), permissionDto.getPermissionName()));
     log.trace("updatePermission - method finished: result={}", result);
     return result;
   }

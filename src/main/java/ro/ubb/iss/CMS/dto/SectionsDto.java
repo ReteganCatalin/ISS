@@ -11,5 +11,5 @@ import java.util.List;
 @ToString
 @Builder
 public class SectionsDto {
-    List<SectionDto> sectionDtoList;
+  List<SectionDto> sectionDtoList;
 }

@@ -45,9 +45,7 @@ public class PaperController {
   @RequestMapping(value = "/papers", method = RequestMethod.POST)
   public PaperDto savePaper(@RequestBody PaperDto paperDto) {
     log.trace("savePaper - method entered paperDto={}", paperDto);
-    Paper result =
-        service.savePaper(
-            paperDto.getFormat(), paperDto.getByteFileLocation());
+    Paper result = service.savePaper(paperDto.getFormat(), paperDto.getByteFileLocation());
     PaperDto resultToReturn = converter.convertModelToDto(result);
     log.trace("savePaper - method finished: result={}", resultToReturn);
     return resultToReturn;
@@ -59,8 +57,7 @@ public class PaperController {
     PaperDto result =
         converter.convertModelToDto(
             service.updatePaper(
-                paperDto.getPaperId(),
-                    paperDto.getFormat(), paperDto.getByteFileLocation()));
+                paperDto.getPaperId(), paperDto.getFormat(), paperDto.getByteFileLocation()));
     log.trace("updatePaper - method finished: result={}", result);
     return result;
   }

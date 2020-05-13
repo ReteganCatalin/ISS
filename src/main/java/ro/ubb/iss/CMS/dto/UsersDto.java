@@ -11,5 +11,5 @@ import java.util.List;
 @ToString
 @Builder
 public class UsersDto {
-    List<UserDto> userDtoList;
+  List<UserDto> userDtoList;
 }

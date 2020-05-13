@@ -13,12 +13,13 @@ import ro.ubb.iss.CMS.domain.UserInfo;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 public class UserInfoServiceImplementation implements UserInfoService {
   private static final Logger log = LoggerFactory.getLogger(UserInfoServiceImplementation.class);
 
-  @Autowired
-  private UserInfoRepository userInfoRepository;
+  @Autowired private UserInfoRepository userInfoRepository;
+
   @Override
   public Optional<UserInfo> findUserInfo(int userInfoID) {
     log.trace("findUserInfo - method entered userInfoID={}", userInfoID);
@@ -40,23 +41,23 @@ public class UserInfoServiceImplementation implements UserInfoService {
   public UserInfo updateUserInfo(
       int userInfoID, String name, String affiliation, String emailAddress, String webpageAddress) {
     log.trace(
-            "updateUserInfo - method entered: userInfoID={}, name={}, affiliation={}, emailAddress={}, webpageAddress={}",
-            userInfoID,
-            name,
-            affiliation,
-            emailAddress,
-            webpageAddress);
+        "updateUserInfo - method entered: userInfoID={}, name={}, affiliation={}, emailAddress={}, webpageAddress={}",
+        userInfoID,
+        name,
+        affiliation,
+        emailAddress,
+        webpageAddress);
 
     Optional<UserInfo> abstractOptional = userInfoRepository.findById(userInfoID);
 
     abstractOptional.ifPresent(
-            newUserInfo -> {
-              newUserInfo.setName(name);
-              newUserInfo.setAffiliation(affiliation);
-              newUserInfo.setEmailAddress(emailAddress);
-              newUserInfo.setWebPageAddress(webpageAddress);
-              log.debug("updateUserInfo - updated: newUserInfo={}", newUserInfo);
-            });
+        newUserInfo -> {
+          newUserInfo.setName(name);
+          newUserInfo.setAffiliation(affiliation);
+          newUserInfo.setEmailAddress(emailAddress);
+          newUserInfo.setWebPageAddress(webpageAddress);
+          log.debug("updateUserInfo - updated: newUserInfo={}", newUserInfo);
+        });
     log.trace("updateUserInfo - method finished result={}", abstractOptional);
     return abstractOptional.orElse(null);
   }
@@ -65,16 +66,16 @@ public class UserInfoServiceImplementation implements UserInfoService {
   public UserInfo saveUserInfo(
       String name, String affiliation, String emailAddress, String webpageAddress) {
     log.trace(
-            "saveUserInfo - method entered: name={}, emailAddress={}, webpageAddress={}",
-            name,
-            emailAddress,
-            webpageAddress);
+        "saveUserInfo - method entered: name={}, emailAddress={}, webpageAddress={}",
+        name,
+        emailAddress,
+        webpageAddress);
     UserInfo newUserInfo =
-            UserInfo.builder()
-                    .name(name)
-                    .emailAddress(emailAddress)
-                    .webPageAddress(webpageAddress)
-                    .build();
+        UserInfo.builder()
+            .name(name)
+            .emailAddress(emailAddress)
+            .webPageAddress(webpageAddress)
+            .build();
 
     userInfoRepository.save(newUserInfo);
 

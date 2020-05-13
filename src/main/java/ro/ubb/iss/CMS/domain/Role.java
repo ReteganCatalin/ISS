@@ -30,5 +30,6 @@ public class Role {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude private Set<Participation> participations = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  private Set<Participation> participations = new HashSet<>();
 }

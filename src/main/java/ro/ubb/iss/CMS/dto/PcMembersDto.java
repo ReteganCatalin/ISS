@@ -2,14 +2,15 @@ package ro.ubb.iss.CMS.dto;
 
 import lombok.*;
 
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 @EqualsAndHashCode
 @ToString
 @Builder
-public class ProposalListDto {
-  private Integer sectionID;
-  private Integer proposalID;
-  private Integer conferenceID;
+public class PcMembersDto {
+
+  List<PcMemberDto> pcMemberDtos;
 }

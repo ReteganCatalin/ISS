@@ -9,9 +9,9 @@ import lombok.*;
 @ToString
 @Builder
 public class UserDto {
-    private Integer userID;
-    private String username;
-    private String password;
-    private Boolean isValidated;
-    private Integer userInfoID;
+  private Integer userID;
+  private String username;
+  private String password;
+  private Boolean isValidated;
+  private Integer userInfoID;
 }

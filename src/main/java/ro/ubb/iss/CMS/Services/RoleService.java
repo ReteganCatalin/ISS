@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoleService {
-    Optional<Role> findRole(int roleID);
+  Optional<Role> findRole(int roleID);
 
-    List<Role> findAll();
+  List<Role> findAll();
 
-    Role updateRole(int roleID, String name);
+  Role updateRole(int roleID, String name);
 
-    Role saveRole(String name);
+  Role saveRole(String name);
 
-    void deleteRole(int roleID);
+  void deleteRole(int roleID);
 }

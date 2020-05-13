@@ -38,11 +38,14 @@ public class UserInfo {
   public Boolean affiliationValidated;
 
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude public User user;
+  @EqualsAndHashCode.Exclude
+  public User user;
 
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude public Proposal proposal;
+  @EqualsAndHashCode.Exclude
+  public Proposal proposal;
 
   @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude public Section section;
+  @EqualsAndHashCode.Exclude
+  public Section section;
 }

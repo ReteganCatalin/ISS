@@ -35,5 +35,6 @@ public class BiddingProcess {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude private Set<Analysis> analyses = new HashSet<>();
+  @EqualsAndHashCode.Exclude
+  private Set<Analysis> analyses = new HashSet<>();
 }

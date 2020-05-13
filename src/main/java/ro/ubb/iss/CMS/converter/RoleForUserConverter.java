@@ -10,25 +10,23 @@ import javax.persistence.PersistenceContext;
 
 @Component
 public class RoleForUserConverter implements BaseConverter<RoleForUser, RoleForUserDto> {
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
-    @Override
-    public RoleForUser convertDtoToModel(RoleForUserDto roleForUserDto) {
-        return RoleForUser.builder()
-                .roleForUserKey(
-                        new RoleForUserKey(
-                                roleForUserDto.getUserID(),
-                                roleForUserDto.getRoleID()))
-                .role(entityManager.getReference(Role.class, roleForUserDto.getRoleID()))
-                .user(entityManager.getReference(User.class, roleForUserDto.getUserID()))
-                .build();
-    }
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @Override
-    public RoleForUserDto convertModelToDto(RoleForUser roleForUser) {
-        return RoleForUserDto.builder()
-                .userID(roleForUserDto.getUser().getUserID())
-                .roleID(roleForUserDto.getRole().getRoleID())
-                .build();
-    }
+  @Override
+  public RoleForUser convertDtoToModel(RoleForUserDto roleForUserDto) {
+    return RoleForUser.builder()
+        .roleForUserKey(new RoleForUserKey(roleForUserDto.getUserID(), roleForUserDto.getRoleID()))
+        .role(entityManager.getReference(Role.class, roleForUserDto.getRoleID()))
+        .user(entityManager.getReference(User.class, roleForUserDto.getUserID()))
+        .build();
+  }
+
+  @Override
+  public RoleForUserDto convertModelToDto(RoleForUser roleForUser) {
+    return RoleForUserDto.builder()
+        .userID(roleForUser.getUser().getUserID())
+        .roleID(roleForUser.getRole().getRoleID())
+        .build();
+  }
 }

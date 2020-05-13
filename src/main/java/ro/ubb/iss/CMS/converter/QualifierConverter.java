@@ -6,19 +6,19 @@ import ro.ubb.iss.CMS.dto.QualifierDto;
 
 @Component
 public class QualifierConverter implements BaseConverter<Qualifier, QualifierDto> {
-    @Override
-    public Qualifier convertDtoToModel(QualifierDto qualifierDto) {
-        return Qualifier.builder()
-                .qualifier(qualifierDto.getQualifierID())
-                .name(qualifierDto.getName())
-                .build();
-    }
+  @Override
+  public Qualifier convertDtoToModel(QualifierDto qualifierDto) {
+    return Qualifier.builder()
+        .qualifierID(qualifierDto.getQualifierID())
+        .name(qualifierDto.getName())
+        .build();
+  }
 
-    @Override
-    public QualifierDto convertModelToDto(Qualifier qualifier) {
-        return Qualifier.builder()
-                .qualifier(qualifier.getQualifierID())
-                .name(qualifier.getName())
-                .build();
-    }
+  @Override
+  public QualifierDto convertModelToDto(Qualifier qualifier) {
+    return QualifierDto.builder()
+        .qualifierID(qualifier.getQualifierID())
+        .name(qualifier.getName())
+        .build();
+  }
 }

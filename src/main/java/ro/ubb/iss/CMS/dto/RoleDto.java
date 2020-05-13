@@ -9,6 +9,6 @@ import lombok.*;
 @ToString
 @Builder
 public class RoleDto {
-    private Integer roleID;
-    private String name;
+  private Integer roleID;
+  private String name;
 }
