@@ -21,4 +21,44 @@
             <column header="affiliation_validated" type="BOOLEAN" name="affiliation_validated"></column>
         </loadUpdateData>
     </changeSet>
+    <changeSet id="test-meta-info" author="catalin">
+        <loadUpdateData
+                tableName="meta_info"
+                primaryKey="meta_info_id"
+                encoding="UTF-8"
+                file="db/meta_info.csv"
+                schemaName="public"
+                separator=";"
+        >
+            <column header="name" type="STRING" name="name"></column>
+            <column header="keywords" type="STRING" name="keywords"></column>
+            <column header="topics" type="BOOLEAN" name="topics"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-abstract" author="catalin">
+        <loadUpdateData
+                tableName="abstract"
+                primaryKey="abstract_id"
+                encoding="UTF-8"
+                file="db/abstract.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="format" type="STRING" name="format"></column>
+            <column header="location" type="STRING" name="byte_file_location"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-paper" author="catalin">
+        <loadUpdateData
+                tableName="paper"
+                primaryKey="paper_id"
+                encoding="UTF-8"
+                file="db/paper.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="format" type="STRING" name="format"></column>
+            <column header="location" type="STRING" name="byte_file_location"></column>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>
