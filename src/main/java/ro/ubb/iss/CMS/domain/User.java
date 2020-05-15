@@ -83,4 +83,8 @@ public class User {
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
   private Set<MyTicket> myTickets = new HashSet<>();
+
+  @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
+  public Set<Section> section;
 }

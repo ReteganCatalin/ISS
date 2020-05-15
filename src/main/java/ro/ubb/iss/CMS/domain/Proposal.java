@@ -41,7 +41,7 @@ public class Proposal {
   @EqualsAndHashCode.Exclude
   Set<ProposalList> proposalListsForSections = new HashSet<>();
 
-  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_info_id")
   private UserInfo userInfo;
 

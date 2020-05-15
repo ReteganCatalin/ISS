@@ -5,6 +5,7 @@ import ro.ubb.iss.CMS.domain.Proposal;
 import ro.ubb.iss.CMS.domain.Section;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_info")
@@ -41,11 +42,11 @@ public class UserInfo {
   @EqualsAndHashCode.Exclude
   public User user;
 
-  @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
-  public Proposal proposal;
+  public Set<Proposal> proposals;
 
-  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude
-  public Section section;
+  //  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  //  @EqualsAndHashCode.Exclude
+  //  public Section section;
 }

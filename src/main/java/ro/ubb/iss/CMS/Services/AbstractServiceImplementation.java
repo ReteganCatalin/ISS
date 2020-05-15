@@ -6,15 +6,30 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import ro.ubb.iss.CMS.MyExceptions.UnableToCreateStorageDirectoryException;
+import ro.ubb.iss.CMS.MyExceptions.UnableToSaveFileToStorage;
 import ro.ubb.iss.CMS.domain.Abstract;
 import ro.ubb.iss.CMS.Repository.AbstractRepository;
+import ro.ubb.iss.CMS.utils.SaveToStorageUtility;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 public class AbstractServiceImplementation implements AbstractService {
   private static final Logger log = LoggerFactory.getLogger(AbstractServiceImplementation.class);
+
+  private static final String MAIN_STORAGE =
+      "." + File.separator + "storage" + File.separator + "abstracts";
 
   @Autowired private AbstractRepository abstractRepository;
 
@@ -60,9 +75,12 @@ public class AbstractServiceImplementation implements AbstractService {
   public Abstract saveAbstract(String format, String byteFileLocation) {
     log.trace(
         "saveAbstract - method entered: format={}, byteFileLocation={}", format, byteFileLocation);
-    Abstract newAbstract =
-        Abstract.builder().format(format).byteFileLocation(byteFileLocation).build();
 
+    String newFileLocation = SaveToStorageUtility.saveFileToStorage(MAIN_STORAGE, byteFileLocation);
+    if (newFileLocation == null)
+      throw new UnableToSaveFileToStorage("Was not able to save the file to storage");
+    Abstract newAbstract =
+        Abstract.builder().format(format).byteFileLocation(newFileLocation).build();
     abstractRepository.save(newAbstract);
     log.trace("saveAbstract - method finished result={}", newAbstract);
     return newAbstract;

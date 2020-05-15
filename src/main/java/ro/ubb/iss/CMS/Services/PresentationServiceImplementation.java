@@ -5,9 +5,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.ubb.iss.CMS.MyExceptions.UnableToSaveFileToStorage;
 import ro.ubb.iss.CMS.Repository.PresentationRepository;
 import ro.ubb.iss.CMS.domain.*;
+import ro.ubb.iss.CMS.utils.SaveToStorageUtility;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,6 +20,9 @@ public class PresentationServiceImplementation implements PresentationService {
       LoggerFactory.getLogger(PresentationServiceImplementation.class);
 
   @Autowired private PresentationRepository presentationRepository;
+
+  private static final String MAIN_STORAGE =
+      "." + File.separator + "storage" + File.separator + "presentations";
 
   @Override
   public Optional<Presentation> findPresentation(int presentationID) {
@@ -73,6 +79,11 @@ public class PresentationServiceImplementation implements PresentationService {
         conferenceID,
         format,
         byteFileLocation);
+
+    String newFileLocation = SaveToStorageUtility.saveFileToStorage(MAIN_STORAGE, byteFileLocation);
+    if (newFileLocation == null)
+      throw new UnableToSaveFileToStorage("Was not able to save the file to storage");
+
     Presentation newPresentation =
         Presentation.builder()
             .section(sectionID)

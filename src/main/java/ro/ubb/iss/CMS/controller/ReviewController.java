@@ -7,6 +7,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
+import ro.ubb.iss.CMS.MyExceptions.AllAnalysesRefusedByUser;
+import ro.ubb.iss.CMS.MyExceptions.AlreadyInTheReviewersException;
+import ro.ubb.iss.CMS.MyExceptions.TooManyReviewersException;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.ReviewService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
@@ -54,12 +57,20 @@ public class ReviewController {
   @RequestMapping(value = "/reviews", method = RequestMethod.POST)
   public ReviewDto saveReview(@RequestBody ReviewDto reviewDto) {
     log.trace("saveReview - method entered reviewDto={}", reviewDto);
-    Review result =
-        service.saveReview(
-            entityManager.getReference(Proposal.class, reviewDto.getProposalID()),
-            entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
-            entityManager.getReference(User.class, reviewDto.getUserID()));
-
+    Review result;
+    try {
+      result =
+          service.saveReview(
+              entityManager.getReference(Proposal.class, reviewDto.getProposalID()),
+              entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
+              entityManager.getReference(User.class, reviewDto.getUserID()));
+    } catch (TooManyReviewersException
+        | AllAnalysesRefusedByUser
+        | AlreadyInTheReviewersException ex) {
+      log.trace("saveReview - exception occurred: ex={}", ex.getMessage());
+      ex.printStackTrace();
+      return null;
+    }
     ReviewDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveReview - method finished: result={}", resultToReturn);
     return resultToReturn;

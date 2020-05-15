@@ -5,21 +5,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.ProposalService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
 import ro.ubb.iss.CMS.converter.ProposalConverter;
+import ro.ubb.iss.CMS.converter.ReviewConverter;
+import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.*;
-import ro.ubb.iss.CMS.dto.AbstractDto;
-import ro.ubb.iss.CMS.dto.AbstractsDto;
-import ro.ubb.iss.CMS.dto.ProposalDto;
-import ro.ubb.iss.CMS.dto.ProposalsDto;
+import ro.ubb.iss.CMS.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class ProposalController {
@@ -29,6 +30,8 @@ public class ProposalController {
   @Autowired private ProposalService service;
 
   @Autowired private ProposalConverter converter;
+  @Autowired private ReviewConverter reviewConverter;
+  @Autowired private UserConverter userConverter;
 
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
@@ -48,6 +51,40 @@ public class ProposalController {
     ProposalDto result = null;
     if (proposal.isPresent()) result = converter.convertModelToDto(proposal.get());
     log.trace("getProposal - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/proposals/{id}/reviews", method = RequestMethod.GET)
+  @Transactional
+  public ReviewsDto getProposalReviews(@PathVariable Integer id) {
+    log.trace("getProposalReviews - method entered id={}", id);
+    Optional<Proposal> proposal = service.findProposal(id);
+    ReviewsDto result = null;
+    if (proposal.isPresent())
+      result =
+          ReviewsDto.builder()
+              .reviewDtoList(reviewConverter.convertModelsToDtos(proposal.get().getReviews()))
+              .build();
+    log.trace("getProposalReviews - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/proposals/{id}/reviewer_users", method = RequestMethod.GET)
+  @Transactional
+  public UsersDto getProposalReviewerUsers(@PathVariable Integer id) {
+    log.trace("getProposalReviewerUsers - method entered id={}", id);
+    Optional<Proposal> proposal = service.findProposal(id);
+    UsersDto result = null;
+    if (proposal.isPresent())
+      result =
+          UsersDto.builder()
+              .userDtoList(
+                  userConverter.convertModelsToDtos(
+                      proposal.get().getReviews().stream()
+                          .map(Review::getUser)
+                          .collect(Collectors.toList())))
+              .build();
+    log.trace("getProposalReviewerUsers - method finished: result={}", result);
     return result;
   }
 

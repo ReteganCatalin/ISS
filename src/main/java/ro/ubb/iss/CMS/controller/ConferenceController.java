@@ -10,13 +10,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.converter.ConferenceConverter;
 import ro.ubb.iss.CMS.Services.ConferenceService;
+import ro.ubb.iss.CMS.converter.SectionConverter;
 import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.Conference;
 import ro.ubb.iss.CMS.domain.PcMember;
-import ro.ubb.iss.CMS.dto.ConferenceDto;
-import ro.ubb.iss.CMS.dto.ConferencesDto;
-import ro.ubb.iss.CMS.dto.UserDto;
-import ro.ubb.iss.CMS.dto.UsersDto;
+import ro.ubb.iss.CMS.dto.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +29,7 @@ public class ConferenceController {
 
   @Autowired private ConferenceConverter converter;
   @Autowired private UserConverter userConverter;
+  @Autowired private SectionConverter sectionConverter;
 
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
   public ConferencesDto getAllConferences() {
@@ -68,6 +67,22 @@ public class ConferenceController {
     }
 
     log.trace("getConferencePcMembers - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/conferences/{id}/sections", method = RequestMethod.GET)
+  @Transactional
+  public SectionsDto getConferenceSections(@PathVariable Integer id) {
+    log.trace("getConferenceSections - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    SectionsDto result = null;
+    if (conference.isPresent()) {
+      result =
+          SectionsDto.builder()
+              .sectionDtoList(sectionConverter.convertModelsToDtos(conference.get().getSections()))
+              .build();
+    }
+    log.trace("getConferenceSections - method finished: result={}", result);
     return result;
   }
 

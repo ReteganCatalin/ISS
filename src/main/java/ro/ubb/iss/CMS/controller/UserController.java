@@ -5,20 +5,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.UserService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
+import ro.ubb.iss.CMS.converter.ProposalConverter;
 import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.Abstract;
 import ro.ubb.iss.CMS.domain.Conference;
 import ro.ubb.iss.CMS.domain.User;
 import ro.ubb.iss.CMS.domain.UserInfo;
-import ro.ubb.iss.CMS.dto.AbstractDto;
-import ro.ubb.iss.CMS.dto.AbstractsDto;
-import ro.ubb.iss.CMS.dto.UserDto;
-import ro.ubb.iss.CMS.dto.UsersDto;
+import ro.ubb.iss.CMS.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -32,6 +31,7 @@ public class UserController {
   @Autowired private UserService service;
 
   @Autowired private UserConverter converter;
+  @Autowired private ProposalConverter proposalConverter;
 
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
@@ -47,10 +47,26 @@ public class UserController {
   @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
   public UserDto getUser(@PathVariable Integer id) {
     log.trace("getUser - method entered id={}", id);
-    Optional<User> anAbstract = service.findUser(id);
+    Optional<User> user = service.findUser(id);
     UserDto result = null;
-    if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
+    if (user.isPresent()) result = converter.convertModelToDto(user.get());
     log.trace("getUser - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/users/{id}/proposals", method = RequestMethod.GET)
+  @Transactional
+  public ProposalsDto getUserProposals(@PathVariable Integer id) {
+    log.trace("getUserProposals - method entered id={}", id);
+    Optional<User> user = service.findUser(id);
+    ProposalsDto result = null;
+    if (user.isPresent())
+      result =
+          ProposalsDto.builder()
+              .proposalDtoList(
+                  proposalConverter.convertModelsToDtos(user.get().getUserInfo().getProposals()))
+              .build();
+    log.trace("getUserProposals - method finished: result={}", result);
     return result;
   }
 

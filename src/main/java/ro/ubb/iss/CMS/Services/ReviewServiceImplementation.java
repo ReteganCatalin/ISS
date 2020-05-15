@@ -5,8 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ro.ubb.iss.CMS.MyExceptions.AllAnalysesRefusedByUser;
+import ro.ubb.iss.CMS.MyExceptions.AlreadyInTheReviewersException;
+import ro.ubb.iss.CMS.MyExceptions.TooManyReviewersException;
 import ro.ubb.iss.CMS.Repository.ReviewRepository;
-import ro.ubb.iss.CMS.Repository.SectionRepository;
 import ro.ubb.iss.CMS.domain.*;
 
 import java.util.List;
@@ -59,14 +61,29 @@ public class ReviewServiceImplementation implements ReviewService {
   }
 
   @Override
-  public Review saveReview(Proposal proposalID, Qualifier qualifierID, User userID) {
+  @Transactional
+  public Review saveReview(Proposal proposal, Qualifier qualifier, User user) {
     log.trace(
-        "saveReview - method entered: proposalID={}, qualifierID={}, userID={}",
-        proposalID,
-        qualifierID,
-        userID);
-    Review newReview =
-        Review.builder().proposal(proposalID).qualifier(qualifierID).user(userID).build();
+        "saveReview - method entered: proposal={}, qualifier={}, user={}",
+        proposal,
+        qualifier,
+        user);
+
+    if (user.getAnalyses().stream().allMatch(Analysis::getRefuse)) {
+      throw new AllAnalysesRefusedByUser(
+          "The user refused to review any papers during the bidding phase");
+    }
+    if (proposal.getReviews().size() == 4) {
+      throw new TooManyReviewersException("Proposal already has maximum 4 reviewers");
+    }
+    if (proposal.getReviews().stream()
+        .map(elem -> elem.getUser().getUserID())
+        .anyMatch(val -> val.equals(user.getUserID()))) {
+      throw new AlreadyInTheReviewersException(
+          "This proposal is already assigned to be reviewed by the selected user");
+    }
+
+    Review newReview = Review.builder().proposal(proposal).qualifier(qualifier).user(user).build();
 
     reviewRepository.save(newReview);
 

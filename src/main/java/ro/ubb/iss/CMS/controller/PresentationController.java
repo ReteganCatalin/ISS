@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
+import ro.ubb.iss.CMS.MyExceptions.UnableToCreateStorageDirectoryException;
+import ro.ubb.iss.CMS.MyExceptions.UnableToSaveFileToStorage;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.PaperService;
 import ro.ubb.iss.CMS.Services.PresentationService;
@@ -57,13 +59,19 @@ public class PresentationController {
   @RequestMapping(value = "/presentations", method = RequestMethod.POST)
   public PresentationDto savePresentation(@RequestBody PresentationDto presentationDto) {
     log.trace("savePresentation - method entered presentationDto={}", presentationDto);
-    Presentation result =
-        service.savePresentation(
-            entityManager.getReference(Section.class, presentationDto.getSectionID()),
-            entityManager.getReference(Conference.class, presentationDto.getConferenceID()),
-            presentationDto.getFormat(),
-            presentationDto.getByteFileLocation());
-
+    Presentation result;
+    try {
+      result =
+          service.savePresentation(
+              entityManager.getReference(Section.class, presentationDto.getSectionID()),
+              entityManager.getReference(Conference.class, presentationDto.getConferenceID()),
+              presentationDto.getFormat(),
+              presentationDto.getByteFileLocation());
+    } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
+      log.trace("savePresentation - exception occurred: ex={}", ex.getMessage());
+      ex.printStackTrace();
+      return null;
+    }
     PresentationDto resultToReturn = converter.convertModelToDto(result);
     log.trace("savePresentation - method finished: result={}", resultToReturn);
     return resultToReturn;

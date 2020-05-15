@@ -23,7 +23,7 @@ public class Section {
   @Column(name = "section_id")
   private Integer sectionID;
 
-  @OneToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "supervisor_id", referencedColumnName = "user_id")
   private User supervisor;
 

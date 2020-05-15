@@ -5,17 +5,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.SectionService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
+import ro.ubb.iss.CMS.converter.PresentationConverter;
 import ro.ubb.iss.CMS.converter.SectionConverter;
+import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.*;
-import ro.ubb.iss.CMS.dto.AbstractDto;
-import ro.ubb.iss.CMS.dto.AbstractsDto;
-import ro.ubb.iss.CMS.dto.SectionDto;
-import ro.ubb.iss.CMS.dto.SectionsDto;
+import ro.ubb.iss.CMS.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -29,6 +29,8 @@ public class SectionController {
   @Autowired private SectionService service;
 
   @Autowired private SectionConverter converter;
+  @Autowired private PresentationConverter presentationConverter;
+  @Autowired private UserConverter userConverter;
 
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
@@ -48,6 +50,34 @@ public class SectionController {
     SectionDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getSection - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/sections/{id}/presentations", method = RequestMethod.GET)
+  @Transactional
+  public PresentationsDto getSectionPresentations(@PathVariable Integer id) {
+    log.trace("getSectionPresentations - method entered id={}", id);
+    Optional<Section> section = service.findSection(id);
+    PresentationsDto result = null;
+    if (section.isPresent())
+      result =
+          PresentationsDto.builder()
+              .presentationDtoList(
+                  presentationConverter.convertModelsToDtos(section.get().getPresentations()))
+              .build();
+    log.trace("getSectionPresentations - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/sections/{id}/suprevisor", method = RequestMethod.GET)
+  @Transactional
+  public UserDto getSectionSupervisor(@PathVariable Integer id) {
+    log.trace("getSectionSupervisor - method entered id={}", id);
+    Optional<Section> section = service.findSection(id);
+    UserDto result = null;
+    if (section.isPresent())
+      result = userConverter.convertModelToDto(section.get().getSupervisor());
+    log.trace("getSectionSupervisor - method finished: result={}", result);
     return result;
   }
 
