@@ -1,0 +1,3 @@
+username,password,is_validated,user_info_id
+CatalinR,12345678,True,1
+MihaiP,12345678,False,2
