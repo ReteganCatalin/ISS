@@ -185,7 +185,6 @@
                 newDataType="varchar(2000)"
                 tableName="paper"/>
     </changeSet>
-</databaseChangeLog>
     <changeSet author="tamas" id="createTable-for-pc-members-for-conference">
         <createTable catalogName="CMS-TEST"
                      schemaName="public"
@@ -224,11 +223,9 @@
                                  onDelete="CASCADE"
                                  onUpdate="CASCADE"
                                  referencedColumnNames="user_id"
-                                 referencedTableName="users"
+                                 referencedTableName="user"
                                  referencedTableSchemaName="public"
                                  validate="true"/>
     </changeSet>
 
-
 </databaseChangeLog>
-

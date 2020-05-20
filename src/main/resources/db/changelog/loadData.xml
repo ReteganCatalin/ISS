@@ -107,4 +107,140 @@
             <column header="user_info_id" type="NUMERIC" name="user_info_id"></column>
         </loadUpdateData>
     </changeSet>
+    <changeSet id="test-bidding-process" author="catalin">
+        <loadUpdateData
+                tableName="bidding_process"
+                primaryKey="bid_id"
+                encoding="UTF-8"
+                file="db/bidding_process.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="conference_id" type="NUMERIC" name="conference_id"></column>
+            <column header="deadline" type="DATE" name="deadline"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-author-list" author="catalin">
+        <loadUpdateData
+                tableName="author_list"
+                encoding="UTF-8"
+                primaryKey="author_id"
+                file="db/author_list.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>
+            <column header="name" type="STRING" name="name"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-section" author="catalin">
+        <loadUpdateData
+                tableName="section"
+                encoding="UTF-8"
+                primaryKey="section_id"
+                file="db/section.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="supervisor_id" type="NUMERIC" name="supervisor_id"></column>
+            <column header="conference_id" type="NUMERIC" name="conference_id"></column>
+            <column header="date_of_presentation" type="DATE" name="date_of_presentation"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-qualifier" author="catalin">
+        <loadUpdateData
+                tableName="qualifier"
+                encoding="UTF-8"
+                primaryKey="qualifier_id"
+                file="db/qualifier.csv"
+                schemaName="public"
+                separator=",">
+            <column header="name" type="STRING" name="name"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-review_list" author="catalin">
+        <loadUpdateData
+                tableName="review_list"
+                encoding="UTF-8"
+                primaryKey="review_id"
+                file="db/review_list.csv"
+                schemaName="public"
+                separator=",">
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
+            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>
+            <column header="qualifier_id" type="NUMERIC" name="qualifier_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-role" author="catalin">
+        <loadUpdateData
+                tableName="role"
+                encoding="UTF-8"
+                primaryKey="role_id"
+                file="db/role.csv"
+                schemaName="public"
+                separator=",">
+            <column header="name" type="STRING" name="name"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-permission" author="catalin">
+        <loadUpdateData
+                tableName="permission"
+                encoding="UTF-8"
+                primaryKey="permission_id"
+                file="db/permission.csv"
+                schemaName="public"
+                separator=",">
+            <column header="name" type="STRING" name="name"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-pc-members" author="catalin">
+        <loadUpdateData
+                tableName="pc_members"
+                encoding="UTF-8"
+                primaryKey="conference_id,user_id"
+                file="db/pc_members.csv"
+                schemaName="public"
+                separator=",">
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
+            <column header="conference_id" type="NUMERIC" name="conference_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-participant_list" author="catalin">
+        <loadUpdateData
+                tableName="participant_list"
+                encoding="UTF-8"
+                primaryKey="participant_list_id"
+                file="db/participant_list.csv"
+                schemaName="public"
+                separator=",">
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
+            <column header="role_id" type="NUMERIC" name="role_id"></column>
+            <column header="section_id" type="NUMERIC" name="section_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-ticketing" author="catalin">
+        <loadUpdateData
+                tableName="ticketing"
+                encoding="UTF-8"
+                primaryKey="ticket_id"
+                file="db/ticketing.csv"
+                schemaName="public"
+                separator=",">
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
+            <column header="price" type="NUMERIC" name="price"></column>
+            <column header="section_id" type="NUMERIC" name="section_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-recommendation" author="catalin">
+        <loadUpdateData
+                tableName="recommendation"
+                encoding="UTF-8"
+                primaryKey="recommendation_id"
+                file="db/recommendation.csv"
+                schemaName="public"
+                separator=",">
+            <column header="review_id" type="NUMERIC" name="review_id"></column>
+            <column header="recommendation_message" type="STRING" name="recommendation_message"></column>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>
