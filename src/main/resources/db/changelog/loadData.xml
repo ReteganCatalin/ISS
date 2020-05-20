@@ -243,4 +243,59 @@
             <column header="recommendation_message" type="STRING" name="recommendation_message"></column>
         </loadUpdateData>
     </changeSet>
+    <changeSet id="test-proposal" author="catalin">
+        <loadUpdateData
+                tableName="proposal_list"
+                primaryKey="section_id,proposal_id"
+                encoding="UTF-8"
+                file="db/proposal_list.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="section_id" type="NUMERIC" name="section_id"></column>
+            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-permission-2" author="catalin">
+        <loadUpdateData
+                tableName="permission_list"
+                primaryKey="user_id,permission_id"
+                encoding="UTF-8"
+                file="db/permission_list.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
+            <column header="permission_id" type="NUMERIC" name="permission_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-role-perm" author="catalin">
+        <loadUpdateData
+                tableName="role_permission_list"
+                primaryKey="role_id,permission_id"
+                encoding="UTF-8"
+                file="db/role_permission_list.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="role_id" type="NUMERIC" name="role_id"></column>
+            <column header="permission_id" type="NUMERIC" name="permission_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-analysis" author="catalin">
+        <loadUpdateData
+                tableName="analysis"
+                primaryKey="user_id,proposal_id"
+                encoding="UTF-8"
+                file="db/analysis.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
+            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>
+            <column header="bid_id" type="NUMERIC" name="bid_id"></column>
+            <column header="brief_analysis" type="STRING" name="brief_analysis"></column>
+            <column header="refuse" type="BOOLEAN" name="refuse"></column>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>

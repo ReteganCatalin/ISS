@@ -227,5 +227,51 @@
                                  referencedTableSchemaName="public"
                                  validate="true"/>
     </changeSet>
+    <changeSet author="catalin" id="add composite primary key for role_user_list">
+        <addPrimaryKey columnNames="role_id, user_id"
+                       constraintName="PK_ROLE_USER_TABLE"
+                       tableName="role_user_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for permission_list">
+        <addPrimaryKey columnNames="permission_id, user_id"
+                       constraintName="PK_PERMISSION_TABLE"
+                       tableName="permission_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for proposal_list">
+        <addPrimaryKey columnNames="proposal_id, section_id"
+                       constraintName="PK_PROPOSAL_LIST_TABLE"
+                       tableName="proposal_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for analysis">
+        <addPrimaryKey columnNames="proposal_id,user_id"
+                       constraintName="PK_ANALYSIS_LIST_TABLE"
+                       tableName="analysis"
+                       validate="true"/>
+    </changeSet>
+    <changeSet  author="catalin"  id="rename Table role_permission_id">
+        <renameTable  newTableName="role_permission_list"
+                      oldTableName="role_permission_id"
+                      schemaName="public"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for role_permission_list">
+        <addPrimaryKey columnNames="role_id, permission_id"
+                       constraintName="PK_ROLE_PERMISSION_TABLE"
+                       tableName="role_permission_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet  author="catalin"  id="renameColumn in analysis">
+        <renameColumn
+                       columnDataType="STRING"
+                       newColumnName="brief_analysis"
+                       oldColumnName="brief_analyse"
+                       remarks="A String"
+                       schemaName="public"
+                       tableName="analysis"/>
+    </changeSet>
+
+
 
 </databaseChangeLog>
