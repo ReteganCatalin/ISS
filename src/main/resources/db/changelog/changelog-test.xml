@@ -175,7 +175,17 @@
                           startWith="1"
                           tableName="author_list"/>
     </changeSet>
-
+    <changeSet id="modify-location" author="catalin">
+        <modifyDataType
+                columnName="byte_file_location"
+                newDataType="varchar(2000)"
+                tableName="abstract"/>
+        <modifyDataType
+                columnName="byte_file_location"
+                newDataType="varchar(2000)"
+                tableName="paper"/>
+    </changeSet>
+</databaseChangeLog>
     <changeSet author="tamas" id="createTable-for-pc-members-for-conference">
         <createTable catalogName="CMS-TEST"
                      schemaName="public"
@@ -221,3 +231,4 @@
 
 
 </databaseChangeLog>
+

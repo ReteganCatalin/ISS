@@ -21,4 +21,90 @@
             <column header="affiliation_validated" type="BOOLEAN" name="affiliation_validated"></column>
         </loadUpdateData>
     </changeSet>
+    <changeSet id="test-meta-info" author="catalin">
+        <loadUpdateData
+                tableName="meta_info"
+                primaryKey="meta_info_id"
+                encoding="UTF-8"
+                file="db/meta_info.csv"
+                schemaName="public"
+                separator=";"
+        >
+            <column header="name" type="STRING" name="name"></column>
+            <column header="keywords" type="STRING" name="keywords"></column>
+            <column header="topics" type="BOOLEAN" name="topics"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-abstract" author="catalin">
+        <loadUpdateData
+                tableName="abstract"
+                primaryKey="abstract_id"
+                encoding="UTF-8"
+                file="db/abstract.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="format" type="STRING" name="format"></column>
+            <column header="location" type="STRING" name="byte_file_location"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-paper" author="catalin">
+        <loadUpdateData
+                tableName="paper"
+                primaryKey="paper_id"
+                encoding="UTF-8"
+                file="db/paper.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="format" type="STRING" name="format"></column>
+            <column header="location" type="STRING" name="byte_file_location"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-conference" author="catalin">
+        <loadUpdateData
+                tableName="conference"
+                primaryKey="conference_id"
+                encoding="UTF-8"
+                file="db/conference.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="name" type="STRING" name="name"></column>
+            <column header="start_date" type="DATE" name="start_date"></column>
+            <column header="end_date" type="DATE" name="end_date"></column>
+            <column header="paper_deadline" type="DATE" name="paper_deadline"></column>
+            <column header="proposal_deadline" type="DATE" name="proposal_deadline"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-proposal1" author="catalin">
+        <loadUpdateData
+                tableName="proposal"
+                primaryKey="proposal_id"
+                encoding="UTF-8"
+                file="db/proposal.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="user_info_id" type="NUMERIC" name="user_info_id"></column>
+            <column header="paper_id" type="NUMERIC" name="paper_id"></column>
+            <column header="meta_info_id" type="NUMERIC" name="meta_info_id"></column>
+            <column header="abstract_id" type="NUMERIC" name="abstract_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-user" author="catalin">
+        <loadUpdateData
+                tableName="user"
+                primaryKey="user_id"
+                encoding="UTF-8"
+                file="db/user.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="username" type="STRING" name="username"></column>
+            <column header="password" type="STRING" name="password"></column>
+            <column header="is_validated" type="BOOLEAN" name="is_validated"></column>
+            <column header="user_info_id" type="NUMERIC" name="user_info_id"></column>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>
