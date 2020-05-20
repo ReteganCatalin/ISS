@@ -33,9 +33,15 @@ public class AnalysisController {
     return result;
   }
 
-  @RequestMapping(value = "/analyses/{analysisKey}", method = RequestMethod.GET)
-  public AnalysisDto getAnalysis(@PathVariable AnalysisKey analysisKey) {
-    log.trace("getAnalysis - method entered analysisKey={}", analysisKey);
+  @RequestMapping(value = "/analyses/{bidID}/{userID}/{proposalID}", method = RequestMethod.GET)
+  public AnalysisDto getAnalysis(
+      @PathVariable Integer bidID, @PathVariable Integer userID, @PathVariable Integer proposalID) {
+    log.trace(
+        "getAnalysis - method entered bidID={}, userID={}, proposalID={}",
+        bidID,
+        userID,
+        proposalID);
+    AnalysisKey analysisKey = new AnalysisKey(bidID, userID, proposalID);
     Optional<Analysis> analysis = service.findAnalysis(analysisKey);
     AnalysisDto result = null;
     if (analysis.isPresent()) result = converter.convertModelToDto(analysis.get());
@@ -70,9 +76,15 @@ public class AnalysisController {
     return result;
   }
 
-  @RequestMapping(value = "/analyses/{analysisKey}", method = RequestMethod.DELETE)
-  public ResponseEntity<?> deleteAnalysis(@PathVariable AnalysisKey analysisKey) {
-    log.trace("deleteAnalysis - method entered: analysisKey={}", analysisKey);
+  @RequestMapping(value = "/analyses/{bidID}/{userID}/{proposalID}", method = RequestMethod.DELETE)
+  public ResponseEntity<?> deleteAnalysis(
+      @PathVariable Integer bidID, @PathVariable Integer userID, @PathVariable Integer proposalID) {
+    log.trace(
+        "deleteAnalysis - method entered: bidID={}, userID={}, proposalID={}",
+        bidID,
+        userID,
+        proposalID);
+    AnalysisKey analysisKey = new AnalysisKey(bidID, userID, proposalID);
 
     try {
       service.deleteAnalysis(analysisKey);

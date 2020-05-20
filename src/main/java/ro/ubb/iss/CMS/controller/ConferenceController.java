@@ -5,15 +5,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.converter.ConferenceConverter;
 import ro.ubb.iss.CMS.Services.ConferenceService;
+import ro.ubb.iss.CMS.converter.SectionConverter;
+import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.Conference;
-import ro.ubb.iss.CMS.dto.ConferenceDto;
-import ro.ubb.iss.CMS.dto.ConferencesDto;
+import ro.ubb.iss.CMS.domain.PcMember;
+import ro.ubb.iss.CMS.dto.*;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class ConferenceController {
@@ -23,6 +28,8 @@ public class ConferenceController {
   @Autowired private ConferenceService service;
 
   @Autowired private ConferenceConverter converter;
+  @Autowired private UserConverter userConverter;
+  @Autowired private SectionConverter sectionConverter;
 
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
   public ConferencesDto getAllConferences() {
@@ -39,6 +46,43 @@ public class ConferenceController {
     ConferenceDto result = null;
     if (conference.isPresent()) result = converter.convertModelToDto(conference.get());
     log.trace("getConference - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/conferences/{id}/pc_members", method = RequestMethod.GET)
+  @Transactional
+  public UsersDto getConferencePcMembers(@PathVariable Integer id) {
+    log.trace("getConferencePcMembers - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    UsersDto result = null;
+    if (conference.isPresent()) {
+      result =
+          UsersDto.builder()
+              .userDtoList(
+                  userConverter.convertModelsToDtos(
+                      conference.get().getPcMembers().stream()
+                          .map(PcMember::getUser)
+                          .collect(Collectors.toList())))
+              .build();
+    }
+
+    log.trace("getConferencePcMembers - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/conferences/{id}/sections", method = RequestMethod.GET)
+  @Transactional
+  public SectionsDto getConferenceSections(@PathVariable Integer id) {
+    log.trace("getConferenceSections - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    SectionsDto result = null;
+    if (conference.isPresent()) {
+      result =
+          SectionsDto.builder()
+              .sectionDtoList(sectionConverter.convertModelsToDtos(conference.get().getSections()))
+              .build();
+    }
+    log.trace("getConferenceSections - method finished: result={}", result);
     return result;
   }
 

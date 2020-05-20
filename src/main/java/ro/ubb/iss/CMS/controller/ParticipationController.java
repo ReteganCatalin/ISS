@@ -29,14 +29,14 @@ public class ParticipationController {
 
   @Autowired private ParticipationConverter converter;
 
-
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
 
   @RequestMapping(value = "/participations", method = RequestMethod.GET)
   public ParticipationsDto getAllParticipations() {
     log.trace("getAllParticipations - method entered");
-    ParticipationsDto result = new ParticipationsDto(converter.convertModelsToDtos(service.findAll()));
+    ParticipationsDto result =
+        new ParticipationsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllParticipations - method finished: result={}", result);
     return result;
   }
@@ -56,9 +56,9 @@ public class ParticipationController {
     log.trace("saveParticipation - method entered participationDto={}", participationDto);
     Participation result =
         service.saveParticipation(
-                  entityManager.getReference(Section.class,participationDto.getSectionID()),
-                entityManager.getReference(User.class,participationDto.getSectionID()),
-                entityManager.getReference(Role.class,participationDto.getSectionID()));
+            entityManager.getReference(Section.class, participationDto.getSectionID()),
+            entityManager.getReference(User.class, participationDto.getSectionID()),
+            entityManager.getReference(Role.class, participationDto.getSectionID()));
     ParticipationDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveParticipation - method finished: result={}", resultToReturn);
     return resultToReturn;
@@ -71,9 +71,9 @@ public class ParticipationController {
         converter.convertModelToDto(
             service.updateParticipation(
                 participationDto.getParticipantListID(),
-                    entityManager.getReference(Section.class,participationDto.getSectionID()),
-                    entityManager.getReference(User.class,participationDto.getSectionID()),
-                    entityManager.getReference(Role.class,participationDto.getSectionID())));
+                entityManager.getReference(Section.class, participationDto.getSectionID()),
+                entityManager.getReference(User.class, participationDto.getSectionID()),
+                entityManager.getReference(Role.class, participationDto.getSectionID())));
     log.trace("updateParticipation - method finished: result={}", result);
     return result;
   }

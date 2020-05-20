@@ -20,10 +20,12 @@ public class RoleForUser {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
   @JoinColumn(name = "user_id")
+  @EqualsAndHashCode.Exclude
   private User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("role_id")
   @JoinColumn(name = "role_id")
+  @EqualsAndHashCode.Exclude
   private Role role;
 }

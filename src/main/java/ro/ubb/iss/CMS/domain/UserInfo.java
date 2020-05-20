@@ -5,6 +5,7 @@ import ro.ubb.iss.CMS.domain.Proposal;
 import ro.ubb.iss.CMS.domain.Section;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_info")
@@ -38,11 +39,14 @@ public class UserInfo {
   public Boolean affiliationValidated;
 
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   public User user;
 
-  @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  public Proposal proposal;
+  @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
+  public Set<Proposal> proposals;
 
-  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  public Section section;
+  //  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  //  @EqualsAndHashCode.Exclude
+  //  public Section section;
 }
