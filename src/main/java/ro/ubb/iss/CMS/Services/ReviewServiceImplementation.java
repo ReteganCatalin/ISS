@@ -73,6 +73,7 @@ public class ReviewServiceImplementation implements ReviewService {
       throw new AllAnalysesRefusedByUser(
           "The user refused to review any papers during the bidding phase");
     }
+
     if (proposal.getReviews().size() == 4) {
       throw new TooManyReviewersException("Proposal already has maximum 4 reviewers");
     }

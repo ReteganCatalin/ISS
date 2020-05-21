@@ -62,9 +62,9 @@ public class SaveToStorageUtility {
         mainStorage
             + File.separator
             + currentDate
-            + File.separator
+            + "_"
             + randomString
-            + File.separator
+            + "_"
             + fileName;
     Path source = Paths.get(sourceFile);
     Path destination = Paths.get(destinationLocation);

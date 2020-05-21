@@ -88,6 +88,26 @@ public class ProposalController {
     return result;
   }
 
+  @RequestMapping(value = "/proposals/{id}/reviewer_users", method = RequestMethod.GET)
+  @Transactional
+  public UsersDto getAllAvailable(@PathVariable Integer id) {
+    log.trace("getProposalReviewerUsers - method entered id={}", id);
+    Optional<Proposal> proposal = service.findProposal(id);
+    UsersDto result = null;
+    if (proposal.isPresent())
+      result =
+              UsersDto.builder()
+                      .userDtoList(
+                              userConverter.convertModelsToDtos(
+                                      proposal.get().getReviews().stream()
+                                              .map(Review::getUser)
+                                              .collect(Collectors.toList())))
+                      .build();
+    log.trace("getProposalReviewerUsers - method finished: result={}", result);
+    return result;
+  }
+
+
   @RequestMapping(value = "/proposals", method = RequestMethod.POST)
   public ProposalDto saveProposal(@RequestBody ProposalDto proposalDto) {
     log.trace("saveProposal - method entered abstractDto={}", proposalDto);
