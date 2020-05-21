@@ -314,6 +314,12 @@
                                  validate="true"/>
     </changeSet>
 
+    <changeSet  author="rename-user-table-to-users"  id="tamas">
+        <renameTable  catalogName="CMS-TEST"
+                      newTableName="users"
+                      oldTableName="user"
+                      schemaName="public"/>
+    </changeSet>
 
 
 </databaseChangeLog>

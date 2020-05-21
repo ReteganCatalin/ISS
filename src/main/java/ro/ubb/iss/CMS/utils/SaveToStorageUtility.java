@@ -54,7 +54,7 @@ public class SaveToStorageUtility {
     File storageDirectory = new File(mainStorage);
 
     if (!storageDirectory.exists()) {
-      if (!storageDirectory.mkdir())
+      if (!storageDirectory.mkdirs())
         throw new UnableToCreateStorageDirectoryException("Unable to create the storage directory");
     }
 

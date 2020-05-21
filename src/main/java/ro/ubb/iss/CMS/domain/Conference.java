@@ -54,6 +54,15 @@ public class Conference {
   Set<Section> sections = new HashSet<>();
 
   @OneToMany(
+          mappedBy = "conference",
+          orphanRemoval = true,
+          cascade = CascadeType.ALL,
+          fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
+  Set<ConferenceProposal> proposalsForConference = new HashSet<>();
+
+
+  @OneToMany(
       mappedBy = "conference",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
