@@ -88,10 +88,10 @@ public class ProposalController {
     return result;
   }
 
-  @RequestMapping(value = "/proposals/{id}/reviewer_users", method = RequestMethod.GET)
+  @RequestMapping(value = "/proposals/{id}/available", method = RequestMethod.GET)
   @Transactional
   public UsersDto getAllAvailable(@PathVariable Integer id) {
-    log.trace("getProposalReviewerUsers - method entered id={}", id);
+    log.trace("getAllAvailable - method entered id={}", id);
     Optional<Proposal> proposal = service.findProposal(id);
     UsersDto result = null;
     if (proposal.isPresent())
@@ -103,7 +103,7 @@ public class ProposalController {
                                               .map(Review::getUser)
                                               .collect(Collectors.toList())))
                       .build();
-    log.trace("getProposalReviewerUsers - method finished: result={}", result);
+    log.trace("getAllAvailable - method finished: result={}", result);
     return result;
   }
 
