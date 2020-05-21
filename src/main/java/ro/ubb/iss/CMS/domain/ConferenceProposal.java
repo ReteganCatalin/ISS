@@ -15,7 +15,7 @@ import javax.persistence.*;
 @Builder
 public class ConferenceProposal {
 
-    @EmbeddedId PcMemberKey pcMemberKey;
+    @EmbeddedId ConferenceProposalKey conferenceProposalKey;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @MapsId("proposal_id")
