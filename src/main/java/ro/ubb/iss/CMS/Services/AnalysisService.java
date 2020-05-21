@@ -11,6 +11,8 @@ public interface AnalysisService {
 
   List<Analysis> findAll();
 
+  List<Integer> findReviewers(Integer proposalID);
+
   Analysis updateAnalysis(AnalysisKey analysisKey, String briefAnalysis, Boolean refuse);
 
   Optional<Analysis> saveAnalysis(AnalysisKey analysisKey, String briefAnalysis, Boolean refuse);

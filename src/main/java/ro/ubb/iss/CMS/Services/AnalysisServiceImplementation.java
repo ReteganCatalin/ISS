@@ -11,6 +11,7 @@ import ro.ubb.iss.CMS.Repository.AnalysisRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class AnalysisServiceImplementation implements AnalysisService {
@@ -33,6 +34,21 @@ public class AnalysisServiceImplementation implements AnalysisService {
     log.trace("findAll - method exit result={}", result);
     return result;
   }
+
+  @Override
+  public List<Integer> findReviewers(Integer proposalID)
+  {
+    log.trace("findReviewers - method entered");
+    List<Analysis> result = analysisRepository.findAll();
+    List<Integer> reviewers=result.stream()
+            .filter(analysis -> analysis.getProposal().equals(proposalID))
+            .filter(analysis -> analysis.getRefuse()==Boolean.FALSE)
+            .map(analysis -> analysis.getUser().getUserID())
+            .collect(Collectors.toList());
+    log.trace("findReviewers - method exit reviewers={}", reviewers);
+    return reviewers;
+  }
+
 
   @Override
   @Transactional

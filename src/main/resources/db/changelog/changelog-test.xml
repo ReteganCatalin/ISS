@@ -271,6 +271,48 @@
                        schemaName="public"
                        tableName="analysis"/>
     </changeSet>
+    <changeSet author="catalin" id="createTable-proposal-conference">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="conference_proposal">
+            <column name="conference_id" type="int"/>
+            <column name="proposal_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="catalin" id="add composite primary key for ConferenceProposal">
+        <addPrimaryKey columnNames="conference_id, proposal_id"
+                       constraintName="PK_CONFERENCE_PROPOSAL_TABLE"
+                       tableName="conference_proposal"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains conference_proposal" author="catalin">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="conference_proposal"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="proposal_id"
+                                 baseTableName="conference_proposal"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_proposal_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="proposal_id"
+                                 referencedTableName="proposal"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
 
 
 
