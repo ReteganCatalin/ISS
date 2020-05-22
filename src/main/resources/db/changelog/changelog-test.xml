@@ -320,6 +320,70 @@
                       oldTableName="user"
                       schemaName="public"/>
     </changeSet>
+    <changeSet id="add-price-column-to-section" author="tamas">
+        <addColumn catalogName="CMS-TEST"
+                   schemaName="public"
+                   tableName="section">
+            <column name="price" type="integer"/>
+        </addColumn>
+    </changeSet>
 
+
+
+
+
+
+
+
+
+
+
+
+
+    <changeSet author="tamas" id="create-presentation-table">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="presentations">
+            <column name="presentation_id" type="int"/>
+            <column name="conference_id" type="int"/>
+            <column name="section_id" type="int"/>
+            <column name="format" type="varchar(255)"/>
+            <column name="byte_file_location" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="tamas" id="add composite primary key for presentation">
+        <addPrimaryKey columnNames="presentation_id"
+                       constraintName="PK_PRESENTATION_TABLE"
+                       tableName="presentations"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains conference_proposal" author="tamas">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="presentations"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="section_id"
+                                 baseTableName="presentations"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_section_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="section_id"
+                                 referencedTableName="section"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
 
 </databaseChangeLog>

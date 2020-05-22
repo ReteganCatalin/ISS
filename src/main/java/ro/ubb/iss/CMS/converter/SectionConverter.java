@@ -22,6 +22,7 @@ public class SectionConverter implements BaseConverter<Section, SectionDto> {
         .supervisor(entityManager.getReference(User.class, sectionDto.getSupervisorID()))
         .conference(entityManager.getReference(Conference.class, sectionDto.getConferenceID()))
         .dateOfPresentation(sectionDto.getDateOfPresentation())
+        .price(sectionDto.getPrice())
         .build();
   }
 
@@ -32,6 +33,7 @@ public class SectionConverter implements BaseConverter<Section, SectionDto> {
         .supervisorID(section.getSupervisor().getUserID())
         .conferenceID(section.getConference().getConferenceID())
         .dateOfPresentation(section.getDateOfPresentation())
+        .price(section.getPrice())
         .build();
   }
 }

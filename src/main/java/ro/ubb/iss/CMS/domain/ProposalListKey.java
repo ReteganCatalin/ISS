@@ -10,10 +10,9 @@ public class ProposalListKey implements Serializable {
 
   public ProposalListKey() {}
 
-  public ProposalListKey(Integer sectionID, Integer proposalID, Integer conferenceID) {
+  public ProposalListKey(Integer sectionID, Integer proposalID) {
     this.sectionID = sectionID;
     this.proposalID = proposalID;
-    this.conferenceID = conferenceID;
   }
 
   @Override
@@ -23,8 +22,6 @@ public class ProposalListKey implements Serializable {
         + sectionID
         + ", proposalID="
         + proposalID
-        + ", conferenceID="
-        + conferenceID
         + '}';
   }
 
@@ -34,13 +31,12 @@ public class ProposalListKey implements Serializable {
     if (o == null || getClass() != o.getClass()) return false;
     ProposalListKey that = (ProposalListKey) o;
     return sectionID.equals(that.sectionID)
-        && proposalID.equals(that.proposalID)
-        && conferenceID.equals(that.conferenceID);
+        && proposalID.equals(that.proposalID);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sectionID, proposalID, conferenceID);
+    return Objects.hash(sectionID, proposalID);
   }
 
   public Integer getSectionID() {
@@ -59,20 +55,9 @@ public class ProposalListKey implements Serializable {
     this.proposalID = proposalID;
   }
 
-  public Integer getConferenceID() {
-    return conferenceID;
-  }
-
-  public void setConferenceID(Integer conferenceID) {
-    this.conferenceID = conferenceID;
-  }
-
   @Column(name = "section_id")
   private Integer sectionID;
 
   @Column(name = "proposal_id")
   private Integer proposalID;
-
-  @Column(name = "conference_id")
-  private Integer conferenceID;
 }

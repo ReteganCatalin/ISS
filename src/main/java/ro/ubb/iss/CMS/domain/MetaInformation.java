@@ -30,5 +30,6 @@ public class MetaInformation {
 
   @OneToOne(mappedBy = "metaInformation", fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Proposal proposal;
 }

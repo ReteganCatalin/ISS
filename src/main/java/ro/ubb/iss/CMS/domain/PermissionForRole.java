@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role_permission_id")
+@Table(name = "role_permission_list")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

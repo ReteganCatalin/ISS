@@ -6,7 +6,7 @@ import ro.ubb.iss.CMS.domain.Conference;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "presentation")
+@Table(name = "presentations")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

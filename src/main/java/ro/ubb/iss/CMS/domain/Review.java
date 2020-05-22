@@ -107,10 +107,12 @@ public class Review {
   User user;
 
   @OneToOne(
-      orphanRemoval = true,
       cascade = CascadeType.ALL,
       optional = false,
-      fetch = FetchType.LAZY)
-  @JoinColumn(name = "recommendation_id")
+      fetch = FetchType.LAZY,
+      mappedBy = "review"
+  )
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Recommendation recommendation;
 }

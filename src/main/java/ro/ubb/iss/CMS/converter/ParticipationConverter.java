@@ -28,6 +28,11 @@ public class ParticipationConverter implements BaseConverter<Participation, Part
 
   @Override
   public ParticipationDto convertModelToDto(Participation participation) {
-    return null;
+    return ParticipationDto.builder()
+        .participantListID(participation.getParticipantListID())
+        .roleID(participation.getRole().getRoleID())
+        .userID(participation.getUser().getUserID())
+        .sectionID(participation.getSection().getSectionID())
+        .build();
   }
 }
