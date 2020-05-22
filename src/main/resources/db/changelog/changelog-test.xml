@@ -251,10 +251,10 @@
                        tableName="analysis"
                        validate="true"/>
     </changeSet>
-    <changeSet  author="catalin"  id="rename Table role_permission_id">
-        <renameTable  newTableName="role_permission_list"
-                      oldTableName="role_permission_id"
-                      schemaName="public"/>
+    <changeSet author="catalin" id="rename Table role_permission_id">
+        <renameTable newTableName="role_permission_list"
+                     oldTableName="role_permission_id"
+                     schemaName="public"/>
     </changeSet>
     <changeSet author="catalin" id="add composite primary key for role_permission_list">
         <addPrimaryKey columnNames="role_id, permission_id"
@@ -262,14 +262,14 @@
                        tableName="role_permission_list"
                        validate="true"/>
     </changeSet>
-    <changeSet  author="catalin"  id="renameColumn in analysis">
+    <changeSet author="catalin" id="renameColumn in analysis">
         <renameColumn
-                       columnDataType="STRING"
-                       newColumnName="brief_analysis"
-                       oldColumnName="brief_analyse"
-                       remarks="A String"
-                       schemaName="public"
-                       tableName="analysis"/>
+                columnDataType="STRING"
+                newColumnName="brief_analysis"
+                oldColumnName="brief_analyse"
+                remarks="A String"
+                schemaName="public"
+                tableName="analysis"/>
     </changeSet>
     <changeSet author="catalin" id="createTable-proposal-conference">
         <createTable catalogName="CMS-TEST"
@@ -314,11 +314,11 @@
                                  validate="true"/>
     </changeSet>
 
-    <changeSet  author="rename-user-table-to-users"  id="tamas">
-        <renameTable  catalogName="CMS-TEST"
-                      newTableName="users"
-                      oldTableName="user"
-                      schemaName="public"/>
+    <changeSet author="rename-user-table-to-users" id="tamas">
+        <renameTable catalogName="CMS-TEST"
+                     newTableName="users"
+                     oldTableName="user"
+                     schemaName="public"/>
     </changeSet>
     <changeSet id="add-price-column-to-section" author="tamas">
         <addColumn catalogName="CMS-TEST"
@@ -327,17 +327,6 @@
             <column name="price" type="integer"/>
         </addColumn>
     </changeSet>
-
-
-
-
-
-
-
-
-
-
-
 
 
     <changeSet author="tamas" id="create-presentation-table">

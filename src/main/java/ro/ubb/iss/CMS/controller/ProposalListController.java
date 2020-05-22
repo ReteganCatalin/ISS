@@ -41,16 +41,10 @@ public class ProposalListController {
     return result;
   }
 
-  @RequestMapping(
-      value = "/proposalLists/{sectionID}/{proposalID}",
-      method = RequestMethod.GET)
+  @RequestMapping(value = "/proposalLists/{sectionID}/{proposalID}", method = RequestMethod.GET)
   public ProposalListDto getProposalList(
-      @PathVariable Integer sectionID,
-      @PathVariable Integer proposalID) {
-    log.trace(
-        "getProposalList - method entered sectionID={} proposalID={}",
-        sectionID,
-        proposalID);
+      @PathVariable Integer sectionID, @PathVariable Integer proposalID) {
+    log.trace("getProposalList - method entered sectionID={} proposalID={}", sectionID, proposalID);
     ProposalListKey proposalListKey = new ProposalListKey(sectionID, proposalID);
     Optional<ProposalList> anAbstract = service.findProposalList(proposalListKey);
     ProposalListDto result = null;
@@ -64,9 +58,7 @@ public class ProposalListController {
     log.trace("saveProposalList - method entered proposalListKey={}", proposalListKey);
     Optional<ProposalList> result =
         service.saveProposal(
-            new ProposalListKey(
-                proposalListKey.getSectionID(),
-                proposalListKey.getProposalID()));
+            new ProposalListKey(proposalListKey.getSectionID(), proposalListKey.getProposalID()));
     ProposalListDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("saveProposalList - method finished: result={}", resultToReturn);

@@ -31,9 +31,9 @@ public class ProposalList {
   @EqualsAndHashCode.Exclude
   Proposal proposal;
 
-//  @ManyToOne(optional = false, fetch = FetchType.LAZY)
-//  @MapsId("conference_id")
-//  @JoinColumn(name = "conference_id")
-//  @EqualsAndHashCode.Exclude
-//  Conference conference;
+  //  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  //  @MapsId("conference_id")
+  //  @JoinColumn(name = "conference_id")
+  //  @EqualsAndHashCode.Exclude
+  //  Conference conference;
 }

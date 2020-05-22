@@ -17,12 +17,7 @@ public class ProposalListKey implements Serializable {
 
   @Override
   public String toString() {
-    return "ProposalListKey{"
-        + "sectionID="
-        + sectionID
-        + ", proposalID="
-        + proposalID
-        + '}';
+    return "ProposalListKey{" + "sectionID=" + sectionID + ", proposalID=" + proposalID + '}';
   }
 
   @Override
@@ -30,8 +25,7 @@ public class ProposalListKey implements Serializable {
     if (this == o) return true;
     if (o == null || getClass() != o.getClass()) return false;
     ProposalListKey that = (ProposalListKey) o;
-    return sectionID.equals(that.sectionID)
-        && proposalID.equals(that.proposalID);
+    return sectionID.equals(that.sectionID) && proposalID.equals(that.proposalID);
   }
 
   @Override

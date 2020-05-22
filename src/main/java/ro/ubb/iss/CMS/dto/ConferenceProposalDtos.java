@@ -1,6 +1,5 @@
 package ro.ubb.iss.CMS.dto;
 
-
 import lombok.*;
 
 import java.util.List;
@@ -13,5 +12,5 @@ import java.util.List;
 @Builder
 public class ConferenceProposalDtos {
 
-    List<ConferenceProposalDto> conferenceProposalDtos;
+  List<ConferenceProposalDto> conferenceProposalDtos;
 }

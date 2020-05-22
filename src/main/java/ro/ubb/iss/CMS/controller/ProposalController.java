@@ -47,16 +47,23 @@ public class ProposalController {
     Optional<Proposal> proposal = service.findProposal(id);
     Map<String, Object> result = new HashMap<>();
     if (proposal.isPresent()) {
-      result.put("author_list",proposal.get().getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
+      result.put(
+          "author_list",
+          proposal.get().getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
       result.put(
           "section",
           proposal.get().getProposalListsForSections().stream()
               .map(elem -> sectionConverter.convertModelToDto(elem.getSection()))
               .collect(Collectors.toList()));
-       result.put("meta_info",metaInfoConverter.convertModelToDto(proposal.get().getMetaInformation()));
-       result.put("abstract_location",proposal.get().getAnAbstract().getByteFileLocation());
-       result.put("paper_location",proposal.get().getPaper().getByteFileLocation());
-       result.put("qualifier",proposal.get().getReviews().stream().map(elem->elem.getQualifier().getName()).collect(Collectors.toList()));
+      result.put(
+          "meta_info", metaInfoConverter.convertModelToDto(proposal.get().getMetaInformation()));
+      result.put("abstract_location", proposal.get().getAnAbstract().getByteFileLocation());
+      result.put("paper_location", proposal.get().getPaper().getByteFileLocation());
+      result.put(
+          "qualifier",
+          proposal.get().getReviews().stream()
+              .map(elem -> elem.getQualifier().getName())
+              .collect(Collectors.toList()));
     }
     log.trace("getDetailedProposal - method finished: result={}", result);
     return result;

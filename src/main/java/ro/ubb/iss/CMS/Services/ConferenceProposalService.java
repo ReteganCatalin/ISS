@@ -9,11 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ConferenceProposalService {
-    Optional<ConferenceProposal> findConferenceProposal(ConferenceProposalKey conferenceProposalKey);
+  Optional<ConferenceProposal> findConferenceProposal(ConferenceProposalKey conferenceProposalKey);
 
-    List<ConferenceProposal> findAll();
+  List<ConferenceProposal> findAll();
 
-    Optional<ConferenceProposal> saveConferenceProposal(ConferenceProposalKey conferenceProposalKey);
+  Optional<ConferenceProposal> saveConferenceProposal(ConferenceProposalKey conferenceProposalKey);
 
-    void deleteConferenceProposal(ConferenceProposalKey conferenceProposalKey);
+  void deleteConferenceProposal(ConferenceProposalKey conferenceProposalKey);
 }

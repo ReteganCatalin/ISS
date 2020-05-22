@@ -17,9 +17,7 @@ public class ProposalListConverter implements BaseConverter<ProposalList, Propos
   public ProposalList convertDtoToModel(ProposalListDto proposalListDto) {
     return ProposalList.builder()
         .proposalListKey(
-            new ProposalListKey(
-                proposalListDto.getSectionID(),
-                proposalListDto.getProposalID()))
+            new ProposalListKey(proposalListDto.getSectionID(), proposalListDto.getProposalID()))
         .section(entityManager.getReference(Section.class, proposalListDto.getSectionID()))
         .proposal(entityManager.getReference(Proposal.class, proposalListDto.getProposalID()))
         .build();

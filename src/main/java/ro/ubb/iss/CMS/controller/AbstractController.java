@@ -35,7 +35,7 @@ public class AbstractController {
     log.trace("getAllAbstracts - method entered");
     AbstractsDto result = new AbstractsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllAbstracts - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/abstracts/{id}", method = RequestMethod.GET)
@@ -46,7 +46,7 @@ public class AbstractController {
     AbstractDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getAbstract - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/abstracts", method = RequestMethod.POST)
@@ -62,7 +62,7 @@ public class AbstractController {
     }
     AbstractDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveAbstract - method finished: result={}", resultToReturn);
-    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
+    return new ResponseEntity<>(resultToReturn, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/abstracts", method = RequestMethod.PUT)
@@ -76,10 +76,9 @@ public class AbstractController {
                 anAbstract.getFormat(),
                 anAbstract.getByteFileLocation()));
     log.trace("updateAbstract - method finished: result={}", result);
-    if(result == null)
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    if (result == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/abstracts/{id}", method = RequestMethod.DELETE)

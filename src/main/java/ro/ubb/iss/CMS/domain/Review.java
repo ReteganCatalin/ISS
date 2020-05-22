@@ -110,8 +110,7 @@ public class Review {
       cascade = CascadeType.ALL,
       optional = false,
       fetch = FetchType.LAZY,
-      mappedBy = "review"
-  )
+      mappedBy = "review")
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   Recommendation recommendation;

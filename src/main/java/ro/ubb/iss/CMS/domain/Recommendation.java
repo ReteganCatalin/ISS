@@ -19,9 +19,7 @@ public class Recommendation {
   @Column(name = "recommendation_id")
   private Integer recommendationID;
 
-  @OneToOne(cascade = CascadeType.ALL,
-          optional = false,
-          fetch = FetchType.LAZY)
+  @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "review_id")
   private Review review;
 

@@ -1,6 +1,5 @@
 package ro.ubb.iss.CMS.dto;
 
-
 import lombok.*;
 
 @NoArgsConstructor
@@ -11,7 +10,7 @@ import lombok.*;
 @Builder
 public class ConferenceProposalDto {
 
-    private Integer proposalID;
+  private Integer proposalID;
 
-    private Integer conferenceID;
+  private Integer conferenceID;
 }

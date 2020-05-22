@@ -12,23 +12,27 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Component
-public class ConferenceProposalConverter implements BaseConverter<ConferenceProposal, ConferenceProposalDto> {
-    @PersistenceContext // or even @Autowired
-    private EntityManager entityManager;
+public class ConferenceProposalConverter
+    implements BaseConverter<ConferenceProposal, ConferenceProposalDto> {
+  @PersistenceContext // or even @Autowired
+  private EntityManager entityManager;
 
-    @Override
-    public ConferenceProposal convertDtoToModel(ConferenceProposalDto conferenceProposalDto) {
-        return ConferenceProposal.builder()
-                .conferenceProposalKey(ConferenceProposalKey.builder()
-                        .conferenceID(conferenceProposalDto.getConferenceID())
-                        .proposalID(conferenceProposalDto.getProposalID()).build()).build();
-    }
+  @Override
+  public ConferenceProposal convertDtoToModel(ConferenceProposalDto conferenceProposalDto) {
+    return ConferenceProposal.builder()
+        .conferenceProposalKey(
+            ConferenceProposalKey.builder()
+                .conferenceID(conferenceProposalDto.getConferenceID())
+                .proposalID(conferenceProposalDto.getProposalID())
+                .build())
+        .build();
+  }
 
-    @Override
-    public ConferenceProposalDto convertModelToDto(ConferenceProposal conferenceProposal) {
-        return ConferenceProposalDto.builder()
-                .conferenceID(conferenceProposal.getConference().getConferenceID())
-                .proposalID(conferenceProposal.getProposal().getProposalID())
-                .build();
-    }
+  @Override
+  public ConferenceProposalDto convertModelToDto(ConferenceProposal conferenceProposal) {
+    return ConferenceProposalDto.builder()
+        .conferenceID(conferenceProposal.getConference().getConferenceID())
+        .proposalID(conferenceProposal.getProposal().getProposalID())
+        .build();
+  }
 }

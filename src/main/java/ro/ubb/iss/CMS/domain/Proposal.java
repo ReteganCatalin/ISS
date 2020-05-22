@@ -50,7 +50,6 @@ public class Proposal {
   @ToString.Exclude
   Set<ConferenceProposal> proposalAssignedForConference = new HashSet<>();
 
-
   @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_info_id")
   private UserInfo userInfo;
