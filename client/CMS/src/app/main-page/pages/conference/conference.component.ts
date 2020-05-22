@@ -6,7 +6,6 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./conference.component.css']
 })
 export class ConferenceComponent implements OnInit {
-  isCollapsedConferenceInfo = true;
 
   constructor() { }
 
