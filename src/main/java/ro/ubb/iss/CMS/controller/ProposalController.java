@@ -48,6 +48,7 @@ public class ProposalController {
     Map<String, Object> result = new HashMap<>();
     if (proposal.isPresent()) {
       result.put("proposal_id",proposal.get().getProposalID());
+      result.put("proposal_proper_info",converter.convertModelToDto(proposal.get()));
       result.put(
           "author_list",
           proposal.get().getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
