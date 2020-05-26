@@ -23,12 +23,14 @@ public class ProposalList {
   @MapsId("section_id")
   @JoinColumn(name = "section_id")
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Section section;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("proposal_id")
   @JoinColumn(name = "proposal_id")
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Proposal proposal;
 
   //  @ManyToOne(optional = false, fetch = FetchType.LAZY)

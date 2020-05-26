@@ -24,5 +24,7 @@ public class Author {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "proposal_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Proposal proposal;
 }

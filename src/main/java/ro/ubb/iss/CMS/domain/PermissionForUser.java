@@ -21,11 +21,13 @@ public class PermissionForUser {
   @MapsId("user_id")
   @JoinColumn(name = "user_id")
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("permission_id")
   @JoinColumn(name = "permission_id")
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Permission permission;
 }

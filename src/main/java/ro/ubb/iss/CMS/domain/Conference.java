@@ -51,6 +51,7 @@ public class Conference {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<Section> sections = new HashSet<>();
 
   @OneToMany(
@@ -59,6 +60,7 @@ public class Conference {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<ConferenceProposal> proposalsForConference = new HashSet<>();
 
   @OneToMany(
@@ -67,6 +69,7 @@ public class Conference {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<PcMember> pcMembers = new HashSet<>();
 
   //  @OneToMany(
@@ -83,6 +86,7 @@ public class Conference {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<Presentation> presentations = new HashSet<>();
 
   @OneToOne(
@@ -91,5 +95,6 @@ public class Conference {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   BiddingProcess biddingProcess;
 }

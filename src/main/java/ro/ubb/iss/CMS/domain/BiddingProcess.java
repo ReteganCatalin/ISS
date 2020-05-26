@@ -24,6 +24,8 @@ public class BiddingProcess {
 
   @OneToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "conference_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Conference conference;
 
   @Column(name = "deadline", nullable = false)
@@ -36,5 +38,6 @@ public class BiddingProcess {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Set<Analysis> analyses = new HashSet<>();
 }

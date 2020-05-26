@@ -96,14 +96,20 @@ public class Review {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "proposal_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Proposal proposal;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "qualifier_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Qualifier qualifier;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   User user;
 
   @OneToOne(

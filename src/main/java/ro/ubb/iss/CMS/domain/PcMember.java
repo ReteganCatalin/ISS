@@ -20,10 +20,14 @@ public class PcMember {
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("user_id")
   @JoinColumn(name = "user_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("conference_id")
   @JoinColumn(name = "conference_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Conference conference;
 }

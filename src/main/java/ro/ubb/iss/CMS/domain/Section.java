@@ -25,10 +25,14 @@ public class Section {
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "supervisor_id", referencedColumnName = "user_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private User supervisor;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "conference_id", nullable = false)
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Conference conference;
 
   @Temporal(TemporalType.DATE)
@@ -40,17 +44,21 @@ public class Section {
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<Participation> participations = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<ProposalList> proposalLists = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<Presentation> presentations = new HashSet<>();
 
   @OneToMany(mappedBy = "section", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<MyTicket> myTickets = new HashSet<>();
 }

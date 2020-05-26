@@ -22,10 +22,14 @@ public class Presentation {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "conference_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Conference conference;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "section_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Section section;
 
   @Column(name = "format", nullable = false)

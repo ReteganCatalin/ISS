@@ -22,10 +22,14 @@ public class MyTicket {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "section_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Section section;
 
   @Column(name = "price")

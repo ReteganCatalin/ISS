@@ -21,6 +21,8 @@ public class Recommendation {
 
   @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "review_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Review review;
 
   @Column(name = "recommendation_message")

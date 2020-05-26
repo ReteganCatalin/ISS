@@ -21,13 +21,19 @@ public class Participation {
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "section_id", nullable = false)
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Section section;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id", nullable = false)
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "role_id", nullable = false)
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Role role;
 }
