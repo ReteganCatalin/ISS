@@ -1,10 +1,10 @@
 export class Conference {
-  private conferenceID: number;
-  private name: string;
-  private startDate: Date;
-  private endDate: Date;
-  private proposalDeadline: Date;
-  private paperDeadline: Date;
+  conferenceID: number;
+  name: string;
+  startDate: Date;
+  endDate: Date;
+  proposalDeadline: Date;
+  paperDeadline: Date;
 
   constructor() {
     this.conferenceID = 0;

@@ -5,7 +5,7 @@
         <div class="card-body">
           <h2 class="card-title">{{conference.name}}</h2>
           <p class="card-text">Some text about the conference</p>
-          <button class="btn btn-primary" routerLink="conference">See proposals</button>
+          <button class="btn btn-primary" routerLink="conference" (click)="onClickProposals(conference.conferenceID)" >See proposals</button>
         </div>
       </div>
   </div>

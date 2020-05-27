@@ -17,6 +17,7 @@ export class MainPageComponent implements OnInit, AfterViewInit{
     const formFormFactory = this.resolver.resolveComponentFactory(AddConferenceComponent);
     this.entry.createComponent(formFormFactory);
     this.changeDetectorRef.detectChanges(); // nu stiu ce face line asta, da trebe ca sa nu isi dea naspa :/
+
   }
 
 }
