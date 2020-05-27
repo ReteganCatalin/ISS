@@ -8,17 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
-import ro.ubb.iss.CMS.converter.ConferenceConverter;
+import ro.ubb.iss.CMS.converter.*;
 import ro.ubb.iss.CMS.Services.ConferenceService;
-import ro.ubb.iss.CMS.converter.ProposalConverter;
-import ro.ubb.iss.CMS.converter.SectionConverter;
-import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.*;
 import ro.ubb.iss.CMS.dto.*;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
@@ -32,6 +27,11 @@ public class ConferenceController {
   @Autowired private ProposalConverter proposalConverter;
   @Autowired private UserConverter userConverter;
   @Autowired private SectionConverter sectionConverter;
+  @Autowired private BiddingProcessConverter biddingProcessConverter;
+  @Autowired private MetaInfoConverter metaInfoConverter;
+  @Autowired private AnalysisConverter analysisConverter;
+
+
 
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
   public ConferencesDto getAllConferences() {
@@ -50,6 +50,61 @@ public class ConferenceController {
     log.trace("getConference - method finished: result={}", result);
     return result;
   }
+
+  /*
+  SELECT bid.bid_id, bid.conference_id, bid.deadline,
+  als.bid_id,als.user_id,als.proposal_id,als.brief_analysis,als.refuse,
+  prop.proposal_id, mtf.*
+  FROM public."bidding_process" as bid
+  INNER JOIN public."analysis" as als ON als.bid_id=bid.bid_id
+  INNER JOIN public."proposal" as prop ON prop.proposal_id = als.proposal_id
+  INNER JOIN public."meta_info" as mtf ON mtf.meta_info_id = prop.proposal_id
+  WHERE bid.conference_id = 1 and als.user_id=1
+
+
+   */
+  //Meta info, proposal only id, analysis everything, bid everyhting
+  @RequestMapping(value = "/conferences/detail/{id}/{userId}", method = RequestMethod.GET)
+  public Map<String,Object> getConferenceDetail(@PathVariable Integer id,@PathVariable Integer userId) {
+    log.trace("getConferenceDetail - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    Map<String,Object> result = null;
+    if (conference.isPresent()) {
+      Optional<User> user = conference.get().getPcMembers().stream().map(PcMember::getUser).filter(user1->user1.getUserID().equals(userId)).findFirst();
+      if(user.isPresent()){
+        result = new HashMap<>();
+        BiddingProcess biddingProcess = conference.get().getBiddingProcess();
+        result.put("bidding_process",biddingProcessConverter.convertModelToDto(biddingProcess));
+        List<Analysis> analyses = biddingProcess.getAnalyses().stream().filter(analysis -> analysis.getUser().getUserID().equals(userId)).collect(Collectors.toList());
+//        Map<AnalysisDto,Map<Integer,MetaInfoDto>> proposalMap = analyses.stream()
+//                .collect(Collectors
+//                        .toMap(key->analysisConverter.convertModelToDto(key),
+//                                value->{
+//                                  Map<Integer,MetaInfoDto> resultMap = new HashMap<>();
+//                                  resultMap.put(value.getProposal().getProposalID(),metaInfoConverter.convertModelToDto(value.getProposal().getMetaInformation()));
+//                                  return resultMap;
+//                                }));
+        List<Map<String,Object>> resultMapList =
+                analyses.stream().map(currentAnalysis -> {
+                  Map<String,Object> values = new HashMap<>();
+                  values.put("analysis_key",currentAnalysis.getAnalysisKey());
+                  values.put("analysis_data",analysisConverter.convertModelToDto(currentAnalysis));
+                  Map<String,Object> proposalData = new HashMap<>();
+                  proposalData.put("proposal_id",currentAnalysis.getProposal().getProposalID());
+                  proposalData.put("meta_information",metaInfoConverter.convertModelToDto(currentAnalysis.getProposal().getMetaInformation()));
+                  values.put("proposal_data",proposalData);
+                  return values;
+                }).collect(Collectors.toList());
+
+        result.put("analyses",resultMapList);
+
+//        result.put("analysis_data",proposalMap);
+      }
+    }
+    log.trace("getConferenceDetail - method finished: result={}", result);
+    return result;
+  }
+
 
   @RequestMapping(value = "/conferences/{id}/accepted", method = RequestMethod.GET)
   public ProposalsDto getConferenceAcceptedProposals(@PathVariable Integer id) {
