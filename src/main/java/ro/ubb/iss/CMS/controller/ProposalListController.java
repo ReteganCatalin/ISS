@@ -41,19 +41,11 @@ public class ProposalListController {
     return result;
   }
 
-  @RequestMapping(
-      value = "/proposalLists/{sectionID}/{proposalID}/{conferenceID}",
-      method = RequestMethod.GET)
+  @RequestMapping(value = "/proposalLists/{sectionID}/{proposalID}", method = RequestMethod.GET)
   public ProposalListDto getProposalList(
-      @PathVariable Integer sectionID,
-      @PathVariable Integer proposalID,
-      @PathVariable Integer conferenceID) {
-    log.trace(
-        "getProposalList - method entered sectionID={} proposalID={} conferenceID={}",
-        sectionID,
-        proposalID,
-        conferenceID);
-    ProposalListKey proposalListKey = new ProposalListKey(sectionID, proposalID, conferenceID);
+      @PathVariable Integer sectionID, @PathVariable Integer proposalID) {
+    log.trace("getProposalList - method entered sectionID={} proposalID={}", sectionID, proposalID);
+    ProposalListKey proposalListKey = new ProposalListKey(sectionID, proposalID);
     Optional<ProposalList> anAbstract = service.findProposalList(proposalListKey);
     ProposalListDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
@@ -66,10 +58,7 @@ public class ProposalListController {
     log.trace("saveProposalList - method entered proposalListKey={}", proposalListKey);
     Optional<ProposalList> result =
         service.saveProposal(
-            new ProposalListKey(
-                proposalListKey.getSectionID(),
-                proposalListKey.getProposalID(),
-                proposalListKey.getConferenceID()));
+            new ProposalListKey(proposalListKey.getSectionID(), proposalListKey.getProposalID()));
     ProposalListDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("saveProposalList - method finished: result={}", resultToReturn);
@@ -88,7 +77,7 @@ public class ProposalListController {
         sectionID,
         proposalID,
         conferenceID);
-    ProposalListKey proposalListKey = new ProposalListKey(sectionID, proposalID, conferenceID);
+    ProposalListKey proposalListKey = new ProposalListKey(sectionID, proposalID);
 
     try {
       service.deleteProposal(proposalListKey);

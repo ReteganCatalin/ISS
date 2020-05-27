@@ -54,18 +54,12 @@ public class SaveToStorageUtility {
     File storageDirectory = new File(mainStorage);
 
     if (!storageDirectory.exists()) {
-      if (!storageDirectory.mkdir())
+      if (!storageDirectory.mkdirs())
         throw new UnableToCreateStorageDirectoryException("Unable to create the storage directory");
     }
 
     String destinationLocation =
-        mainStorage
-            + File.separator
-            + currentDate
-            + "_"
-            + randomString
-            + "_"
-            + fileName;
+        mainStorage + File.separator + currentDate + "_" + randomString + "_" + fileName;
     Path source = Paths.get(sourceFile);
     Path destination = Paths.get(destinationLocation);
     try {

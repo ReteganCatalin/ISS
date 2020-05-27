@@ -17,13 +17,9 @@ public class ProposalListConverter implements BaseConverter<ProposalList, Propos
   public ProposalList convertDtoToModel(ProposalListDto proposalListDto) {
     return ProposalList.builder()
         .proposalListKey(
-            new ProposalListKey(
-                proposalListDto.getSectionID(),
-                proposalListDto.getProposalID(),
-                proposalListDto.getConferenceID()))
+            new ProposalListKey(proposalListDto.getSectionID(), proposalListDto.getProposalID()))
         .section(entityManager.getReference(Section.class, proposalListDto.getSectionID()))
         .proposal(entityManager.getReference(Proposal.class, proposalListDto.getProposalID()))
-        .conference(entityManager.getReference(Conference.class, proposalListDto.getConferenceID()))
         .build();
   }
 
@@ -32,7 +28,6 @@ public class ProposalListConverter implements BaseConverter<ProposalList, Propos
     return ProposalListDto.builder()
         .sectionID(proposalList.getSection().getSectionID())
         .proposalID(proposalList.getProposal().getProposalID())
-        .conferenceID(proposalList.getConference().getConferenceID())
         .build();
   }
 }

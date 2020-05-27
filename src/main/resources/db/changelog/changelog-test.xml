@@ -251,10 +251,10 @@
                        tableName="analysis"
                        validate="true"/>
     </changeSet>
-    <changeSet  author="catalin"  id="rename Table role_permission_id">
-        <renameTable  newTableName="role_permission_list"
-                      oldTableName="role_permission_id"
-                      schemaName="public"/>
+    <changeSet author="catalin" id="rename Table role_permission_id">
+        <renameTable newTableName="role_permission_list"
+                     oldTableName="role_permission_id"
+                     schemaName="public"/>
     </changeSet>
     <changeSet author="catalin" id="add composite primary key for role_permission_list">
         <addPrimaryKey columnNames="role_id, permission_id"
@@ -262,14 +262,14 @@
                        tableName="role_permission_list"
                        validate="true"/>
     </changeSet>
-    <changeSet  author="catalin"  id="renameColumn in analysis">
+    <changeSet author="catalin" id="renameColumn in analysis">
         <renameColumn
-                       columnDataType="STRING"
-                       newColumnName="brief_analysis"
-                       oldColumnName="brief_analyse"
-                       remarks="A String"
-                       schemaName="public"
-                       tableName="analysis"/>
+                columnDataType="STRING"
+                newColumnName="brief_analysis"
+                oldColumnName="brief_analyse"
+                remarks="A String"
+                schemaName="public"
+                tableName="analysis"/>
     </changeSet>
     <changeSet author="catalin" id="createTable-proposal-conference">
         <createTable catalogName="CMS-TEST"
@@ -314,6 +314,65 @@
                                  validate="true"/>
     </changeSet>
 
+    <changeSet author="rename-user-table-to-users" id="tamas">
+        <renameTable catalogName="CMS-TEST"
+                     newTableName="users"
+                     oldTableName="user"
+                     schemaName="public"/>
+    </changeSet>
+    <changeSet id="add-price-column-to-section" author="tamas">
+        <addColumn catalogName="CMS-TEST"
+                   schemaName="public"
+                   tableName="section">
+            <column name="price" type="integer"/>
+        </addColumn>
+    </changeSet>
 
+
+    <changeSet author="tamas" id="create-presentation-table">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="presentations">
+            <column name="presentation_id" type="int"/>
+            <column name="conference_id" type="int"/>
+            <column name="section_id" type="int"/>
+            <column name="format" type="varchar(255)"/>
+            <column name="byte_file_location" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="tamas" id="add composite primary key for presentation">
+        <addPrimaryKey columnNames="presentation_id"
+                       constraintName="PK_PRESENTATION_TABLE"
+                       tableName="presentations"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains conference_proposal" author="tamas">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="presentations"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="section_id"
+                                 baseTableName="presentations"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_section_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="section_id"
+                                 referencedTableName="section"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
 
 </databaseChangeLog>

@@ -12,22 +12,22 @@ import ro.ubb.iss.CMS.Services.FileService;
 @Controller
 public class FileController {
 
-    @Autowired
-    FileService fileService;
+  @Autowired FileService fileService;
 
-    @GetMapping("/")
-    public String index() {
-        return "upload";
-    }
+  @GetMapping("/")
+  public String index() {
+    return "upload";
+  }
 
-    @PostMapping("/uploadFile")
-    public String uploadFile(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+  @PostMapping("/uploadFile")
+  public String uploadFile(
+      @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
 
-        fileService.uploadFile(file);
+    fileService.uploadFile(file);
 
-        redirectAttributes.addFlashAttribute("message",
-            "You successfully uploaded " + file.getOriginalFilename() + "!");
+    redirectAttributes.addFlashAttribute(
+        "message", "You successfully uploaded " + file.getOriginalFilename() + "!");
 
-        return "redirect:/";
-    }
+    return "redirect:/";
+  }
 }

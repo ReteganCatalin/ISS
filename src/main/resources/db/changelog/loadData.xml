@@ -145,6 +145,7 @@
             <column header="supervisor_id" type="NUMERIC" name="supervisor_id"></column>
             <column header="conference_id" type="NUMERIC" name="conference_id"></column>
             <column header="date_of_presentation" type="DATE" name="date_of_presentation"></column>
+            <column header="price" type="NUMERIC" name="price"></column>
         </loadUpdateData>
     </changeSet>
     <changeSet id="test-qualifier" author="catalin">
@@ -297,5 +298,31 @@
             <column header="brief_analysis" type="STRING" name="brief_analysis"></column>
             <column header="refuse" type="BOOLEAN" name="refuse"></column>
         </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-conference-proposal" author="catalin">
+        <loadUpdateData
+                tableName="conference_proposal"
+                encoding="UTF-8"
+                primaryKey="conference_id,proposal_id"
+                file="db/conference_proposal.csv"
+                schemaName="public"
+                separator=",">
+            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>
+            <column header="conference_id" type="NUMERIC" name="conference_id"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="add-price-for-section-with-id-1" author="catalin">
+        <update schemaName="public"
+                tableName="section">
+            <column name="price" value="33"/>
+            <where>section_id  = '1'</where>
+        </update>
+    </changeSet>
+    <changeSet id="add-price-for-section-with-id-2" author="catalin">
+        <update schemaName="public"
+                tableName="section">
+            <column name="price" value="44"/>
+            <where>section_id  = '2'</where>
+        </update>
     </changeSet>
 </databaseChangeLog>

@@ -15,16 +15,19 @@ import javax.persistence.*;
 @Builder
 public class ConferenceProposal {
 
-    @EmbeddedId PcMemberKey pcMemberKey;
+  @EmbeddedId ConferenceProposalKey conferenceProposalKey;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @MapsId("proposal_id")
-    @JoinColumn(name = "proposal_id")
-    private Proposal proposal;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @MapsId("proposal_id")
+  @JoinColumn(name = "proposal_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  private Proposal proposal;
 
-    @ManyToOne(optional = false, fetch = FetchType.LAZY)
-    @MapsId("conference_id")
-    @JoinColumn(name = "conference_id")
-    private Conference conference;
+  @ManyToOne(optional = false, fetch = FetchType.LAZY)
+  @MapsId("conference_id")
+  @JoinColumn(name = "conference_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  private Conference conference;
 }
-

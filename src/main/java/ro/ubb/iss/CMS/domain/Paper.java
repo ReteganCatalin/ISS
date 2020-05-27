@@ -28,5 +28,6 @@ public class Paper {
 
   @OneToOne(mappedBy = "paper", fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Proposal proposal;
 }

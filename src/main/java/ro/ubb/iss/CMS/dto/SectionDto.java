@@ -14,5 +14,6 @@ public class SectionDto {
   private Integer sectionID;
   private Integer supervisorID;
   private Integer conferenceID;
+  private Integer price;
   private Date dateOfPresentation;
 }

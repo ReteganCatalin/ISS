@@ -1,5 +1,6 @@
 package ro.ubb.iss.CMS.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.ProposalService;
-import ro.ubb.iss.CMS.converter.AbstractConverter;
-import ro.ubb.iss.CMS.converter.ProposalConverter;
-import ro.ubb.iss.CMS.converter.ReviewConverter;
-import ro.ubb.iss.CMS.converter.UserConverter;
+import ro.ubb.iss.CMS.converter.*;
 import ro.ubb.iss.CMS.domain.*;
 import ro.ubb.iss.CMS.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,9 +33,60 @@ public class ProposalController {
   @Autowired private ProposalConverter converter;
   @Autowired private ReviewConverter reviewConverter;
   @Autowired private UserConverter userConverter;
+  @Autowired private MetaInfoConverter metaInfoConverter;
+  @Autowired private SectionConverter sectionConverter;
+
+  @Autowired ObjectMapper mapper;
 
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
+
+  @RequestMapping(value = "/proposals/{id}/detailed", method = RequestMethod.GET)
+  public Map<String, Object> getDetailedProposal(@PathVariable Integer id) {
+    log.trace("getDetailedProposal - method entered");
+    Optional<Proposal> proposal = service.findProposal(id);
+    Map<String, Object> result = new HashMap<>();
+    if (proposal.isPresent()) {
+      result.put("proposal_id",proposal.get().getProposalID());
+      result.put("proposal_proper_info",converter.convertModelToDto(proposal.get()));
+      result.put(
+          "author_list",
+          proposal.get().getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
+      result.put(
+          "section",
+          proposal.get().getProposalListsForSections().stream()
+              .map(elem -> sectionConverter.convertModelToDto(elem.getSection()))
+              .collect(Collectors.toList()));
+      result.put(
+          "meta_info", metaInfoConverter.convertModelToDto(proposal.get().getMetaInformation()));
+      result.put("abstract_location", proposal.get().getAnAbstract().getByteFileLocation());
+      result.put("paper_location", proposal.get().getPaper().getByteFileLocation());
+      result.put(
+          "qualifier",
+          proposal.get().getReviews().stream()
+              .map(elem -> elem.getQualifier().getName())
+              .collect(Collectors.toList()));
+    }
+    log.trace("getDetailedProposal - method finished: result={}", result);
+    return result;
+  }
+
+  //  @RequestMapping(value = "/proposals/{id}/detailed", method = RequestMethod.GET)
+  //  public Map<String, List<String>> getDetailedProposal(@PathVariable Integer id) {
+  //    log.trace("getDetailedProposal - method entered");
+  //    Optional<Proposal> proposal = service.findProposal(id);
+  //    Map<String,List<String>> result = new HashMap<>();
+  //    if (proposal.isPresent()){
+  //
+  // result.put("author_list",proposal.get().getAuthors().stream().map(a->a.getName()).collect(Collectors.toList()));
+  //
+  // result.put("section",proposal.get().getProposalListsForSections().stream().map(elem->elem.getSection()).map(elem->elem.getSectionID().toString()+";"+elem.getDateOfPresentation().toString()).collect(Collectors.toList()));
+  ////      result.put("meta_info",proposal.get().getMetaInformation());
+  //
+  //    }
+  //    log.trace("getDetailedProposal - method finished: result={}", result);
+  //    return result;
+  //  }
 
   @RequestMapping(value = "/proposals", method = RequestMethod.GET)
   public ProposalsDto getAllProposals() {
@@ -96,17 +148,16 @@ public class ProposalController {
     UsersDto result = null;
     if (proposal.isPresent())
       result =
-              UsersDto.builder()
-                      .userDtoList(
-                              userConverter.convertModelsToDtos(
-                                      proposal.get().getReviews().stream()
-                                              .map(Review::getUser)
-                                              .collect(Collectors.toList())))
-                      .build();
+          UsersDto.builder()
+              .userDtoList(
+                  userConverter.convertModelsToDtos(
+                      proposal.get().getReviews().stream()
+                          .map(Review::getUser)
+                          .collect(Collectors.toList())))
+              .build();
     log.trace("getAllAvailable - method finished: result={}", result);
     return result;
   }
-
 
   @RequestMapping(value = "/proposals", method = RequestMethod.POST)
   public ProposalDto saveProposal(@RequestBody ProposalDto proposalDto) {

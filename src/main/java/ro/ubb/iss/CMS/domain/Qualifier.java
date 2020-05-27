@@ -27,5 +27,6 @@ public class Qualifier {
 
   @OneToMany(mappedBy = "qualifier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Set<Review> reviews = new HashSet<>();
 }

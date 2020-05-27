@@ -1,4 +1,5 @@
 package ro.ubb.iss.CMS.domain;
+
 import lombok.*;
 
 import javax.persistence.Column;
@@ -15,9 +16,9 @@ import java.io.Serializable;
 @Embeddable
 public class ConferenceProposalKey implements Serializable {
 
-    @Column(name = "proposal_id")
-    private Integer proposalID;
+  @Column(name = "proposal_id")
+  private Integer proposalID;
 
-    @Column(name = "conference_id")
-    private Integer conferenceID;
+  @Column(name = "conference_id")
+  private Integer conferenceID;
 }

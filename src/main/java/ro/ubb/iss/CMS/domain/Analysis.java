@@ -21,21 +21,24 @@ public class Analysis {
   @MapsId("user_id")
   @JoinColumn(name = "user_id")
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   User user;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("proposal_id")
   @JoinColumn(name = "proposal_id")
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   Proposal proposal;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @MapsId("bid_id")
   @JoinColumn(name = "bid_id")
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   BiddingProcess biddingProcess;
 
-  @Column(name = "brief_analyse", nullable = false, columnDefinition = "TEXT")
+  @Column(name = "brief_analysis", nullable = false, columnDefinition = "TEXT")
   private String briefAnalysis;
 
   @Column(name = "refuse", nullable = false)

@@ -31,5 +31,6 @@ public class Role {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Set<Participation> participations = new HashSet<>();
 }

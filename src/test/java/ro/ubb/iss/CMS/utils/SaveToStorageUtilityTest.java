@@ -20,26 +20,26 @@ class SaveToStorageUtilityTest {
 
   @Test
   void Given_NonExistingFile_When_TryToSaveFile_Then_returnsNull() {
-    String result = SaveToStorageUtility.saveFileToStorage(".\\storage","nofile_that_exists.txt");
+    String result = SaveToStorageUtility.saveFileToStorage(".\\storage", "nofile_that_exists.txt");
     assertNull(result);
   }
 
   @Test
-  void Given_NonExistingSotrageAndExistingFile_When_TryToSaveFile_Then_CreatesNewStorageAndSavesTheFile() {
+  void
+      Given_NonExistingSotrageAndExistingFile_When_TryToSaveFile_Then_CreatesNewStorageAndSavesTheFile() {
 
     try {
       File myObj = new File("test_file.txt");
-      if(!myObj.createNewFile()){
+      if (!myObj.createNewFile()) {
         Assertions.fail("This file shouldn't exist!");
-      }
-      else{
+      } else {
 
-        String result = SaveToStorageUtility.saveFileToStorage(".\\storage_dummy","test_file.txt");
+        String result = SaveToStorageUtility.saveFileToStorage(".\\storage_dummy", "test_file.txt");
         File myObjNewFile = new File(result);
         myObjNewFile.delete();
         File emptyDirectiory = new File(".\\storage_dummy");
         emptyDirectiory.delete();
-        if(!myObj.delete()){
+        if (!myObj.delete()) {
           Assertions.fail("Couldn't delete the file!");
         }
       }
@@ -47,7 +47,6 @@ class SaveToStorageUtilityTest {
     } catch (IOException e) {
       Assertions.fail("Cannot create file!");
     }
-
   }
 
   @Test
@@ -55,15 +54,14 @@ class SaveToStorageUtilityTest {
 
     try {
       File myObj = new File("test_file.txt");
-      if(!myObj.createNewFile()){
+      if (!myObj.createNewFile()) {
         Assertions.fail("This file shouldn't exist!");
-      }
-      else{
+      } else {
 
-        String result = SaveToStorageUtility.saveFileToStorage(".\\storage","test_file.txt");
+        String result = SaveToStorageUtility.saveFileToStorage(".\\storage", "test_file.txt");
         File myObjNewFile = new File(result);
         myObjNewFile.delete();
-        if(!myObj.delete()){
+        if (!myObj.delete()) {
           Assertions.fail("Couldn't delete the file!");
         }
       }
@@ -71,8 +69,5 @@ class SaveToStorageUtilityTest {
     } catch (IOException e) {
       Assertions.fail("Cannot create file!");
     }
-
   }
-
-
 }

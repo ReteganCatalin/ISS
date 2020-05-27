@@ -31,5 +31,6 @@ public class Permission {
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Set<PermissionForUser> permissionForUser = new HashSet<>();
 }

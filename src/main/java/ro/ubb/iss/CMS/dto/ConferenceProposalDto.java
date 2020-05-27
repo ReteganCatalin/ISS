@@ -8,7 +8,9 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class ProposalListDto {
-  private Integer sectionID;
+public class ConferenceProposalDto {
+
   private Integer proposalID;
+
+  private Integer conferenceID;
 }

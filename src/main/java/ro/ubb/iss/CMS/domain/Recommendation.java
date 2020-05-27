@@ -5,7 +5,7 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "abstract")
+@Table(name = "recommendation")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -19,8 +19,10 @@ public class Recommendation {
   @Column(name = "recommendation_id")
   private Integer recommendationID;
 
-  @OneToOne(mappedBy = "recommendation", fetch = FetchType.LAZY)
+  @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "review_id")
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Review review;
 
   @Column(name = "recommendation_message")

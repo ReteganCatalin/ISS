@@ -27,5 +27,6 @@ public class Abstract {
 
   @OneToOne(mappedBy = "anAbstract", orphanRemoval = true, fetch = FetchType.LAZY)
   @EqualsAndHashCode.Exclude
+  @ToString.Exclude
   private Proposal proposal;
 }

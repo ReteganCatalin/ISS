@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS public.user_info
     webpage_address character varying(50) COLLATE pg_catalog."default",
     CONSTRAINT user_info_pkey PRIMARY KEY (user_info_id)
 )
-    GO
+GO
 
 ALTER TABLE public.user_info
     OWNER to "test-profile";
@@ -258,7 +258,7 @@ CREATE TABLE IF NOT EXISTS public."user"
         ON DELETE NO ACTION
         NOT VALID
 )
-    GO
+GO
 
 ALTER TABLE public."user"
     OWNER to "test-profile";
@@ -278,7 +278,7 @@ CREATE TABLE IF NOT EXISTS public.conference
     paper_deadline    date,
     CONSTRAINT conference_pkey PRIMARY KEY (conference_id)
 )
-    GO
+GO
 
 ALTER TABLE public.conference
     OWNER to "test-profile";
@@ -298,7 +298,7 @@ CREATE TABLE IF NOT EXISTS public.bidding_process
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-    GO
+GO
 
 ALTER TABLE public.bidding_process
     OWNER to "test-profile";
@@ -314,7 +314,7 @@ CREATE TABLE IF NOT EXISTS public.abstract
     byte_file_location character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT abstract_pkey PRIMARY KEY (abstract_id)
 )
-    GO
+GO
 
 ALTER TABLE public.abstract
     OWNER to "test-profile";
@@ -331,7 +331,7 @@ CREATE TABLE IF NOT EXISTS public.meta_info
     topics       character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT meta_info_pkey PRIMARY KEY (meta_info_id)
 )
-    GO
+GO
 
 
 ALTER TABLE public.meta_info
@@ -349,7 +349,7 @@ CREATE TABLE IF NOT EXISTS public.paper
     byte_file_location character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT paper_pkey PRIMARY KEY (paper_id)
 )
-    GO
+GO
 
 
 ALTER TABLE public.paper
@@ -391,7 +391,7 @@ CREATE TABLE IF NOT EXISTS public.proposal
         ON DELETE NO ACTION
         NOT VALID
 )
-    GO
+GO
 
 ALTER TABLE public.proposal
     OWNER to "test-profile";
@@ -421,7 +421,7 @@ CREATE TABLE IF NOT EXISTS public.analysis
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-    GO
+GO
 
 ALTER TABLE public.analysis
     OWNER to "test-profile";
@@ -439,7 +439,7 @@ CREATE TABLE IF NOT EXISTS public.author_list
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-    GO
+GO
 
 ALTER TABLE public.author_list
     OWNER to "test-profile";
@@ -456,7 +456,7 @@ CREATE TABLE IF NOT EXISTS public.participant_list
     role_id             integer,
     CONSTRAINT participant_list_pkey PRIMARY KEY (participant_list_id)
 )
-    GO
+GO
 
 ALTER TABLE public.participant_list
     OWNER to "test-profile";
@@ -471,7 +471,7 @@ CREATE TABLE IF NOT EXISTS public.permission
     name          character varying(20) COLLATE pg_catalog."default" NOT NULL,
     CONSTRAINT permission_pkey PRIMARY KEY (permission_id)
 )
-    GO
+GO
 
 ALTER TABLE public.permission
     OWNER to "test-profile";
@@ -493,7 +493,7 @@ CREATE TABLE IF NOT EXISTS public.permission_list
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-    GO
+GO
 
 ALTER TABLE public.permission_list
     OWNER to "test-profile";
@@ -520,7 +520,7 @@ CREATE TABLE IF NOT EXISTS public.section
         ON DELETE NO ACTION
         NOT VALID
 )
-    GO
+GO
 
 ALTER TABLE public.section
     OWNER to "test-profile";
@@ -544,7 +544,7 @@ CREATE TABLE IF NOT EXISTS public.proposal_list
         ON DELETE NO ACTION
         NOT VALID
 )
-    GO
+GO
 
 ALTER TABLE public.proposal_list
     OWNER to "test-profile";
@@ -559,7 +559,7 @@ CREATE TABLE IF NOT EXISTS public.qualifier
     name         character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT qualifier_pkey PRIMARY KEY (qualifier_id)
 )
-    GO
+GO
 
 ALTER TABLE public.qualifier
     OWNER to "test-profile";
@@ -575,7 +575,7 @@ CREATE TABLE IF NOT EXISTS public.recommendation
     recommendation_message text COLLATE pg_catalog."default",
     CONSTRAINT recommendation_pkey PRIMARY KEY (recommendation_id)
 )
-    GO
+GO
 
 ALTER TABLE public.recommendation
     OWNER to "test-profile";
@@ -604,7 +604,7 @@ CREATE TABLE IF NOT EXISTS public.review_list
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
 )
-    GO
+GO
 
 ALTER TABLE public.review_list
     OWNER to "test-profile";
@@ -619,7 +619,7 @@ CREATE TABLE IF NOT EXISTS public.role
     name    character varying COLLATE pg_catalog."default",
     CONSTRAINT role_pkey PRIMARY KEY (role_id)
 )
-    GO
+GO
 
 ALTER TABLE public.role
     OWNER to "test-profile";
@@ -647,7 +647,7 @@ CREATE TABLE IF NOT EXISTS public.role_user_list
     user_id integer,
     role_id integer
 )
-    GO
+GO
 
 ALTER TABLE public.role_user_list
     OWNER to "test-profile";
@@ -665,7 +665,7 @@ CREATE TABLE IF NOT EXISTS public.ticketing
     price      integer,
     CONSTRAINT ticketing_pkey PRIMARY KEY (ticket_id)
 )
-    GO
+GO
 
 ALTER TABLE public.ticketing
     OWNER to "test-profile";

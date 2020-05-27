@@ -64,11 +64,11 @@ public class AnalysisController {
     log.trace("saveAnalysis - method finished: result={}", resultToReturn);
     return resultToReturn;
   }
-  @RequestMapping(value="/availableReviews/{proposalID}", method=RequestMethod.GET)
-  public List<Integer> availableReviews(@PathVariable Integer proposalID)
-  {
+
+  @RequestMapping(value = "/availableReviews/{proposalID}", method = RequestMethod.GET)
+  public List<Integer> availableReviews(@PathVariable Integer proposalID) {
     log.trace("availableReviews - method entered with proposalID={}", proposalID);
-    List<Integer> reviewers=service.findReviewers(proposalID);
+    List<Integer> reviewers = service.findReviewers(proposalID);
     log.trace("availableReviews - method entered with proposalID={}", proposalID);
     return reviewers;
   }

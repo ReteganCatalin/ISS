@@ -10,14 +10,15 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.converter.ConferenceConverter;
 import ro.ubb.iss.CMS.Services.ConferenceService;
+import ro.ubb.iss.CMS.converter.ProposalConverter;
 import ro.ubb.iss.CMS.converter.SectionConverter;
 import ro.ubb.iss.CMS.converter.UserConverter;
-import ro.ubb.iss.CMS.domain.Conference;
-import ro.ubb.iss.CMS.domain.PcMember;
+import ro.ubb.iss.CMS.domain.*;
 import ro.ubb.iss.CMS.dto.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -29,6 +30,7 @@ public class ConferenceController {
   @Autowired private ConferenceService service;
 
   @Autowired private ConferenceConverter converter;
+  @Autowired private ProposalConverter proposalConverter;
   @Autowired private UserConverter userConverter;
   @Autowired private SectionConverter sectionConverter;
 
@@ -47,6 +49,112 @@ public class ConferenceController {
     ConferenceDto result = null;
     if (conference.isPresent()) result = converter.convertModelToDto(conference.get());
     log.trace("getConference - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/conferences/{id}/accepted", method = RequestMethod.GET)
+  public ProposalsDto getConferenceAcceptedProposals(@PathVariable Integer id) {
+    log.trace("getConferenceAccepted - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    ProposalsDto result = null;
+    if (conference.isPresent())
+      result =
+          ProposalsDto.builder()
+              .proposalDtoList(
+                  proposalConverter.convertModelsToDtos(
+                      conference.get().getProposalsForConference().stream()
+                          .map(ConferenceProposal::getProposal)
+                          .filter(
+                              elem -> {
+                                Set<Qualifier> qualifierSet =
+                                    elem.getReviews().stream()
+                                        .map(Review::getQualifier)
+                                        .collect(Collectors.toSet());
+                                if (qualifierSet.stream()
+                                    .anyMatch(elem1 -> elem1.getName().equals("strong reject")))
+                                  return false;
+                                if (qualifierSet.stream()
+                                    .anyMatch(elem1 -> elem1.getName().equals("reject")))
+                                  return false;
+                                if (qualifierSet.stream()
+                                    .anyMatch(elem1 -> elem1.getName().equals("weak reject")))
+                                  return false;
+                                return true;
+                              })
+                          .collect(Collectors.toList())))
+              .build();
+    log.trace("getConferenceAccepted - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/conferences/{id}/refused", method = RequestMethod.GET)
+  public ProposalsDto getConferenceRefusedProposals(@PathVariable Integer id) {
+    log.trace("getConferenceRefusedProposals - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    ProposalsDto result = null;
+    if (conference.isPresent())
+      result =
+          ProposalsDto.builder()
+              .proposalDtoList(
+                  proposalConverter.convertModelsToDtos(
+                      conference.get().getProposalsForConference().stream()
+                          .map(ConferenceProposal::getProposal)
+                          .filter(
+                              elem -> {
+                                Set<Qualifier> qualifierSet =
+                                    elem.getReviews().stream()
+                                        .map(Review::getQualifier)
+                                        .collect(Collectors.toSet());
+                                if (qualifierSet.stream()
+                                    .anyMatch(elem1 -> elem1.getName().equals("borderline paper")))
+                                  return false;
+                                if (qualifierSet.stream()
+                                    .anyMatch(elem1 -> elem1.getName().equals("weak accept")))
+                                  return false;
+                                if (qualifierSet.stream()
+                                    .anyMatch(elem1 -> elem1.getName().equals("accept")))
+                                  return false;
+                                if (qualifierSet.stream()
+                                    .anyMatch(elem1 -> elem1.getName().equals("strong reject")))
+                                  return false;
+                                return true;
+                              })
+                          .collect(Collectors.toList())))
+              .build();
+    log.trace("getConferenceRefusedProposals - method finished: result={}", result);
+    return result;
+  }
+
+
+  @RequestMapping(value = "/conferences/{id}/conflicting", method = RequestMethod.GET)
+  public ProposalsDto getConferenceConflictingProposals(@PathVariable Integer id) {
+    log.trace("getConferenceConflictingProposals - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    ProposalsDto result = null;
+    if (conference.isPresent())
+      result =
+              ProposalsDto.builder()
+                      .proposalDtoList(
+                              proposalConverter.convertModelsToDtos(
+                                      conference.get().getProposalsForConference().stream()
+                                              .map(ConferenceProposal::getProposal)
+                                              .filter(
+                                                      elem -> {
+                                                        Set<Qualifier> qualifierSet =
+                                                                elem.getReviews().stream()
+                                                                        .map(Review::getQualifier)
+                                                                        .collect(Collectors.toSet());
+                                                        boolean positive = qualifierSet.stream()
+                                                                .anyMatch(elem1 -> elem1.getQualifierID() >= 4);
+                                                        boolean negative = qualifierSet.stream()
+                                                                .anyMatch(elem1 -> elem1.getQualifierID() <= 3);
+
+                                                        return positive && negative;
+
+                                                      })
+                                              .collect(Collectors.toList())))
+                      .build();
+    log.trace("getConferenceConflictingProposals - method finished: result={}", result);
     return result;
   }
 
