@@ -26,5 +26,6 @@ public class Abstract {
   private String byteFileLocation;
 
   @OneToOne(mappedBy = "anAbstract", orphanRemoval = true, fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   private Proposal proposal;
 }

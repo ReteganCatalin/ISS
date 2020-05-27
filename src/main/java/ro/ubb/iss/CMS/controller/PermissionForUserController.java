@@ -28,14 +28,20 @@ public class PermissionForUserController {
   @RequestMapping(value = "/permissionsforusers", method = RequestMethod.GET)
   public PermissionForUsersDto getAllPermissionsForUsers() {
     log.trace("getAllPermissionsForUsers - method entered");
-    PermissionForUsersDto result = new PermissionForUsersDto(converter.convertModelsToDtos(service.findAll()));
+    PermissionForUsersDto result =
+        new PermissionForUsersDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPermissionsForUsers - method finished: result={}", result);
     return result;
   }
 
-  @RequestMapping(value = "/permissionsforusers/{permissionForUserKey}", method = RequestMethod.GET)
-  public PermissionForUserDto getPermissionForUser(@PathVariable PermissionForUserKey permissionForUserKey) {
-    log.trace("getPermissionForUser - method entered permissionForUserKey={}", permissionForUserKey);
+  @RequestMapping(
+      value = "/permissionsforusers/{userID}/{permissionID}",
+      method = RequestMethod.GET)
+  public PermissionForUserDto getPermissionForUser(
+      @PathVariable Integer userID, @PathVariable Integer permissionID) {
+    log.trace(
+        "getPermissionForUser - method entered userID={}, permissionID={}", userID, permissionID);
+    PermissionForUserKey permissionForUserKey = new PermissionForUserKey(userID, permissionID);
     Optional<PermissionForUser> analysis = service.findPermissionForUser(permissionForUserKey);
     PermissionForUserDto result = null;
     if (analysis.isPresent()) result = converter.convertModelToDto(analysis.get());
@@ -44,7 +50,8 @@ public class PermissionForUserController {
   }
 
   @RequestMapping(value = "/permissionsforusers", method = RequestMethod.POST)
-  public PermissionForUserDto savePermissionForUser(@RequestBody PermissionForUserKey permissionForUserKey) {
+  public PermissionForUserDto savePermissionForUser(
+      @RequestBody PermissionForUserKey permissionForUserKey) {
     log.trace("saveAnalysis - method entered analysisDto={}", permissionForUserKey);
     Optional<PermissionForUser> result =
         service.savePermissionForUser(
@@ -56,10 +63,16 @@ public class PermissionForUserController {
     return resultToReturn;
   }
 
-
-  @RequestMapping(value = "/permissionsforusers/{permissionForUserKey}", method = RequestMethod.DELETE)
-  public ResponseEntity<?> deletePermissionForUser(@PathVariable PermissionForUserKey permissionForUserKey) {
-    log.trace("deletePermissionForUser - method entered: analysisKey={}", permissionForUserKey);
+  @RequestMapping(
+      value = "/permissionsforusers/{userID}/{permissionID}",
+      method = RequestMethod.DELETE)
+  public ResponseEntity<?> deletePermissionForUser(
+      @PathVariable Integer userID, @PathVariable Integer permissionID) {
+    log.trace(
+        "deletePermissionForUser - method entered: userID={}, permissionID={}",
+        userID,
+        permissionID);
+    PermissionForUserKey permissionForUserKey = new PermissionForUserKey(userID, permissionID);
 
     try {
       service.deletePermissionForUser(permissionForUserKey);

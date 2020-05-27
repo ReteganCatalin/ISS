@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
+import ro.ubb.iss.CMS.MyExceptions.UnableToCreateStorageDirectoryException;
+import ro.ubb.iss.CMS.MyExceptions.UnableToSaveFileToStorage;
 import ro.ubb.iss.CMS.converter.PaperConverter;
 import ro.ubb.iss.CMS.Services.PaperService;
 import ro.ubb.iss.CMS.domain.Paper;
@@ -45,9 +47,15 @@ public class PaperController {
   @RequestMapping(value = "/papers", method = RequestMethod.POST)
   public PaperDto savePaper(@RequestBody PaperDto paperDto) {
     log.trace("savePaper - method entered paperDto={}", paperDto);
-    Paper result =
-        service.savePaper(
-            paperDto.getFormat(), paperDto.getByteFileLocation());
+    Paper result;
+    try {
+      result = service.savePaper(paperDto.getFormat(), paperDto.getByteFileLocation());
+    } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
+      log.trace("savePaper - exception occurred: ex={}", ex.getMessage());
+      ex.printStackTrace();
+      return null;
+    }
+
     PaperDto resultToReturn = converter.convertModelToDto(result);
     log.trace("savePaper - method finished: result={}", resultToReturn);
     return resultToReturn;
@@ -59,8 +67,7 @@ public class PaperController {
     PaperDto result =
         converter.convertModelToDto(
             service.updatePaper(
-                paperDto.getPaperId(),
-                    paperDto.getFormat(), paperDto.getByteFileLocation()));
+                paperDto.getPaperId(), paperDto.getFormat(), paperDto.getByteFileLocation()));
     log.trace("updatePaper - method finished: result={}", result);
     return result;
   }

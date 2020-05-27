@@ -11,11 +11,11 @@
                  path="db/create-test.sql"
                  relativeToChangelogFile="false"
                  splitStatements="true"
-                 stripComments="true"></sqlFile>
+                 stripComments="true"/>
     </changeSet>
     <changeSet id="add-affiliation-validated1" author="catalin">
         <addColumn schemaName="public" tableName="user_info">
-            <column name="affiliation_validated" type="BOOLEAN"></column>
+            <column name="affiliation_validated" type="BOOLEAN"/>
         </addColumn>
     </changeSet>
     <changeSet id="add-FK" author="catalin">
@@ -175,6 +175,145 @@
                           startWith="1"
                           tableName="author_list"/>
     </changeSet>
+    <changeSet id="modify-location" author="catalin">
+        <modifyDataType
+                columnName="byte_file_location"
+                newDataType="varchar(2000)"
+                tableName="abstract"/>
+        <modifyDataType
+                columnName="byte_file_location"
+                newDataType="varchar(2000)"
+                tableName="paper"/>
+    </changeSet>
+    <changeSet author="tamas" id="createTable-for-pc-members-for-conference">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="pc_members">
+            <column name="conference_id" type="int"/>
+            <column name="user_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="tamas" id="add composite primary key for pcmembers">
+        <addPrimaryKey columnNames="conference_id, user_id"
+                       constraintName="PK_PC_MEMBERS_TABLE"
+                       tableName="pc_members"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains" author="tamas">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="pc_members"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="pc_members"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_user_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_id"
+                                 referencedTableName="user"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for role_user_list">
+        <addPrimaryKey columnNames="role_id, user_id"
+                       constraintName="PK_ROLE_USER_TABLE"
+                       tableName="role_user_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for permission_list">
+        <addPrimaryKey columnNames="permission_id, user_id"
+                       constraintName="PK_PERMISSION_TABLE"
+                       tableName="permission_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for proposal_list">
+        <addPrimaryKey columnNames="proposal_id, section_id"
+                       constraintName="PK_PROPOSAL_LIST_TABLE"
+                       tableName="proposal_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for analysis">
+        <addPrimaryKey columnNames="proposal_id,user_id"
+                       constraintName="PK_ANALYSIS_LIST_TABLE"
+                       tableName="analysis"
+                       validate="true"/>
+    </changeSet>
+    <changeSet  author="catalin"  id="rename Table role_permission_id">
+        <renameTable  newTableName="role_permission_list"
+                      oldTableName="role_permission_id"
+                      schemaName="public"/>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for role_permission_list">
+        <addPrimaryKey columnNames="role_id, permission_id"
+                       constraintName="PK_ROLE_PERMISSION_TABLE"
+                       tableName="role_permission_list"
+                       validate="true"/>
+    </changeSet>
+    <changeSet  author="catalin"  id="renameColumn in analysis">
+        <renameColumn
+                       columnDataType="STRING"
+                       newColumnName="brief_analysis"
+                       oldColumnName="brief_analyse"
+                       remarks="A String"
+                       schemaName="public"
+                       tableName="analysis"/>
+    </changeSet>
+    <changeSet author="catalin" id="createTable-proposal-conference">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="conference_proposal">
+            <column name="conference_id" type="int"/>
+            <column name="proposal_id" type="int"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="catalin" id="add composite primary key for ConferenceProposal">
+        <addPrimaryKey columnNames="conference_id, proposal_id"
+                       constraintName="PK_CONFERENCE_PROPOSAL_TABLE"
+                       tableName="conference_proposal"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains conference_proposal" author="catalin">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="conference_proposal"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+
+        <addForeignKeyConstraint baseColumnNames="proposal_id"
+                                 baseTableName="conference_proposal"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_proposal_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="proposal_id"
+                                 referencedTableName="proposal"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
+
 
 
 </databaseChangeLog>

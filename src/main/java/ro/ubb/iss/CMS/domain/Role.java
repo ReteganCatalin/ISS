@@ -23,12 +23,13 @@ public class Role {
   Integer roleID;
 
   @Column(name = "name")
-  String string;
+  String name;
 
   @OneToMany(
       mappedBy = "role",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   private Set<Participation> participations = new HashSet<>();
 }

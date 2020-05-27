@@ -28,14 +28,20 @@ public class PermissionForRoleController {
   @RequestMapping(value = "/permissionsforroles", method = RequestMethod.GET)
   public PermissionForRolesDto getAllPermissionsForRoles() {
     log.trace("getAllPermissionForRoles - method entered");
-    PermissionForRolesDto result = new PermissionForRolesDto(converter.convertModelsToDtos(service.findAll()));
+    PermissionForRolesDto result =
+        new PermissionForRolesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPermissionForRoles - method finished: result={}", result);
     return result;
   }
 
-  @RequestMapping(value = "/permissionsforroles/{permissionForRoleKey}", method = RequestMethod.GET)
-  public PermissionForRoleDto getPermissionForRole(@PathVariable PermissionForRoleKey permissionForRoleKey) {
-    log.trace("getPermissionForRole - method entered permissionForRoleKey={}", permissionForRoleKey);
+  @RequestMapping(
+      value = "/permissionsforroles/{roleID}/{permissionID}",
+      method = RequestMethod.GET)
+  public PermissionForRoleDto getPermissionForRole(
+      @PathVariable Integer roleID, @PathVariable Integer permissionID) {
+    log.trace(
+        "getPermissionForRole - method entered roleID={}, permissionID={}", roleID, permissionID);
+    PermissionForRoleKey permissionForRoleKey = new PermissionForRoleKey(roleID, permissionID);
     Optional<PermissionForRole> analysis = service.findPermissionForRole(permissionForRoleKey);
     PermissionForRoleDto result = null;
     if (analysis.isPresent()) result = converter.convertModelToDto(analysis.get());
@@ -44,8 +50,10 @@ public class PermissionForRoleController {
   }
 
   @RequestMapping(value = "/permissionsforroles", method = RequestMethod.POST)
-  public PermissionForRoleDto savePermissionForRole(@RequestBody PermissionForRoleDto permissionForRoleDto) {
-    log.trace("savePermissionForRole - method entered permissionForRoleDto={}", permissionForRoleDto);
+  public PermissionForRoleDto savePermissionForRole(
+      @RequestBody PermissionForRoleDto permissionForRoleDto) {
+    log.trace(
+        "savePermissionForRole - method entered permissionForRoleDto={}", permissionForRoleDto);
     Optional<PermissionForRole> result =
         service.savePermissionForRole(
             new PermissionForRoleKey(
@@ -56,9 +64,16 @@ public class PermissionForRoleController {
     return resultToReturn;
   }
 
-  @RequestMapping(value = "/permissionsforroles/{permissionForRoleKey}", method = RequestMethod.DELETE)
-  public ResponseEntity<?> deletePermissionForRole(@PathVariable PermissionForRoleKey permissionForRoleKey) {
-    log.trace("deletePermissionForRole - method entered: permissionForRoleKey={}", permissionForRoleKey);
+  @RequestMapping(
+      value = "/permissionsforroles/{roleID}/{permissionID}",
+      method = RequestMethod.DELETE)
+  public ResponseEntity<?> deletePermissionForRole(
+      @PathVariable Integer roleID, @PathVariable Integer permissionID) {
+    log.trace(
+        "deletePermissionForRole - method entered: roleID={}, permissionID={}",
+        roleID,
+        permissionID);
+    PermissionForRoleKey permissionForRoleKey = new PermissionForRoleKey(roleID, permissionID);
 
     try {
       service.deletePermissionForRole(permissionForRoleKey);

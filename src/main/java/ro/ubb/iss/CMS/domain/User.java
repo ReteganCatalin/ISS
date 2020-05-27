@@ -37,10 +37,19 @@ public class User {
   private UserInfo userInfo;
 
   @OneToMany(
+      cascade = CascadeType.ALL,
+      fetch = FetchType.LAZY,
+      orphanRemoval = true,
+      mappedBy = "user")
+  @EqualsAndHashCode.Exclude
+  Set<PcMember> pcMembers = new HashSet<>();
+
+  @OneToMany(
       mappedBy = "user",
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   Set<PermissionForUser> permissionForUser = new HashSet<>();
 
   @OneToMany(
@@ -48,6 +57,7 @@ public class User {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   Set<Review> reviewsForUser = new HashSet<>();
 
   @OneToMany(
@@ -55,6 +65,7 @@ public class User {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   private Set<Analysis> analyses = new HashSet<>();
 
   @OneToMany(
@@ -62,6 +73,7 @@ public class User {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   private Set<Participation> participations = new HashSet<>();
 
   @OneToMany(
@@ -69,5 +81,10 @@ public class User {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   private Set<MyTicket> myTickets = new HashSet<>();
+
+  @OneToMany(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
+  public Set<Section> section;
 }

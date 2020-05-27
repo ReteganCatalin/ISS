@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ro.ubb.iss.CMS.Repository.UserRepository;
 import ro.ubb.iss.CMS.domain.User;
 import ro.ubb.iss.CMS.domain.UserInfo;
@@ -34,6 +35,7 @@ public class UserServiceImplementation implements UserService {
   }
 
   @Override
+  @Transactional
   public User updateUser(
       int userID, String username, String password, boolean isValidated, UserInfo userInfoID) {
     log.trace(

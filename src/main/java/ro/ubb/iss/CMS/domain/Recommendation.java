@@ -24,5 +24,5 @@ public class Recommendation {
   private Review review;
 
   @Column(name = "recommendation_message")
-  String recommendation_message;
+  String recommendationMessage;
 }

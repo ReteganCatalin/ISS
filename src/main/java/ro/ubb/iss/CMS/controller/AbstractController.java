@@ -7,12 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
+import ro.ubb.iss.CMS.MyExceptions.UnableToCreateStorageDirectoryException;
+import ro.ubb.iss.CMS.MyExceptions.UnableToSaveFileToStorage;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.domain.Abstract;
 import ro.ubb.iss.CMS.dto.AbstractDto;
 import ro.ubb.iss.CMS.dto.AbstractsDto;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @RestController
@@ -34,6 +40,7 @@ public class AbstractController {
 
   @RequestMapping(value = "/abstracts/{id}", method = RequestMethod.GET)
   public AbstractDto getAbstract(@PathVariable Integer id) {
+
     log.trace("getAbstract - method entered id={}", id);
     Optional<Abstract> anAbstract = service.findAbstract(id);
     AbstractDto result = null;
@@ -45,9 +52,14 @@ public class AbstractController {
   @RequestMapping(value = "/abstracts", method = RequestMethod.POST)
   public AbstractDto saveAbstract(@RequestBody AbstractDto abstractDto) {
     log.trace("saveAbstract - method entered abstractDto={}", abstractDto);
-    Abstract result =
-        service.saveAbstract(abstractDto.getFormat(), abstractDto.getByteFileLocation());
-
+    Abstract result;
+    try {
+      result = service.saveAbstract(abstractDto.getFormat(), abstractDto.getByteFileLocation());
+    } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
+      log.trace("saveAbstract - exception occurred: ex={}", ex.getMessage());
+      ex.printStackTrace();
+      return null;
+    }
     AbstractDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveAbstract - method finished: result={}", resultToReturn);
     return resultToReturn;

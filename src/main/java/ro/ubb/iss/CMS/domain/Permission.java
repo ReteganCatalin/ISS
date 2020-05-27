@@ -30,5 +30,6 @@ public class Permission {
       orphanRemoval = true,
       cascade = CascadeType.ALL,
       fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
   private Set<PermissionForUser> permissionForUser = new HashSet<>();
 }

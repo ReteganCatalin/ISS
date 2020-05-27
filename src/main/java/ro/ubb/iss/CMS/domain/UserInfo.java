@@ -5,6 +5,7 @@ import ro.ubb.iss.CMS.domain.Proposal;
 import ro.ubb.iss.CMS.domain.Section;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "user_info")
@@ -20,29 +21,32 @@ public class UserInfo {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "user_info_id")
-  private Integer userInfoId;
+  public Integer userInfoId;
 
   @Column(name = "name", nullable = false, length = 20)
-  private String name;
+  public String name;
 
   @Column(name = "affiliation", nullable = false, length = 20)
-  private String affiliation;
+  public String affiliation;
 
   @Column(name = "email_address", length = 40)
-  private String emailAddress;
+  public String emailAddress;
 
   @Column(name = "webpage_address", length = 40)
-  private String webPageAddress;
+  public String webPageAddress;
 
   @Column(name = "affiliation_validated")
-  private Boolean affiliationValidated;
+  public Boolean affiliationValidated;
 
   @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private User user;
+  @EqualsAndHashCode.Exclude
+  public User user;
 
-  @OneToOne(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Proposal proposal;
+  @OneToMany(mappedBy = "userInfo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
+  public Set<Proposal> proposals;
 
-  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  private Section section;
+  //  @OneToOne(mappedBy = "supervisor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  //  @EqualsAndHashCode.Exclude
+  //  public Section section;
 }
