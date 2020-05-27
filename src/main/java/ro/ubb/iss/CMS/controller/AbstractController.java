@@ -58,7 +58,7 @@ public class AbstractController {
     } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
       log.trace("saveAbstract - exception occurred: ex={}", ex.getMessage());
       ex.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(AbstractDto.builder().build(),HttpStatus.BAD_REQUEST);
     }
     AbstractDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveAbstract - method finished: result={}", resultToReturn);
@@ -76,7 +76,7 @@ public class AbstractController {
                 anAbstract.getFormat(),
                 anAbstract.getByteFileLocation()));
     log.trace("updateAbstract - method finished: result={}", result);
-    if (result == null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    if (result == null) return new ResponseEntity<>(AbstractDto.builder().build(),HttpStatus.BAD_REQUEST);
 
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
@@ -89,7 +89,7 @@ public class AbstractController {
     } catch (RestClientException ex) {
       log.trace("deleteAbstract - exception caught ex={}", ex.getMessage());
       log.trace("deleteAbstract - method finished bad");
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      return new ResponseEntity<>(AbstractDto.builder().build(),HttpStatus.BAD_REQUEST);
     }
     log.trace("deleteAbstract - method finished");
 
