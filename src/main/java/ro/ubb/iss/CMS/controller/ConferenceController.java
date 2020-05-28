@@ -34,25 +34,25 @@ public class ConferenceController {
   @Autowired private SectionConverter sectionConverter;
 
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
-  public ConferencesDto getAllConferences() {
+  public ResponseEntity<ConferencesDto> getAllConferences() {
     log.trace("getAllConferences - method entered");
     ConferencesDto result = new ConferencesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllConferences - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}", method = RequestMethod.GET)
-  public ConferenceDto getConference(@PathVariable Integer id) {
+  public ResponseEntity<ConferenceDto> getConference(@PathVariable Integer id) {
     log.trace("getConference - method entered id={}", id);
     Optional<Conference> conference = service.findConference(id);
     ConferenceDto result = null;
     if (conference.isPresent()) result = converter.convertModelToDto(conference.get());
     log.trace("getConference - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}/accepted", method = RequestMethod.GET)
-  public ProposalsDto getConferenceAcceptedProposals(@PathVariable Integer id) {
+  public ResponseEntity<ProposalsDto> getConferenceAcceptedProposals(@PathVariable Integer id) {
     log.trace("getConferenceAccepted - method entered id={}", id);
     Optional<Conference> conference = service.findConference(id);
     ProposalsDto result = null;
@@ -83,11 +83,11 @@ public class ConferenceController {
                           .collect(Collectors.toList())))
               .build();
     log.trace("getConferenceAccepted - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}/refused", method = RequestMethod.GET)
-  public ProposalsDto getConferenceRefusedProposals(@PathVariable Integer id) {
+  public ResponseEntity<ProposalsDto> getConferenceRefusedProposals(@PathVariable Integer id) {
     log.trace("getConferenceRefusedProposals - method entered id={}", id);
     Optional<Conference> conference = service.findConference(id);
     ProposalsDto result = null;
@@ -121,12 +121,12 @@ public class ConferenceController {
                           .collect(Collectors.toList())))
               .build();
     log.trace("getConferenceRefusedProposals - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
 
   @RequestMapping(value = "/conferences/{id}/conflicting", method = RequestMethod.GET)
-  public ProposalsDto getConferenceConflictingProposals(@PathVariable Integer id) {
+  public ResponseEntity<ProposalsDto> getConferenceConflictingProposals(@PathVariable Integer id) {
     log.trace("getConferenceConflictingProposals - method entered id={}", id);
     Optional<Conference> conference = service.findConference(id);
     ProposalsDto result = null;
@@ -154,12 +154,12 @@ public class ConferenceController {
                                               .collect(Collectors.toList())))
                       .build();
     log.trace("getConferenceConflictingProposals - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}/pc_members", method = RequestMethod.GET)
   @Transactional
-  public UsersDto getConferencePcMembers(@PathVariable Integer id) {
+  public ResponseEntity<UsersDto> getConferencePcMembers(@PathVariable Integer id) {
     log.trace("getConferencePcMembers - method entered id={}", id);
     Optional<Conference> conference = service.findConference(id);
     UsersDto result = null;
@@ -175,12 +175,12 @@ public class ConferenceController {
     }
 
     log.trace("getConferencePcMembers - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}/sections", method = RequestMethod.GET)
   @Transactional
-  public SectionsDto getConferenceSections(@PathVariable Integer id) {
+  public ResponseEntity<SectionsDto> getConferenceSections(@PathVariable Integer id) {
     log.trace("getConferenceSections - method entered id={}", id);
     Optional<Conference> conference = service.findConference(id);
     SectionsDto result = null;
@@ -191,11 +191,11 @@ public class ConferenceController {
               .build();
     }
     log.trace("getConferenceSections - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences", method = RequestMethod.POST)
-  public ConferenceDto saveConference(@RequestBody ConferenceDto conferenceDto) {
+  public ResponseEntity<ConferenceDto> saveConference(@RequestBody ConferenceDto conferenceDto) {
     log.trace("saveConference - method entered conferenceDto={}", conferenceDto);
     Conference result =
         service.saveConference(
@@ -207,11 +207,11 @@ public class ConferenceController {
 
     ConferenceDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveConference - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences", method = RequestMethod.PUT)
-  public ConferenceDto updateConference(@RequestBody ConferenceDto conferenceDto) {
+  public ResponseEntity<ConferenceDto> updateConference(@RequestBody ConferenceDto conferenceDto) {
     log.trace("updateConference - method entered: conferenceDto={}", conferenceDto);
     ConferenceDto result =
         converter.convertModelToDto(
@@ -223,7 +223,7 @@ public class ConferenceController {
                 conferenceDto.getProposalDeadline(),
                 conferenceDto.getPaperDeadline()));
     log.trace("updateConference - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}", method = RequestMethod.DELETE)

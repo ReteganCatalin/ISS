@@ -31,26 +31,26 @@ public class BiddingProcessController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/biddings", method = RequestMethod.GET)
-  public BiddingProcessesDto getAllBiddingProcesses() {
+  public ResponseEntity<BiddingProcessesDto> getAllBiddingProcesses() {
     log.trace("getAllBiddingProcesses - method entered");
     BiddingProcessesDto result =
         new BiddingProcessesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllBiddingProcesses - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/biddings/{id}", method = RequestMethod.GET)
-  public BiddingProcessDto getBiddingProcess(@PathVariable Integer id) {
+  public ResponseEntity<BiddingProcessDto> getBiddingProcess(@PathVariable Integer id) {
     log.trace("getBiddingProcess - method entered id={}", id);
     Optional<BiddingProcess> biddingProcess = service.findBiddingProcess(id);
     BiddingProcessDto result = null;
     if (biddingProcess.isPresent()) result = converter.convertModelToDto(biddingProcess.get());
     log.trace("getBiddingProcess - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/biddings", method = RequestMethod.POST)
-  public BiddingProcessDto saveBiddingProcess(@RequestBody BiddingProcessDto biddingProcessDto) {
+  public ResponseEntity<BiddingProcessDto> saveBiddingProcess(@RequestBody BiddingProcessDto biddingProcessDto) {
     log.trace("saveBiddingProcess - method entered biddingProcessDto={}", biddingProcessDto);
 
     BiddingProcess result =
@@ -60,11 +60,11 @@ public class BiddingProcessController {
 
     BiddingProcessDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveBiddingProcess - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/biddings", method = RequestMethod.PUT)
-  public BiddingProcessDto updateBidding(@RequestBody BiddingProcessDto biddingProcessDto) {
+  public ResponseEntity<BiddingProcessDto> updateBidding(@RequestBody BiddingProcessDto biddingProcessDto) {
     log.trace("updateBidding - method entered: biddingProcessDto={}", biddingProcessDto);
     BiddingProcessDto result =
         converter.convertModelToDto(
@@ -73,7 +73,7 @@ public class BiddingProcessController {
                 entityManager.getReference(Conference.class, biddingProcessDto.getConferenceID()),
                 biddingProcessDto.getDeadline()));
     log.trace("updateBidding - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/biddings/{id}", method = RequestMethod.DELETE)

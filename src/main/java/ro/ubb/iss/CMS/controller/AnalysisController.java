@@ -27,15 +27,15 @@ public class AnalysisController {
   @Autowired private AnalysisConverter converter;
 
   @RequestMapping(value = "/analyses", method = RequestMethod.GET)
-  public AnalysesDto getAllAnalyses() {
+  public ResponseEntity<AnalysesDto> getAllAnalyses() {
     log.trace("getAllAnalyses - method entered");
     AnalysesDto result = new AnalysesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllAnalyses - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/analyses/{bidID}/{userID}/{proposalID}", method = RequestMethod.GET)
-  public AnalysisDto getAnalysis(
+  public ResponseEntity<AnalysisDto> getAnalysis(
       @PathVariable Integer bidID, @PathVariable Integer userID, @PathVariable Integer proposalID) {
     log.trace(
         "getAnalysis - method entered bidID={}, userID={}, proposalID={}",
@@ -47,11 +47,11 @@ public class AnalysisController {
     AnalysisDto result = null;
     if (analysis.isPresent()) result = converter.convertModelToDto(analysis.get());
     log.trace("getAnalysis - method finished: result={}", result);
-    return result;
+    return new  ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/analyses", method = RequestMethod.POST)
-  public AnalysisDto saveAnalysis(@RequestBody AnalysisDto analysisDto) {
+  public ResponseEntity<AnalysisDto> saveAnalysis(@RequestBody AnalysisDto analysisDto) {
     log.trace("saveAnalysis - method entered analysisDto={}", analysisDto);
     Optional<Analysis> result =
         service.saveAnalysis(
@@ -62,19 +62,19 @@ public class AnalysisController {
     AnalysisDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("saveAnalysis - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/availableReviews/{proposalID}", method = RequestMethod.GET)
-  public List<Integer> availableReviews(@PathVariable Integer proposalID) {
+  public ResponseEntity<List<Integer>> availableReviews(@PathVariable Integer proposalID) {
     log.trace("availableReviews - method entered with proposalID={}", proposalID);
     List<Integer> reviewers = service.findReviewers(proposalID);
     log.trace("availableReviews - method entered with proposalID={}", proposalID);
-    return reviewers;
+    return new ResponseEntity<>(reviewers,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/analyses", method = RequestMethod.PUT)
-  public AnalysisDto updateAnalysis(@RequestBody AnalysisDto analysisDto) {
+  public ResponseEntity<AnalysisDto> updateAnalysis(@RequestBody AnalysisDto analysisDto) {
     log.trace("updateAnalysis - method entered: analysisDto={}", analysisDto);
     Analysis analysis = converter.convertDtoToModel(analysisDto);
     AnalysisDto result =
@@ -82,7 +82,7 @@ public class AnalysisController {
             service.updateAnalysis(
                 analysis.getAnalysisKey(), analysis.getBriefAnalysis(), analysis.getRefuse()));
     log.trace("updateAnalysis - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/analyses/{bidID}/{userID}/{proposalID}", method = RequestMethod.DELETE)

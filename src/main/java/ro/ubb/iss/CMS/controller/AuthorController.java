@@ -31,25 +31,25 @@ public class AuthorController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/authors", method = RequestMethod.GET)
-  public AuthorsDto getAllAuthors() {
+  public ResponseEntity<AuthorsDto> getAllAuthors() {
     log.trace("getAllAuthors - method entered");
     AuthorsDto result = new AuthorsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllAuthors - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/authors/{id}", method = RequestMethod.GET)
-  public AuthorDto getAuthor(@PathVariable Integer id) {
+  public ResponseEntity<AuthorDto> getAuthor(@PathVariable Integer id) {
     log.trace("getAuthor - method entered id={}", id);
     Optional<Author> author = service.findAuthor(id);
     AuthorDto result = null;
     if (author.isPresent()) result = converter.convertModelToDto(author.get());
     log.trace("getAuthor - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/authors", method = RequestMethod.POST)
-  public AuthorDto saveAuthor(@RequestBody AuthorDto authorDto) {
+  public ResponseEntity<AuthorDto> saveAuthor(@RequestBody AuthorDto authorDto) {
     log.trace("saveAuthor - method entered authorDto={}", authorDto);
     Author authorToAdd = converter.convertDtoToModel(authorDto);
     Author result =
@@ -58,11 +58,11 @@ public class AuthorController {
             entityManager.getReference(Proposal.class, authorDto.getProposalId()));
     AuthorDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveAuthor - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/authors", method = RequestMethod.PUT)
-  public AuthorDto updateAuthor(@RequestBody AuthorDto authorDto) {
+  public ResponseEntity<AuthorDto> updateAuthor(@RequestBody AuthorDto authorDto) {
     log.trace("updateAuthor - method entered: authorDto={}", authorDto);
     AuthorDto result =
         converter.convertModelToDto(
@@ -71,7 +71,7 @@ public class AuthorController {
                 authorDto.getName(),
                 entityManager.getReference(Proposal.class, authorDto.getProposalId())));
     log.trace("updateAuthor - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/authors/{id}", method = RequestMethod.DELETE)
