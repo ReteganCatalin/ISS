@@ -97,4 +97,13 @@ public class Conference {
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
   BiddingProcess biddingProcess;
+
+//  @OneToOne(
+//          mappedBy = "conference",
+//          orphanRemoval = true,
+//          cascade = CascadeType.ALL,
+//          fetch = FetchType.LAZY)
+//  @EqualsAndHashCode.Exclude
+//  @ToString.Exclude
+//  ConferenceData conferenceData;
 }
