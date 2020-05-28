@@ -9,22 +9,24 @@ import ro.ubb.iss.CMS.dto.ConferenceDto;
 public class ConferenceConverter implements BaseConverter<Conference, ConferenceDto> {
   @Override
   public Conference convertDtoToModel(ConferenceDto conferenceDto) {
-    return Conference.builder()
+    ConferenceData conferenceData = ConferenceData.builder()
+            .conferenceID(conferenceDto.getConferenceID())
+            .about(conferenceDto.getAbout())
+            .byteFileLocation(conferenceDto.getByteFileLocation())
+            .callForPaper(conferenceDto.getCallForPaper())
+            .format(conferenceDto.getFormat())
+            .build();
+    Conference conference = Conference.builder()
         .conferenceID(conferenceDto.getConferenceID())
         .name(conferenceDto.getName())
         .endDate(conferenceDto.getEndDate())
         .startDate(conferenceDto.getStartDate())
         .paperDeadline(conferenceDto.getPaperDeadline())
         .proposalDeadline(conferenceDto.getProposalDeadline())
-        .conferenceData(
-            ConferenceData.builder()
-                .conferenceID(conferenceDto.getConferenceID())
-                .about(conferenceDto.getAbout())
-                .byteFileLocation(conferenceDto.getByteFileLocation())
-                .callForPaper(conferenceDto.getCallForPaper())
-                .format(conferenceDto.getFormat())
-                .build())
         .build();
+    conferenceData.setConference(conference);
+    conference.setConferenceData(conferenceData);
+    return conference;
   }
 
   @Override
