@@ -98,12 +98,12 @@ public class Conference {
   @ToString.Exclude
   BiddingProcess biddingProcess;
 
-//  @OneToOne(
-//          mappedBy = "conference",
-//          orphanRemoval = true,
-//          cascade = CascadeType.ALL,
-//          fetch = FetchType.LAZY)
-//  @EqualsAndHashCode.Exclude
-//  @ToString.Exclude
-//  ConferenceData conferenceData;
+  @OneToOne(
+          mappedBy = "conference",
+          orphanRemoval = true,
+          cascade = CascadeType.ALL,
+          fetch = FetchType.LAZY)
+  @EqualsAndHashCode.Exclude
+  @ToString.Exclude
+  ConferenceData conferenceData;
 }
