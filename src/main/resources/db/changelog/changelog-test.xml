@@ -374,5 +374,40 @@
                                  referencedTableSchemaName="public"
                                  validate="true"/>
     </changeSet>
+    <changeSet  author="catalin"  id="dropColumn-conference_id from presentations">
+        <dropColumn columnName="conference_id"  schemaName="public" tableName="presentations">
+        </dropColumn>
+    </changeSet>
+    <changeSet author="catalin" id="create-conference-with-data">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="conference_data">
+            <column name="conference_id" type="int"/>
+            <column name="call_for_paper" type="TEXT"/>
+            <column name="about" type="TEXT"></column>
+            <column name="format" type="varchar(255)"/>
+            <column name="byte_file_location" type="varchar(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for conference_data">
+        <addPrimaryKey columnNames="conference_id"
+                       constraintName="PK_CONFERENCE_DATA_TABLE"
+                       tableName="conference_data"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains conference_data" author="catalin">
+        <addForeignKeyConstraint baseColumnNames="conference_id"
+                                 baseTableName="conference_data"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_conference_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="conference_id"
+                                 referencedTableName="conference"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
 
 </databaseChangeLog>

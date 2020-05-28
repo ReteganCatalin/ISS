@@ -33,16 +33,16 @@ public class ProposalListController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/proposalLists", method = RequestMethod.GET)
-  public ProposalListsDto getAllProposalLists() {
+  public ResponseEntity<ProposalListsDto> getAllProposalLists() {
     log.trace("getAllProposalLists - method entered");
     ProposalListsDto result =
         new ProposalListsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllProposalLists - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposalLists/{sectionID}/{proposalID}", method = RequestMethod.GET)
-  public ProposalListDto getProposalList(
+  public ResponseEntity<ProposalListDto> getProposalList(
       @PathVariable Integer sectionID, @PathVariable Integer proposalID) {
     log.trace("getProposalList - method entered sectionID={} proposalID={}", sectionID, proposalID);
     ProposalListKey proposalListKey = new ProposalListKey(sectionID, proposalID);
@@ -50,11 +50,11 @@ public class ProposalListController {
     ProposalListDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getProposalList - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposalLists", method = RequestMethod.POST)
-  public ProposalListDto saveProposalList(@RequestBody ProposalListKey proposalListKey) {
+  public ResponseEntity<ProposalListDto> saveProposalList(@RequestBody ProposalListKey proposalListKey) {
     log.trace("saveProposalList - method entered proposalListKey={}", proposalListKey);
     Optional<ProposalList> result =
         service.saveProposal(
@@ -62,7 +62,7 @@ public class ProposalListController {
     ProposalListDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("saveProposalList - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(

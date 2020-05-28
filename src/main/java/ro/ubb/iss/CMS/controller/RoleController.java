@@ -30,40 +30,40 @@ public class RoleController {
   @Autowired private RoleConverter converter;
 
   @RequestMapping(value = "/roles", method = RequestMethod.GET)
-  public RolesDto getAllRoles() {
+  public ResponseEntity<RolesDto> getAllRoles() {
     log.trace("getAllRoles - method entered");
     RolesDto result = new RolesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllRoles - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/roles/{id}", method = RequestMethod.GET)
-  public RoleDto getRole(@PathVariable Integer id) {
+  public ResponseEntity<RoleDto> getRole(@PathVariable Integer id) {
     log.trace("getRole - method entered id={}", id);
     Optional<Role> anAbstract = service.findRole(id);
     RoleDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getRole - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/roles", method = RequestMethod.POST)
-  public RoleDto saveRole(@RequestBody RoleDto roleDto) {
+  public ResponseEntity<RoleDto> saveRole(@RequestBody RoleDto roleDto) {
     log.trace("saveRole - method entered roleDto={}", roleDto);
     Role result = service.saveRole(roleDto.getName());
 
     RoleDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveRole - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/roles", method = RequestMethod.PUT)
-  public RoleDto updateRole(@RequestBody RoleDto roleDto) {
+  public ResponseEntity<RoleDto> updateRole(@RequestBody RoleDto roleDto) {
     log.trace("updateRole - method entered: abstractDto={}", roleDto);
     RoleDto result =
         converter.convertModelToDto(service.updateRole(roleDto.getRoleID(), roleDto.getName()));
     log.trace("updateRole - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/roles/{id}", method = RequestMethod.DELETE)

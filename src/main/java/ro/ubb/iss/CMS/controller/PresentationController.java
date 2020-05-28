@@ -38,26 +38,26 @@ public class PresentationController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/presentations", method = RequestMethod.GET)
-  public PresentationsDto getAllPresentations() {
+  public ResponseEntity<PresentationsDto> getAllPresentations() {
     log.trace("getAllPresentations - method entered");
     PresentationsDto result =
         new PresentationsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPresentations - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/presentations/{id}", method = RequestMethod.GET)
-  public PresentationDto getPresentation(@PathVariable Integer id) {
+  public ResponseEntity<PresentationDto> getPresentation(@PathVariable Integer id) {
     log.trace("getPresentation - method entered id={}", id);
     Optional<Presentation> presentation = service.findPresentation(id);
     PresentationDto result = null;
     if (presentation.isPresent()) result = converter.convertModelToDto(presentation.get());
     log.trace("getPresentation - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/presentations", method = RequestMethod.POST)
-  public PresentationDto savePresentation(@RequestBody PresentationDto presentationDto) {
+  public ResponseEntity<PresentationDto> savePresentation(@RequestBody PresentationDto presentationDto) {
     log.trace("savePresentation - method entered presentationDto={}", presentationDto);
     Presentation result;
     try {
@@ -69,16 +69,16 @@ public class PresentationController {
               presentationDto.getByteFileLocation());
     } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
       log.trace("savePresentation - exception occurred: ex={}", ex.getMessage());
-      ex.printStackTrace();
-      return null;
+      //ex.printStackTrace();
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     PresentationDto resultToReturn = converter.convertModelToDto(result);
     log.trace("savePresentation - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/presentations", method = RequestMethod.PUT)
-  public PresentationDto updatePresentation(@RequestBody PresentationDto presentationDto) {
+  public ResponseEntity<PresentationDto> updatePresentation(@RequestBody PresentationDto presentationDto) {
     log.trace("updatePresentation - method entered: presentationDto={}", presentationDto);
     PresentationDto result =
         converter.convertModelToDto(
@@ -89,7 +89,7 @@ public class PresentationController {
                 presentationDto.getFormat(),
                 presentationDto.getByteFileLocation()));
     log.trace("updatePresentation - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/presentations/{id}", method = RequestMethod.DELETE)
