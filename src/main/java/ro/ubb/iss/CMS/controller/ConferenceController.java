@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
+import ro.ubb.iss.CMS.Services.ConferenceDataService;
 import ro.ubb.iss.CMS.converter.*;
 import ro.ubb.iss.CMS.Services.ConferenceService;
 import ro.ubb.iss.CMS.domain.*;
@@ -22,6 +23,7 @@ public class ConferenceController {
   public static final Logger log = LoggerFactory.getLogger(ConferenceController.class);
 
   @Autowired private ConferenceService service;
+  @Autowired private ConferenceDataService conferenceDataService;
 
   @Autowired private ConferenceConverter converter;
   @Autowired private ProposalConverter proposalConverter;
@@ -50,6 +52,7 @@ public class ConferenceController {
     log.trace("getConference - method finished: result={}", result);
     return new ResponseEntity<>(result,HttpStatus.OK);
   }
+
 
   /*
   SELECT bid.bid_id, bid.conference_id, bid.deadline,

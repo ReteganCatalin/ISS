@@ -19,8 +19,5 @@ public class ConferenceDto {
   private Date endDate;
   private Date proposalDeadline;
   private Date paperDeadline;
-  private String callForPaper;
-  private String about;
-  private String format;
-  private String byteFileLocation;
+
 }

@@ -9,13 +9,7 @@ import ro.ubb.iss.CMS.dto.ConferenceDto;
 public class ConferenceConverter implements BaseConverter<Conference, ConferenceDto> {
   @Override
   public Conference convertDtoToModel(ConferenceDto conferenceDto) {
-    ConferenceData conferenceData = ConferenceData.builder()
-            .conferenceID(conferenceDto.getConferenceID())
-            .about(conferenceDto.getAbout())
-            .byteFileLocation(conferenceDto.getByteFileLocation())
-            .callForPaper(conferenceDto.getCallForPaper())
-            .format(conferenceDto.getFormat())
-            .build();
+
     Conference conference = Conference.builder()
         .conferenceID(conferenceDto.getConferenceID())
         .name(conferenceDto.getName())
@@ -24,8 +18,8 @@ public class ConferenceConverter implements BaseConverter<Conference, Conference
         .paperDeadline(conferenceDto.getPaperDeadline())
         .proposalDeadline(conferenceDto.getProposalDeadline())
         .build();
-    conferenceData.setConference(conference);
-    conference.setConferenceData(conferenceData);
+    //conferenceData.setConference(conference);
+    //conference.setConferenceData(conferenceData);
     return conference;
   }
 
@@ -38,10 +32,10 @@ public class ConferenceConverter implements BaseConverter<Conference, Conference
         .startDate(conference.getStartDate())
         .proposalDeadline(conference.getProposalDeadline())
         .paperDeadline(conference.getPaperDeadline())
-        .about(conference.getConferenceData().getAbout())
-        .byteFileLocation(conference.getConferenceData().getByteFileLocation())
-        .callForPaper(conference.getConferenceData().getCallForPaper())
-        .format(conference.getConferenceData().getFormat())
+      ///  .about(conference.getConferenceData().getAbout())
+      //  .byteFileLocation(conference.getConferenceData().getByteFileLocation())
+       // .callForPaper(conference.getConferenceData().getCallForPaper())
+       // .format(conference.getConferenceData().getFormat())
         .build();
   }
 }

@@ -325,4 +325,20 @@
             <where>section_id  = '2'</where>
         </update>
     </changeSet>
+    <changeSet id="test-conference-data" author="catalin">
+        <loadUpdateData
+                tableName="conference_data"
+                primaryKey="conference_id"
+                encoding="UTF-8"
+                file="db/conference_data.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="conference_id" type="NUMERIC" name="conference_id"></column>
+            <column header="about" type="STRING" name="about"></column>
+            <column header="format" type="STRING" name="format"></column>
+            <column header="location" type="STRING" name="byte_file_location"></column>
+            <column header="call_for_paper" type="STRING" name="call_for_paper"></column>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>
