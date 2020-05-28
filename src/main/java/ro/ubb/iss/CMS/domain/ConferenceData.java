@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.domain;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "conference_data")
@@ -13,12 +14,17 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class ConferenceData {
-    @Id
-    private Integer ConferenceID;
+public class ConferenceData implements Serializable {
 
-    @OneToOne(mappedBy = "conference", orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name="conference_id")
+
+    @Id
+    @Column(name = "id")
+    private Integer conferenceID;
+
+    @Id
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "conference_id")
+    @MapsId
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Conference conference;
