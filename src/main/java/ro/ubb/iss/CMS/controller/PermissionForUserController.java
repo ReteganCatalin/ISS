@@ -26,18 +26,18 @@ public class PermissionForUserController {
   @Autowired private PermissionForUserConverter converter;
 
   @RequestMapping(value = "/permissionsforusers", method = RequestMethod.GET)
-  public PermissionForUsersDto getAllPermissionsForUsers() {
+  public ResponseEntity<PermissionForUsersDto> getAllPermissionsForUsers() {
     log.trace("getAllPermissionsForUsers - method entered");
     PermissionForUsersDto result =
         new PermissionForUsersDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPermissionsForUsers - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(
       value = "/permissionsforusers/{userID}/{permissionID}",
       method = RequestMethod.GET)
-  public PermissionForUserDto getPermissionForUser(
+  public ResponseEntity<PermissionForUserDto> getPermissionForUser(
       @PathVariable Integer userID, @PathVariable Integer permissionID) {
     log.trace(
         "getPermissionForUser - method entered userID={}, permissionID={}", userID, permissionID);
@@ -46,11 +46,11 @@ public class PermissionForUserController {
     PermissionForUserDto result = null;
     if (analysis.isPresent()) result = converter.convertModelToDto(analysis.get());
     log.trace("getPermissionForUser - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/permissionsforusers", method = RequestMethod.POST)
-  public PermissionForUserDto savePermissionForUser(
+  public ResponseEntity<PermissionForUserDto> savePermissionForUser(
       @RequestBody PermissionForUserKey permissionForUserKey) {
     log.trace("saveAnalysis - method entered analysisDto={}", permissionForUserKey);
     Optional<PermissionForUser> result =
@@ -60,7 +60,7 @@ public class PermissionForUserController {
     PermissionForUserDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("saveAnalysis - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(

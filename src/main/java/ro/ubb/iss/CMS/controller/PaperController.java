@@ -27,25 +27,25 @@ public class PaperController {
   @Autowired private PaperConverter converter;
 
   @RequestMapping(value = "/papers", method = RequestMethod.GET)
-  public PapersDto getAllPapers() {
+  public ResponseEntity<PapersDto> getAllPapers() {
     log.trace("getAllPapers - method entered");
     PapersDto result = new PapersDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPapers - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/papers/{id}", method = RequestMethod.GET)
-  public PaperDto getPaper(@PathVariable Integer id) {
+  public ResponseEntity<PaperDto> getPaper(@PathVariable Integer id) {
     log.trace("getPaper - method entered id={}", id);
     Optional<Paper> metaInformation = service.findPaper(id);
     PaperDto result = null;
     if (metaInformation.isPresent()) result = converter.convertModelToDto(metaInformation.get());
     log.trace("getPaper - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/papers", method = RequestMethod.POST)
-  public PaperDto savePaper(@RequestBody PaperDto paperDto) {
+  public ResponseEntity<PaperDto> savePaper(@RequestBody PaperDto paperDto) {
     log.trace("savePaper - method entered paperDto={}", paperDto);
     Paper result;
     try {
@@ -58,18 +58,18 @@ public class PaperController {
 
     PaperDto resultToReturn = converter.convertModelToDto(result);
     log.trace("savePaper - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/papers", method = RequestMethod.PUT)
-  public PaperDto updatePaper(@RequestBody PaperDto paperDto) {
+  public ResponseEntity<PaperDto> updatePaper(@RequestBody PaperDto paperDto) {
     log.trace("updatePaper - method entered: paperDto={}", paperDto);
     PaperDto result =
         converter.convertModelToDto(
             service.updatePaper(
                 paperDto.getPaperId(), paperDto.getFormat(), paperDto.getByteFileLocation()));
     log.trace("updatePaper - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/papers/{id}", method = RequestMethod.DELETE)

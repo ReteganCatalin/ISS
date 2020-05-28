@@ -25,36 +25,36 @@ public class MetaInformationController {
   @Autowired private MetaInfoConverter converter;
 
   @RequestMapping(value = "/meta_informations", method = RequestMethod.GET)
-  public MetaInfosDto getAllMetaInformations() {
+  public ResponseEntity<MetaInfosDto> getAllMetaInformations() {
     log.trace("getAllMetaInformations - method entered");
     MetaInfosDto result = new MetaInfosDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllMetaInformations - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/meta_informations/{id}", method = RequestMethod.GET)
-  public MetaInfoDto getMetaInformation(@PathVariable Integer id) {
+  public ResponseEntity<MetaInfoDto> getMetaInformation(@PathVariable Integer id) {
     log.trace("getMetaInformation - method entered id={}", id);
     Optional<MetaInformation> metaInformation = service.findMetaInformation(id);
     MetaInfoDto result = null;
     if (metaInformation.isPresent()) result = converter.convertModelToDto(metaInformation.get());
     log.trace("getConference - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/meta_informations", method = RequestMethod.POST)
-  public MetaInfoDto saveMetaInformation(@RequestBody MetaInfoDto metaInfoDto) {
+  public ResponseEntity<MetaInfoDto> saveMetaInformation(@RequestBody MetaInfoDto metaInfoDto) {
     log.trace("saveMetaInformation - method entered metaInfoDto={}", metaInfoDto);
     MetaInformation result =
         service.saveMetaInformation(
             metaInfoDto.getName(), metaInfoDto.getKeywords(), metaInfoDto.getTopics());
     MetaInfoDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveMetaInformation - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/meta_informations", method = RequestMethod.PUT)
-  public MetaInfoDto updateMetaInformation(@RequestBody MetaInfoDto metaInfoDto) {
+  public ResponseEntity<MetaInfoDto> updateMetaInformation(@RequestBody MetaInfoDto metaInfoDto) {
     log.trace("updateMetaInformation - method entered: metaInfoDto={}", metaInfoDto);
     MetaInfoDto result =
         converter.convertModelToDto(
@@ -64,7 +64,7 @@ public class MetaInformationController {
                 metaInfoDto.getKeywords(),
                 metaInfoDto.getTopics()));
     log.trace("updateMetaInformation - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/meta_informations/{id}", method = RequestMethod.DELETE)

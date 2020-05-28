@@ -25,41 +25,41 @@ public class PermissionController {
   @Autowired private PermissionConverter converter;
 
   @RequestMapping(value = "/permissions", method = RequestMethod.GET)
-  public PermissionsDto getAllPermissions() {
+  public ResponseEntity<PermissionsDto> getAllPermissions() {
     log.trace("getAllPermissions - method entered");
     PermissionsDto result = new PermissionsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPermissions - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/permissions/{id}", method = RequestMethod.GET)
-  public PermissionDto getPermission(@PathVariable Integer id) {
+  public ResponseEntity<PermissionDto> getPermission(@PathVariable Integer id) {
     log.trace("getPermission - method entered id={}", id);
     Optional<Permission> metaInformation = service.findPermission(id);
     PermissionDto result = null;
     if (metaInformation.isPresent()) result = converter.convertModelToDto(metaInformation.get());
     log.trace("getPermission - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/permissions", method = RequestMethod.POST)
-  public PermissionDto savePermission(@RequestBody PermissionDto permissionDto) {
+  public ResponseEntity<PermissionDto> savePermission(@RequestBody PermissionDto permissionDto) {
     log.trace("savePermission - method entered permissionDto={}", permissionDto);
     Permission result = service.savePermission(permissionDto.getPermissionName());
     PermissionDto resultToReturn = converter.convertModelToDto(result);
     log.trace("savePermission - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/permissions", method = RequestMethod.PUT)
-  public PermissionDto updatePermission(@RequestBody PermissionDto permissionDto) {
+  public ResponseEntity<PermissionDto> updatePermission(@RequestBody PermissionDto permissionDto) {
     log.trace("updatePermission - method entered: permissionDto={}", permissionDto);
     PermissionDto result =
         converter.convertModelToDto(
             service.updatePermission(
                 permissionDto.getPermissionID(), permissionDto.getPermissionName()));
     log.trace("updatePermission - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/permissions/{id}", method = RequestMethod.DELETE)
