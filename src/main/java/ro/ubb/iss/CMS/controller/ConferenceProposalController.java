@@ -26,18 +26,18 @@ public class ConferenceProposalController {
   @Autowired private ConferenceProposalConverter converter;
 
   @RequestMapping(value = "/conference_proposal", method = RequestMethod.GET)
-  public ConferenceProposalDtos getAllConferenceProposals() {
+  public ResponseEntity<ConferenceProposalDtos> getAllConferenceProposals() {
     log.trace("getAllConferenceProposals - method entered");
     ConferenceProposalDtos result =
         new ConferenceProposalDtos(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllConferenceProposals - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(
       value = "/conference_proposal/{proposalId}/{conferenceId}",
       method = RequestMethod.GET)
-  public ConferenceProposalDto getConferenceProposal(
+  public ResponseEntity<ConferenceProposalDto> getConferenceProposal(
       @PathVariable Integer proposalId, @PathVariable Integer conferenceId) {
     log.trace(
         "getConferenceProposal - method entered userId={}, conferenceId={}",
@@ -51,11 +51,11 @@ public class ConferenceProposalController {
     if (conferenceProposal.isPresent())
       result = converter.convertModelToDto(conferenceProposal.get());
     log.trace("getConferenceProposal - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conference_proposal", method = RequestMethod.POST)
-  public ConferenceProposalDto saveConferenceProposal(
+  public ResponseEntity<ConferenceProposalDto> saveConferenceProposal(
       @RequestBody ConferenceProposalDto conferenceProposalDto) {
     log.trace(
         "saveConferenceProposal - method entered conferenceProposalDto={}", conferenceProposalDto);
@@ -69,7 +69,7 @@ public class ConferenceProposalController {
     ConferenceProposalDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("saveConferenceProposal - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(

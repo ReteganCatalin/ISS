@@ -2,6 +2,7 @@ package ro.ubb.iss.CMS.dto;
 
 import lombok.*;
 
+import javax.persistence.Column;
 import java.util.Date;
 
 @NoArgsConstructor
@@ -18,4 +19,5 @@ public class ConferenceDto {
   private Date endDate;
   private Date proposalDeadline;
   private Date paperDeadline;
+
 }

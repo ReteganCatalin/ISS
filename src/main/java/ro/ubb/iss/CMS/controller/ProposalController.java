@@ -43,7 +43,7 @@ public class ProposalController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/proposals/{id}/detailed", method = RequestMethod.GET)
-  public Map<String, Object> getDetailedProposal(@PathVariable Integer id) {
+  public ResponseEntity<Map<String, Object>> getDetailedProposal(@PathVariable Integer id) {
     log.trace("getDetailedProposal - method entered");
     Optional<Proposal> proposal = service.findProposal(id);
     Map<String, Object> result = new HashMap<>();
@@ -69,7 +69,7 @@ public class ProposalController {
               .collect(Collectors.toList()));
     }
     log.trace("getDetailedProposal - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   //  @RequestMapping(value = "/proposals/{id}/detailed", method = RequestMethod.GET)
@@ -86,30 +86,30 @@ public class ProposalController {
   //
   //    }
   //    log.trace("getDetailedProposal - method finished: result={}", result);
-  //    return result;
+  //    return new ResponseEntity<>(result,HttpStatus.OK);
   //  }
 
   @RequestMapping(value = "/proposals", method = RequestMethod.GET)
-  public ProposalsDto getAllProposals() {
+  public ResponseEntity<ProposalsDto> getAllProposals() {
     log.trace("getAllProposals - method entered");
     ProposalsDto result = new ProposalsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllProposals - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposals/{id}", method = RequestMethod.GET)
-  public ProposalDto getProposal(@PathVariable Integer id) {
+  public ResponseEntity<ProposalDto> getProposal(@PathVariable Integer id) {
     log.trace("getProposal - method entered id={}", id);
     Optional<Proposal> proposal = service.findProposal(id);
     ProposalDto result = null;
     if (proposal.isPresent()) result = converter.convertModelToDto(proposal.get());
     log.trace("getProposal - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposals/{id}/reviews", method = RequestMethod.GET)
   @Transactional
-  public ReviewsDto getProposalReviews(@PathVariable Integer id) {
+  public ResponseEntity<ReviewsDto> getProposalReviews(@PathVariable Integer id) {
     log.trace("getProposalReviews - method entered id={}", id);
     Optional<Proposal> proposal = service.findProposal(id);
     ReviewsDto result = null;
@@ -119,12 +119,12 @@ public class ProposalController {
               .reviewDtoList(reviewConverter.convertModelsToDtos(proposal.get().getReviews()))
               .build();
     log.trace("getProposalReviews - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposals/{id}/reviewer_users", method = RequestMethod.GET)
   @Transactional
-  public UsersDto getProposalReviewerUsers(@PathVariable Integer id) {
+  public ResponseEntity<UsersDto > getProposalReviewerUsers(@PathVariable Integer id) {
     log.trace("getProposalReviewerUsers - method entered id={}", id);
     Optional<Proposal> proposal = service.findProposal(id);
     UsersDto result = null;
@@ -138,12 +138,12 @@ public class ProposalController {
                           .collect(Collectors.toList())))
               .build();
     log.trace("getProposalReviewerUsers - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposals/{id}/available", method = RequestMethod.GET)
   @Transactional
-  public UsersDto getAllAvailable(@PathVariable Integer id) {
+  public ResponseEntity<UsersDto> getAllAvailable(@PathVariable Integer id) {
     log.trace("getAllAvailable - method entered id={}", id);
     Optional<Proposal> proposal = service.findProposal(id);
     UsersDto result = null;
@@ -157,11 +157,11 @@ public class ProposalController {
                           .collect(Collectors.toList())))
               .build();
     log.trace("getAllAvailable - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposals", method = RequestMethod.POST)
-  public ProposalDto saveProposal(@RequestBody ProposalDto proposalDto) {
+  public ResponseEntity<ProposalDto> saveProposal(@RequestBody ProposalDto proposalDto) {
     log.trace("saveProposal - method entered abstractDto={}", proposalDto);
     Proposal result =
         service.saveProposal(
@@ -172,11 +172,11 @@ public class ProposalController {
 
     ProposalDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveProposal - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposals", method = RequestMethod.PUT)
-  public ProposalDto updateProposal(@RequestBody ProposalDto proposalDto) {
+  public ResponseEntity<ProposalDto> updateProposal(@RequestBody ProposalDto proposalDto) {
     log.trace("updateProposal - method entered: proposalDto={}", proposalDto);
     ProposalDto result =
         converter.convertModelToDto(
@@ -187,7 +187,7 @@ public class ProposalController {
                 entityManager.getReference(MetaInformation.class, proposalDto.getMetaInfoID()),
                 entityManager.getReference(Abstract.class, proposalDto.getAbstractID())));
     log.trace("updateProposal - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/proposals/{id}", method = RequestMethod.DELETE)

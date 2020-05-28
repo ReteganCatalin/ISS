@@ -26,18 +26,18 @@ public class PermissionForRoleController {
   @Autowired private PermissionForRoleConverter converter;
 
   @RequestMapping(value = "/permissionsforroles", method = RequestMethod.GET)
-  public PermissionForRolesDto getAllPermissionsForRoles() {
+  public ResponseEntity<PermissionForRolesDto> getAllPermissionsForRoles() {
     log.trace("getAllPermissionForRoles - method entered");
     PermissionForRolesDto result =
         new PermissionForRolesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPermissionForRoles - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(
       value = "/permissionsforroles/{roleID}/{permissionID}",
       method = RequestMethod.GET)
-  public PermissionForRoleDto getPermissionForRole(
+  public ResponseEntity<PermissionForRoleDto> getPermissionForRole(
       @PathVariable Integer roleID, @PathVariable Integer permissionID) {
     log.trace(
         "getPermissionForRole - method entered roleID={}, permissionID={}", roleID, permissionID);
@@ -46,11 +46,11 @@ public class PermissionForRoleController {
     PermissionForRoleDto result = null;
     if (analysis.isPresent()) result = converter.convertModelToDto(analysis.get());
     log.trace("getPermissionForRole - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/permissionsforroles", method = RequestMethod.POST)
-  public PermissionForRoleDto savePermissionForRole(
+  public ResponseEntity<PermissionForRoleDto> savePermissionForRole(
       @RequestBody PermissionForRoleDto permissionForRoleDto) {
     log.trace(
         "savePermissionForRole - method entered permissionForRoleDto={}", permissionForRoleDto);
@@ -61,7 +61,7 @@ public class PermissionForRoleController {
     PermissionForRoleDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("savePermissionForRole - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(

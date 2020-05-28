@@ -37,25 +37,25 @@ public class ReviewController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/reviews", method = RequestMethod.GET)
-  public ReviewsDto getAllReviews() {
+  public ResponseEntity<ReviewsDto> getAllReviews() {
     log.trace("getAllReviews - method entered");
     ReviewsDto result = new ReviewsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllReviews - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/reviews/{id}", method = RequestMethod.GET)
-  public ReviewDto getReview(@PathVariable Integer id) {
+  public ResponseEntity<ReviewDto> getReview(@PathVariable Integer id) {
     log.trace("getReview - method entered id={}", id);
     Optional<Review> anAbstract = service.findReview(id);
     ReviewDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getReview - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/reviews", method = RequestMethod.POST)
-  public ReviewDto saveReview(@RequestBody ReviewDto reviewDto) {
+  public ResponseEntity<ReviewDto> saveReview(@RequestBody ReviewDto reviewDto) {
     log.trace("saveReview - method entered reviewDto={}", reviewDto);
     Review result;
     try {
@@ -69,15 +69,15 @@ public class ReviewController {
         | AlreadyInTheReviewersException ex) {
       log.trace("saveReview - exception occurred: ex={}", ex.getMessage());
       ex.printStackTrace();
-      return null;
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
     ReviewDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveReview - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/reviews", method = RequestMethod.PUT)
-  public ReviewDto updateReview(@RequestBody ReviewDto reviewDto) {
+  public ResponseEntity<ReviewDto> updateReview(@RequestBody ReviewDto reviewDto) {
     log.trace("updateReview - method entered: reviewDto={}", reviewDto);
     ReviewDto result =
         converter.convertModelToDto(
@@ -87,7 +87,7 @@ public class ReviewController {
                 entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
                 entityManager.getReference(User.class, reviewDto.getUserID())));
     log.trace("updateReview - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/reviews/{id}", method = RequestMethod.DELETE)

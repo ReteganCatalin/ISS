@@ -26,15 +26,15 @@ public class PcMemberController {
   @Autowired private PcMemberConverter converter;
 
   @RequestMapping(value = "/pc_members", method = RequestMethod.GET)
-  public PcMembersDto getAllPcMembers() {
+  public ResponseEntity<PcMembersDto> getAllPcMembers() {
     log.trace("getAllPcMembers - method entered");
     PcMembersDto result = new PcMembersDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPcMembers - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/pc_members/{userId}/{conferenceId}", method = RequestMethod.GET)
-  public PcMemberDto getPcMember(@PathVariable Integer userId, @PathVariable Integer conferenceId) {
+  public ResponseEntity<PcMemberDto> getPcMember(@PathVariable Integer userId, @PathVariable Integer conferenceId) {
     log.trace("getPcMember - method entered userId={}, conferenceId={}", userId, conferenceId);
     PcMemberKey pcMemberKey =
         PcMemberKey.builder().userID(userId).conferenceID(conferenceId).build();
@@ -42,11 +42,11 @@ public class PcMemberController {
     PcMemberDto result = null;
     if (pcMember.isPresent()) result = converter.convertModelToDto(pcMember.get());
     log.trace("getPcMember - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/pc_members", method = RequestMethod.POST)
-  public PcMemberDto savePcMember(@RequestBody PcMemberDto pcMemberDto) {
+  public ResponseEntity<PcMemberDto> savePcMember(@RequestBody PcMemberDto pcMemberDto) {
     log.trace("savePcMember - method entered pcMemberDto={}", pcMemberDto);
     Optional<PcMember> result =
         service.savePcMember(
@@ -58,7 +58,7 @@ public class PcMemberController {
     PcMemberDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("savePcMember - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/pc_members/{userId}/{conferenceId}", method = RequestMethod.DELETE)

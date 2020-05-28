@@ -32,25 +32,25 @@ public class MyTicketController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/mytickets", method = RequestMethod.GET)
-  public MyTicketsDto getAllMyTickets() {
+  public ResponseEntity<MyTicketsDto> getAllMyTickets() {
     log.trace("getAllMyTickets - method entered");
     MyTicketsDto result = new MyTicketsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllMyTickets - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/mytickets/{id}", method = RequestMethod.GET)
-  public MyTicketDto getMyTicket(@PathVariable Integer id) {
+  public ResponseEntity<MyTicketDto> getMyTicket(@PathVariable Integer id) {
     log.trace("getMyTicket - method entered id={}", id);
     Optional<MyTicket> metaInformation = service.findMyTicket(id);
     MyTicketDto result = null;
     if (metaInformation.isPresent()) result = converter.convertModelToDto(metaInformation.get());
     log.trace("getMyTicket - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/mytickets", method = RequestMethod.POST)
-  public MyTicketDto saveMyTicket(@RequestBody MyTicketDto myTicketDto) {
+  public ResponseEntity<MyTicketDto> saveMyTicket(@RequestBody MyTicketDto myTicketDto) {
     log.trace("saveMyTicket - method entered myTicketDto={}", myTicketDto);
     MyTicket result =
         service.saveMyTicket(
@@ -59,11 +59,11 @@ public class MyTicketController {
             myTicketDto.getPrice());
     MyTicketDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveMyTicket - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/mytickets", method = RequestMethod.PUT)
-  public MyTicketDto updateMyTicket(@RequestBody MyTicketDto myTicketDto) {
+  public ResponseEntity<MyTicketDto> updateMyTicket(@RequestBody MyTicketDto myTicketDto) {
     log.trace("updateMyTicket - method entered: myTicketDto={}", myTicketDto);
     MyTicketDto result =
         converter.convertModelToDto(
@@ -73,7 +73,7 @@ public class MyTicketController {
                 entityManager.getReference(Section.class, myTicketDto.getSectionID()),
                 myTicketDto.getPrice()));
     log.trace("updateMyTicket - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/mytickets/{id}", method = RequestMethod.DELETE)

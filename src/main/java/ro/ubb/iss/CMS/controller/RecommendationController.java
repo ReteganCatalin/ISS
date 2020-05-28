@@ -37,26 +37,26 @@ public class RecommendationController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/recommendations", method = RequestMethod.GET)
-  public RecommendationsDto getAllRecommendations() {
+  public ResponseEntity<RecommendationsDto> getAllRecommendations() {
     log.trace("getAllRecommendations - method entered");
     RecommendationsDto result =
         new RecommendationsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllRecommendations - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/recommendations/{id}", method = RequestMethod.GET)
-  public RecommendationDto getRecommendation(@PathVariable Integer id) {
+  public ResponseEntity<RecommendationDto> getRecommendation(@PathVariable Integer id) {
     log.trace("getRecommendation - method entered id={}", id);
     Optional<Recommendation> anAbstract = service.findRecommendation(id);
     RecommendationDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getRecommendation - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/recommendations", method = RequestMethod.POST)
-  public RecommendationDto saveRecommendation(@RequestBody RecommendationDto recommendationDto) {
+  public ResponseEntity<RecommendationDto> saveRecommendation(@RequestBody RecommendationDto recommendationDto) {
     log.trace("saveRecommendation - method entered recommendationDto={}", recommendationDto);
     Recommendation result =
         service.saveRecommendation(
@@ -65,11 +65,11 @@ public class RecommendationController {
 
     RecommendationDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveRecommendation - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/recommendations", method = RequestMethod.PUT)
-  public RecommendationDto updateRecommendation(@RequestBody RecommendationDto recommendationDto) {
+  public ResponseEntity<RecommendationDto> updateRecommendation(@RequestBody RecommendationDto recommendationDto) {
     log.trace("updateRecommendation - method entered: recommendationDto={}", recommendationDto);
     RecommendationDto result =
         converter.convertModelToDto(
@@ -78,7 +78,7 @@ public class RecommendationController {
                 entityManager.getReference(Review.class, recommendationDto.getReviewID()),
                 recommendationDto.getRecommendationMessage()));
     log.trace("updateRecommendation - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/recommendations/{id}", method = RequestMethod.DELETE)

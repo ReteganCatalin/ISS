@@ -33,26 +33,26 @@ public class ParticipationController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/participations", method = RequestMethod.GET)
-  public ParticipationsDto getAllParticipations() {
+  public ResponseEntity<ParticipationsDto> getAllParticipations() {
     log.trace("getAllParticipations - method entered");
     ParticipationsDto result =
         new ParticipationsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllParticipations - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/participations/{id}", method = RequestMethod.GET)
-  public ParticipationDto getParticipation(@PathVariable Integer id) {
+  public ResponseEntity<ParticipationDto> getParticipation(@PathVariable Integer id) {
     log.trace("getParticipation - method entered id={}", id);
     Optional<Participation> metaInformation = service.findParticipation(id);
     ParticipationDto result = null;
     if (metaInformation.isPresent()) result = converter.convertModelToDto(metaInformation.get());
     log.trace("getParticipation - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/participations", method = RequestMethod.POST)
-  public ParticipationDto saveParticipation(@RequestBody ParticipationDto participationDto) {
+  public ResponseEntity<ParticipationDto> saveParticipation(@RequestBody ParticipationDto participationDto) {
     log.trace("saveParticipation - method entered participationDto={}", participationDto);
     Participation result =
         service.saveParticipation(
@@ -61,11 +61,11 @@ public class ParticipationController {
             entityManager.getReference(Role.class, participationDto.getSectionID()));
     ParticipationDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveParticipation - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/participations", method = RequestMethod.PUT)
-  public ParticipationDto updateParticipation(@RequestBody ParticipationDto participationDto) {
+  public ResponseEntity<ParticipationDto> updateParticipation(@RequestBody ParticipationDto participationDto) {
     log.trace("updateParticipation - method entered: participationDto={}", participationDto);
     ParticipationDto result =
         converter.convertModelToDto(
@@ -75,7 +75,7 @@ public class ParticipationController {
                 entityManager.getReference(User.class, participationDto.getSectionID()),
                 entityManager.getReference(Role.class, participationDto.getSectionID())));
     log.trace("updateParticipation - method finished: result={}", result);
-    return result;
+    return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/participations/{id}", method = RequestMethod.DELETE)
