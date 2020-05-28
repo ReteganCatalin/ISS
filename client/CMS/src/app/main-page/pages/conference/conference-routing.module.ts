@@ -18,4 +18,5 @@ const conferencePageRoutes: Routes = [
   imports: [RouterModule.forChild(conferencePageRoutes)],
   exports: [RouterModule]
 })
-export class ConferenceRoutingModule { }
+export class ConferenceRoutingModule {
+}

@@ -9,7 +9,8 @@ export class ConferenceComponent implements OnInit {
 
   @Input() conferenceID: number;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }

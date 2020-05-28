@@ -14,8 +14,6 @@ export class ConferencesComponent implements OnInit {
     this.conferenceObserver = new BehaviorSubject<Array<Conference>>(new Array<Conference>());
   }
 
-
-
   ngOnInit(): void {
 
     this.http.get<Conferences>('http://localhost:8081/conferences').subscribe(data => {
