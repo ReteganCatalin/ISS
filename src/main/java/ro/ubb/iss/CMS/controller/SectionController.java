@@ -36,26 +36,26 @@ public class SectionController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/sections", method = RequestMethod.GET)
-  public SectionsDto getAllSections() {
+  public ResponseEntity<SectionsDto> getAllSections() {
     log.trace("getAllSections - method entered");
     SectionsDto result = new SectionsDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllSections - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/sections/{id}", method = RequestMethod.GET)
-  public SectionDto getSection(@PathVariable Integer id) {
+  public ResponseEntity<SectionDto> getSection(@PathVariable Integer id) {
     log.trace("getSection - method entered id={}", id);
     Optional<Section> anAbstract = service.findSection(id);
     SectionDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getSection - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/sections/{id}/presentations", method = RequestMethod.GET)
   @Transactional
-  public PresentationsDto getSectionPresentations(@PathVariable Integer id) {
+  public ResponseEntity<PresentationsDto> getSectionPresentations(@PathVariable Integer id) {
     log.trace("getSectionPresentations - method entered id={}", id);
     Optional<Section> section = service.findSection(id);
     PresentationsDto result = null;
@@ -66,23 +66,23 @@ public class SectionController {
                   presentationConverter.convertModelsToDtos(section.get().getPresentations()))
               .build();
     log.trace("getSectionPresentations - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/sections/{id}/suprevisor", method = RequestMethod.GET)
   @Transactional
-  public UserDto getSectionSupervisor(@PathVariable Integer id) {
+  public ResponseEntity<UserDto> getSectionSupervisor(@PathVariable Integer id) {
     log.trace("getSectionSupervisor - method entered id={}", id);
     Optional<Section> section = service.findSection(id);
     UserDto result = null;
     if (section.isPresent())
       result = userConverter.convertModelToDto(section.get().getSupervisor());
     log.trace("getSectionSupervisor - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/sections", method = RequestMethod.POST)
-  public SectionDto saveSection(@RequestBody SectionDto sectionDto) {
+  public ResponseEntity<SectionDto> saveSection(@RequestBody SectionDto sectionDto) {
     log.trace("saveSection - method entered sectionDto={}", sectionDto);
     Section result =
         service.saveSection(
@@ -92,11 +92,11 @@ public class SectionController {
 
     SectionDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveSection - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/sections", method = RequestMethod.PUT)
-  public SectionDto updateSection(@RequestBody SectionDto sectionDto) {
+  public ResponseEntity<SectionDto> updateSection(@RequestBody SectionDto sectionDto) {
     log.trace("updateSection - method entered: sectionDto={}", sectionDto);
     SectionDto result =
         converter.convertModelToDto(
@@ -106,7 +106,7 @@ public class SectionController {
                 entityManager.getReference(Conference.class, sectionDto.getConferenceID()),
                 sectionDto.getDateOfPresentation()));
     log.trace("updateSection - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/sections/{id}", method = RequestMethod.DELETE)

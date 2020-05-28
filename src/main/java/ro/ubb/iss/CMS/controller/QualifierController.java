@@ -30,41 +30,41 @@ public class QualifierController {
   @Autowired private QualifierConverter converter;
 
   @RequestMapping(value = "/qualifiers", method = RequestMethod.GET)
-  public QualifiersDto getAllQualifiers() {
+  public ResponseEntity<QualifiersDto> getAllQualifiers() {
     log.trace("getAllQualifiers - method entered");
     QualifiersDto result = new QualifiersDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllQualifiers - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/qualifiers/{id}", method = RequestMethod.GET)
-  public QualifierDto getQualifier(@PathVariable Integer id) {
+  public ResponseEntity<QualifierDto> getQualifier(@PathVariable Integer id) {
     log.trace("getQualifier - method entered id={}", id);
     Optional<Qualifier> anAbstract = service.findQualifier(id);
     QualifierDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getQualifier - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/qualifiers", method = RequestMethod.POST)
-  public QualifierDto saveQualifier(@RequestBody QualifierDto qualifierDto) {
+  public ResponseEntity<QualifierDto> saveQualifier(@RequestBody QualifierDto qualifierDto) {
     log.trace("saveQualifier - method entered qualifierDto={}", qualifierDto);
     Qualifier result = service.saveQualifier(qualifierDto.getName());
 
     QualifierDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveQualifier - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/qualifiers", method = RequestMethod.PUT)
-  public QualifierDto updateQualifier(@RequestBody QualifierDto qualifierDto) {
+  public ResponseEntity<QualifierDto> updateQualifier(@RequestBody QualifierDto qualifierDto) {
     log.trace("updateQualifier - method entered: qualifierDto={}", qualifierDto);
     QualifierDto result =
         converter.convertModelToDto(
             service.updateQualifier(qualifierDto.getQualifierID(), qualifierDto.getName()));
     log.trace("updateQualifier - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/qualifiers/{id}", method = RequestMethod.DELETE)

@@ -37,26 +37,26 @@ public class UserController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/users", method = RequestMethod.GET)
-  public UsersDto getAllUsers() {
+  public ResponseEntity<UsersDto> getAllUsers() {
     log.trace("getAllUsers - method entered");
     UsersDto result = new UsersDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllUsers - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/users/{id}", method = RequestMethod.GET)
-  public UserDto getUser(@PathVariable Integer id) {
+  public ResponseEntity<UserDto> getUser(@PathVariable Integer id) {
     log.trace("getUser - method entered id={}", id);
     Optional<User> user = service.findUser(id);
     UserDto result = null;
     if (user.isPresent()) result = converter.convertModelToDto(user.get());
     log.trace("getUser - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/users/{id}/proposals", method = RequestMethod.GET)
   @Transactional
-  public ProposalsDto getUserProposals(@PathVariable Integer id) {
+  public ResponseEntity<ProposalsDto> getUserProposals(@PathVariable Integer id) {
     log.trace("getUserProposals - method entered id={}", id);
     Optional<User> user = service.findUser(id);
     ProposalsDto result = null;
@@ -67,11 +67,11 @@ public class UserController {
                   proposalConverter.convertModelsToDtos(user.get().getUserInfo().getProposals()))
               .build();
     log.trace("getUserProposals - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/users", method = RequestMethod.POST)
-  public UserDto saveUser(@RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> saveUser(@RequestBody UserDto userDto) {
     log.trace("saveUser - method entered userDto={}", userDto);
     User result =
         service.saveUser(
@@ -82,11 +82,11 @@ public class UserController {
 
     UserDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveUser - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/users", method = RequestMethod.PUT)
-  public UserDto updateUser(@RequestBody UserDto userDto) {
+  public ResponseEntity<UserDto> updateUser(@RequestBody UserDto userDto) {
     log.trace("updateUser - method entered: userDto={}", userDto);
     UserDto result =
         converter.convertModelToDto(
@@ -97,7 +97,7 @@ public class UserController {
                 userDto.getIsValidated(),
                 entityManager.getReference(UserInfo.class, userDto.getUserInfoID())));
     log.trace("updateUser - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)

@@ -31,26 +31,26 @@ public class RoleForUserController {
   private EntityManager entityManager;
 
   @RequestMapping(value = "/rolesForUser", method = RequestMethod.GET)
-  public RolesForUserDto getAllRoleForUsers() {
+  public ResponseEntity<RolesForUserDto> getAllRoleForUsers() {
     log.trace("getAllRolesForUser - method entered");
     RolesForUserDto result = new RolesForUserDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllRolesForUser - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/rolesForUser/{userID}/{roleID}", method = RequestMethod.GET)
-  public RoleForUserDto getRoleForUser(@PathVariable Integer userID, @PathVariable Integer roleID) {
+  public ResponseEntity<RoleForUserDto> getRoleForUser(@PathVariable Integer userID, @PathVariable Integer roleID) {
     log.trace("getRoleForUser - method entered userID={} roleID={}", userID, roleID);
     RoleForUserKey roleForUserKey = new RoleForUserKey(userID, roleID);
     Optional<RoleForUser> anAbstract = service.findRoleForUser(roleForUserKey);
     RoleForUserDto result = null;
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getRoleForUser - method finished: result={}", result);
-    return result;
+    return new ResponseEntity(result,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/rolesForUser", method = RequestMethod.POST)
-  public RoleForUserDto saveRoleForUser(@RequestBody RoleForUserKey roleForUserKey) {
+  public ResponseEntity<RoleForUserDto> saveRoleForUser(@RequestBody RoleForUserKey roleForUserKey) {
     log.trace("saveRoleForUser - method entered roleForUserKey={}", roleForUserKey);
     Optional<RoleForUser> result =
         service.saveRoleForUser(
@@ -58,7 +58,7 @@ public class RoleForUserController {
     RoleForUserDto resultToReturn = null;
     if (result.isPresent()) resultToReturn = converter.convertModelToDto(result.get());
     log.trace("saveRoleForUser - method finished: result={}", resultToReturn);
-    return resultToReturn;
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/rolesForUser/{userID}/{roleID}", method = RequestMethod.DELETE)
