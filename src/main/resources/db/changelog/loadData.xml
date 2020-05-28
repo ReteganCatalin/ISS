@@ -92,9 +92,9 @@
             <column header="abstract_id" type="NUMERIC" name="abstract_id"></column>
         </loadUpdateData>
     </changeSet>
-    <changeSet id="test-user" author="catalin">
+    <changeSet id="test-users" author="catalin">
         <loadUpdateData
-                tableName="user"
+                tableName="users"
                 primaryKey="user_id"
                 encoding="UTF-8"
                 file="db/user.csv"
