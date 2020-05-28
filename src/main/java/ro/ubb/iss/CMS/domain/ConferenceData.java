@@ -14,17 +14,15 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @Builder
-public class ConferenceData implements Serializable {
+public class ConferenceData  {
 
 
     @Id
-    @Column(name = "id")
+    @Column(name = "conference_id")
     private Integer conferenceID;
 
-    @Id
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "conference_id")
-    @MapsId
+    @PrimaryKeyJoinColumn(name = "conference_id",referencedColumnName = "conference_id")
     @EqualsAndHashCode.Exclude
     @ToString.Exclude
     private Conference conference;
