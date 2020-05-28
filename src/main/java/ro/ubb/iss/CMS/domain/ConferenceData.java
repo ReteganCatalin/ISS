@@ -31,7 +31,7 @@ public class ConferenceData  {
     private String callForPaper;
 
     @Column(name="about")
-    private String About;
+    private String about;
 
     @Column(name = "format", nullable = false, length = 5)
     private String format;
