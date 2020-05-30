@@ -1,0 +1,7 @@
+.add-proposal-btn:hover{
+  color: black;
+  cursor: pointer;
+}
+.add-proposal-btn{
+  color: grey;
+}
