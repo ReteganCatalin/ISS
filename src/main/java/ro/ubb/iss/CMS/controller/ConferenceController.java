@@ -17,7 +17,6 @@ import ro.ubb.iss.CMS.dto.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class ConferenceController {
 
@@ -33,15 +32,15 @@ public class ConferenceController {
   @Autowired private BiddingProcessConverter biddingProcessConverter;
   @Autowired private MetaInfoConverter metaInfoConverter;
   @Autowired private AnalysisConverter analysisConverter;
-
-
+  @Autowired private AbstractConverter abstractConverter;
+  @Autowired private PaperConverter paperConverter;
 
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
   public ResponseEntity<ConferencesDto> getAllConferences() {
     log.trace("getAllConferences - method entered");
     ConferencesDto result = new ConferencesDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllConferences - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}", method = RequestMethod.GET)
@@ -51,9 +50,8 @@ public class ConferenceController {
     ConferenceDto result = null;
     if (conference.isPresent()) result = converter.convertModelToDto(conference.get());
     log.trace("getConference - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
-
 
   /*
   SELECT bid.bid_id, bid.conference_id, bid.deadline,
@@ -65,50 +63,97 @@ public class ConferenceController {
   INNER JOIN public."meta_info" as mtf ON mtf.meta_info_id = prop.proposal_id
   WHERE bid.conference_id = 1 and als.user_id=1
    */
+  // Meta info, proposal only id, analysis everything, bid everyhting
 
 
   //Meta info, proposal only id, analysis everything, bid everyhting
   @RequestMapping(value = "/conferences/detail/{id}/{userId}", method = RequestMethod.GET)
-  public Map<String,Object> getConferenceDetail(@PathVariable Integer id,@PathVariable Integer userId) {
+  public Map<String, Object> getConferenceDetail(
+      @PathVariable Integer id, @PathVariable Integer userId) {
     log.trace("getConferenceDetail - method entered id={}", id);
     Optional<Conference> conference = service.findConference(id);
-    Map<String,Object> result = null;
+    Map<String, Object> result = null;
     if (conference.isPresent()) {
-      Optional<User> user = conference.get().getPcMembers().stream().map(PcMember::getUser).filter(user1->user1.getUserID().equals(userId)).findFirst();
-      if(user.isPresent()){
+      Optional<User> user =
+          conference.get().getPcMembers().stream()
+              .map(PcMember::getUser)
+              .filter(user1 -> user1.getUserID().equals(userId))
+              .findFirst();
+      if (user.isPresent()) {
         result = new HashMap<>();
         BiddingProcess biddingProcess = conference.get().getBiddingProcess();
-        result.put("bidding_process",biddingProcessConverter.convertModelToDto(biddingProcess));
-        List<Analysis> analyses = biddingProcess.getAnalyses().stream().filter(analysis -> analysis.getUser().getUserID().equals(userId)).collect(Collectors.toList());
-//        Map<AnalysisDto,Map<Integer,MetaInfoDto>> proposalMap = analyses.stream()
-//                .collect(Collectors
-//                        .toMap(key->analysisConverter.convertModelToDto(key),
-//                                value->{
-//                                  Map<Integer,MetaInfoDto> resultMap = new HashMap<>();
-//                                  resultMap.put(value.getProposal().getProposalID(),metaInfoConverter.convertModelToDto(value.getProposal().getMetaInformation()));
-//                                  return resultMap;
-//                                }));
-        List<Map<String,Object>> resultMapList =
-                analyses.stream().map(currentAnalysis -> {
-                  Map<String,Object> values = new HashMap<>();
-                  values.put("analysis_key",currentAnalysis.getAnalysisKey());
-                  values.put("analysis_data",analysisConverter.convertModelToDto(currentAnalysis));
-                  Map<String,Object> proposalData = new HashMap<>();
-                  proposalData.put("proposal_id",currentAnalysis.getProposal().getProposalID());
-                  proposalData.put("meta_information",metaInfoConverter.convertModelToDto(currentAnalysis.getProposal().getMetaInformation()));
-                  values.put("proposal_data",proposalData);
-                  return values;
-                }).collect(Collectors.toList());
+        result.put("bidding_process", biddingProcessConverter.convertModelToDto(biddingProcess));
+        //        Map<AnalysisDto,Map<Integer,MetaInfoDto>> proposalMap = analyses.stream()
+        //                .collect(Collectors
+        //                        .toMap(key->analysisConverter.convertModelToDto(key),
+        //                                value->{
+        //                                  Map<Integer,MetaInfoDto> resultMap = new HashMap<>();
+        //
+        // resultMap.put(value.getProposal().getProposalID(),metaInfoConverter.convertModelToDto(value.getProposal().getMetaInformation()));
+        //                                  return resultMap;
+        //                                }));
 
-        result.put("analyses",resultMapList);
+        result.put("proposals",conference.get()
+                .getProposalsForConference().stream().map(elem->{
+                  HashMap<String,Object> map = new HashMap<>();
 
-//        result.put("analysis_data",proposalMap);
+                  map.put("proposalData",proposalConverter.convertModelToDto(elem.getProposal()));
+                  map.put("metaInfoForProposal",metaInfoConverter.convertModelToDto(elem.getProposal().getMetaInformation()));
+                  map.put("abstract",abstractConverter.convertModelToDto(elem.getProposal().getAnAbstract()));
+                  map.put("paper",paperConverter.convertModelToDto(elem.getProposal().getPaper()));
+
+                  Analysis analysis =
+                          biddingProcess.getAnalyses().stream()
+                                  .filter(analysis1 -> analysis1.getUser().getUserID().equals(userId))
+                                  .filter(analysis1 -> analysis1.getProposal().getProposalID().equals(elem.getProposal().getProposalID()))
+                                  .findFirst().orElse(Analysis.builder().analysisKey(new AnalysisKey()).build());
+
+//                  Map<String, Object> InnerMap =
+//                          analyses.stream()
+//                                  .map(
+//                                          currentAnalysis -> {
+//                                            Map<String, Object> values = new HashMap<>();
+//                                            values.put("analysis_key", currentAnalysis.getAnalysisKey());
+//                                            values.put(
+//                                                    "analysis_data", analysisConverter.convertModelToDto(currentAnalysis));
+//                                            return values;
+//                                          })
+//                                  .findFirst().get();
+
+
+                  map.put("analysis",analysisConverter.convertModelToDto(analysis));
+
+                  return map;
+                }).collect(Collectors.toList()));
+
+//        List<Map<String, Object>> resultMapList =
+//            analyses.stream()
+//                .map(
+//                    currentAnalysis -> {
+//                      Map<String, Object> values = new HashMap<>();
+//                      values.put("analysis_key", currentAnalysis.getAnalysisKey());
+//                      values.put(
+//                          "analysis_data", analysisConverter.convertModelToDto(currentAnalysis));
+//                      Map<String, Object> proposalData = new HashMap<>();
+//                      proposalData.put(
+//                          "proposal_id", currentAnalysis.getProposal().getProposalID());
+//                      proposalData.put(
+//                          "meta_information",
+//                          metaInfoConverter.convertModelToDto(
+//                              currentAnalysis.getProposal().getMetaInformation()));
+//                      values.put("proposal_data", proposalData);
+//                      return values;
+//                    })
+//                .collect(Collectors.toList());
+
+//        result.put("analyses", resultMapList);
+
+        //        result.put("analysis_data",proposalMap);
       }
     }
     log.trace("getConferenceDetail - method finished: result={}", result);
     return result;
   }
-
 
   @RequestMapping(value = "/conferences/{id}/accepted", method = RequestMethod.GET)
   public ResponseEntity<ProposalsDto> getConferenceAcceptedProposals(@PathVariable Integer id) {
@@ -142,7 +187,7 @@ public class ConferenceController {
                           .collect(Collectors.toList())))
               .build();
     log.trace("getConferenceAccepted - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}/refused", method = RequestMethod.GET)
@@ -180,9 +225,8 @@ public class ConferenceController {
                           .collect(Collectors.toList())))
               .build();
     log.trace("getConferenceRefusedProposals - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
-
 
   @RequestMapping(value = "/conferences/{id}/conflicting", method = RequestMethod.GET)
   public ResponseEntity<ProposalsDto> getConferenceConflictingProposals(@PathVariable Integer id) {
@@ -191,29 +235,30 @@ public class ConferenceController {
     ProposalsDto result = null;
     if (conference.isPresent())
       result =
-              ProposalsDto.builder()
-                      .proposalDtoList(
-                              proposalConverter.convertModelsToDtos(
-                                      conference.get().getProposalsForConference().stream()
-                                              .map(ConferenceProposal::getProposal)
-                                              .filter(
-                                                      elem -> {
-                                                        Set<Qualifier> qualifierSet =
-                                                                elem.getReviews().stream()
-                                                                        .map(Review::getQualifier)
-                                                                        .collect(Collectors.toSet());
-                                                        boolean positive = qualifierSet.stream()
-                                                                .anyMatch(elem1 -> elem1.getQualifierID() >= 4);
-                                                        boolean negative = qualifierSet.stream()
-                                                                .anyMatch(elem1 -> elem1.getQualifierID() <= 3);
+          ProposalsDto.builder()
+              .proposalDtoList(
+                  proposalConverter.convertModelsToDtos(
+                      conference.get().getProposalsForConference().stream()
+                          .map(ConferenceProposal::getProposal)
+                          .filter(
+                              elem -> {
+                                Set<Qualifier> qualifierSet =
+                                    elem.getReviews().stream()
+                                        .map(Review::getQualifier)
+                                        .collect(Collectors.toSet());
+                                boolean positive =
+                                    qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.getQualifierID() >= 4);
+                                boolean negative =
+                                    qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.getQualifierID() <= 3);
 
-                                                        return positive && negative;
-
-                                                      })
-                                              .collect(Collectors.toList())))
-                      .build();
+                                return positive && negative;
+                              })
+                          .collect(Collectors.toList())))
+              .build();
     log.trace("getConferenceConflictingProposals - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}/pc_members", method = RequestMethod.GET)
@@ -234,7 +279,7 @@ public class ConferenceController {
     }
 
     log.trace("getConferencePcMembers - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}/sections", method = RequestMethod.GET)
@@ -250,7 +295,7 @@ public class ConferenceController {
               .build();
     }
     log.trace("getConferenceSections - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences", method = RequestMethod.POST)
@@ -266,7 +311,7 @@ public class ConferenceController {
 
     ConferenceDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveConference - method finished: result={}", resultToReturn);
-    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
+    return new ResponseEntity<>(resultToReturn, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences", method = RequestMethod.PUT)
@@ -282,7 +327,7 @@ public class ConferenceController {
                 conferenceDto.getProposalDeadline(),
                 conferenceDto.getPaperDeadline()));
     log.trace("updateConference - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
   @RequestMapping(value = "/conferences/{id}", method = RequestMethod.DELETE)
