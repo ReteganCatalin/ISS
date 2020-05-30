@@ -8,7 +8,7 @@ const mainPageRoutes: Routes = [
   {
     path: '', component: MainPageComponent, children: [
       {path: 'conferences', component: ConferencesComponent},
-      {path: 'conferences/conference', loadChildren: () => import('./pages/conference/conference.module').then(m => m.ConferenceModule)},
+      {path: 'conferences/conference/:conferenceID', loadChildren: () => import('./pages/conference/conference.module').then(m => m.ConferenceModule)},
       {path: '', redirectTo: 'conferences', pathMatch: 'full'}
 
       ]

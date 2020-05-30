@@ -24,6 +24,7 @@ export class AddConferenceComponent implements OnInit {
       new Date(this.endDate),
       new Date(this.proposalDeadline),
       new Date(this.paperDeadline));
+
     conference.setAttributes(
         0,
         this.name,
@@ -31,6 +32,7 @@ export class AddConferenceComponent implements OnInit {
         new Date(this.endDate),
         new Date(this.proposalDeadline),
         new Date(this.paperDeadline));
+
     this.http.post<Conference>('http://localhost:8081/conferences', conference).subscribe(result => console.log(result));
   }
 

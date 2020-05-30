@@ -6,13 +6,15 @@ import {AddConferenceComponent} from './custom-components/add-conference/add-con
 import {FormsModule} from '@angular/forms';
 import { ConferenceComponent } from './pages/conference/conference.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { AddProposalComponent } from './custom-components/add-proposal/add-proposal.component';
 
 
 @NgModule({
   declarations: [
     ConferencesComponent,
     AddConferenceComponent,
-    ConferenceComponent
+    ConferenceComponent,
+    AddProposalComponent
   ],
   imports: [
     CommonModule,

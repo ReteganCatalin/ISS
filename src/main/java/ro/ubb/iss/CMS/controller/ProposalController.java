@@ -57,7 +57,7 @@ public class ProposalController {
           "section",
           proposal.get().getProposalListsForSections().stream()
               .map(elem -> sectionConverter.convertModelToDto(elem.getSection()))
-              .collect(Collectors.toList()));
+              .findFirst().orElseGet(SectionDto::new));
       result.put(
           "meta_info", metaInfoConverter.convertModelToDto(proposal.get().getMetaInformation()));
       result.put("abstract_location", proposal.get().getAnAbstract().getByteFileLocation());
