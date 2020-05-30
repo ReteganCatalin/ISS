@@ -30,5 +30,5 @@ export class Conference {
 }
 
 export class Conferences{
-  conferenceDtos: Array<Conference>;
+  conferences: Array<Conference>;
 }

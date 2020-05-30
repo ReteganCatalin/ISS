@@ -6,9 +6,9 @@
   <div class="row red h-100">
     <div class="col-2 red h-100 border-right p-0 bg-light">
       <div class="d-flex flex-column mt-1 menu">
-        <a class="nav-link active" routerLink = "conferences"> <i class="fas fa-home"></i> Conferences</a>
-        <a class="nav-link" routerLink = "conferences"> <i class="fas fa-file"></i> My proposals</a>
-        <a class="nav-link" routerLink = "conferences"> <i class="fas fa-ticket-alt"></i> Tickets</a>
+        <a class="nav-link active" (click)="selectVisible(0 )" routerLink = "conferences"> <i class="fas fa-home"></i> Conferences</a>
+        <a class="nav-link" (click)="selectVisible(0 )" routerLink = "conferences"> <i class="fas fa-file" ></i> My proposals</a>
+        <a class="nav-link" (click)="selectVisible(0 )" routerLink = "conferences"> <i class="fas fa-ticket-alt"></i> Tickets</a>
       </div>
       <div class="my-conferences pt-4">
         <div class="d-flex p-3 justify-content-between">
@@ -34,11 +34,20 @@
 
       </div>
 
+      <div class="d-flex flex-column menu">
+        <div *ngFor="let conference of conferenceList; let i = index">
+          <a class="nav-link" (click)="selectVisible(i +1 )">{{conference["name"]}} </a>
+
+        </div>
+      </div>
     </div>
 
 
     <div class="h-100 col-10 overflow-auto p-0">
-      <router-outlet></router-outlet>
+      <div *ngFor="let conference of conferenceList; let i = index">
+        <app-my-conference [conferenceID]="conference.conferenceID" *ngIf="visible == i + 1"></app-my-conference>
+      </div>
+      <router-outlet *ngIf="visible == 0"></router-outlet>
     </div>
   </div>
 </div>
