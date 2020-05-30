@@ -103,7 +103,7 @@ public class ConferenceController {
                           biddingProcess.getAnalyses().stream()
                                   .filter(analysis1 -> analysis1.getUser().getUserID().equals(userId))
                                   .filter(analysis1 -> analysis1.getProposal().getProposalID().equals(elem.getProposal().getProposalID()))
-                                  .findFirst().orElse(Analysis.builder().build());
+                                  .findFirst().orElse(Analysis.builder().analysisKey(new AnalysisKey()).build());
 
 //                  Map<String, Object> InnerMap =
 //                          analyses.stream()
