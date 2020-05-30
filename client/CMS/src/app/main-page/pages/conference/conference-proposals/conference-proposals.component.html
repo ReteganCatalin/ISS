@@ -1,12 +1,8 @@
-<div *ngFor="let asd of conferenceProposalObserver | async">
-  {{asd.proposalID}}
-</div>
-
 <div class="col">
-  <div *ngFor='let proposalDetailed of conferenceProposalDetailedObserver | async' class="p-5">
-    <div class="card ">
+  <div *ngFor='let proposalDetailed of conferenceProposalDetailedObserver | async; let i = index' class="flex-column">
+    <div class="card mb-5">
       <div class="card-body">
-        <div class="card-header" style="cursor: pointer" (click)="isCollapsed = !isCollapsed" [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+        <div class="card-header" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
           <h2 class="card-title">{{proposalDetailed.meta_info.name}}</h2>
           <p class="card-text" >Authors: <i *ngFor="let author of proposalDetailed.author_list">{{author}} </i></p>
         </div>
@@ -23,7 +19,7 @@
 
           <div class="card-text pb-2" >Topics: {{proposalDetailed.meta_info.topics}}</div>
 
-          <div id="collapseExample"  class="mt-2" [ngbCollapse]="!isCollapsed">
+          <div id="collapseExample"  class="mt-2" [ngbCollapse]="!isCollapsed[i]">
             <div class="card-text pb-2">Review qualifier:
               <i *ngFor="let qualifier of proposalDetailed.qualifier.slice(0, 3)">
                 {{qualifier}}
@@ -33,7 +29,7 @@
               Price: {{proposalDetailed.section.price}}
             </div>
             <div class="card-text pb-2">
-              <div *ngIf="!proposalDetailed.supervisorName.length;else other_content_supervisor">
+              <div *ngIf="!proposalDetailed.supervisorName;else other_content_supervisor">
                 No Supervisor yet
               </div>
               <ng-template #other_content_supervisor>Supervisor Name during presentation: {{proposalDetailed.supervisorName}}</ng-template>

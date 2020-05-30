@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {ActivatedRoute} from "@angular/router";
 import {ConferenceComponent} from "../conference.component";
 import {User} from "../../../../shared/models/User";
+import {newArray} from "@angular/compiler/src/util";
 
 
 @Component({
@@ -19,11 +20,12 @@ export class ConferenceProposalsComponent implements OnInit {
 
   @Input() conferenceID: number;
 
-  public isCollapsed = false;
+  public isCollapsed: Array<boolean>;
   constructor(private http: HttpClient, private parent: ConferenceComponent) {
     this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>())
     this.conferenceID = +this.parent.conferenceID;
+    this.isCollapsed = [];
     console.log(this.conferenceID);
   }
 
@@ -33,13 +35,16 @@ export class ConferenceProposalsComponent implements OnInit {
       let auxiliaryList = new Array<ProposalDetailed>();
       proposals.proposalDtoList.forEach(proposal => {
         this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed =>{
-          if (proposalDetailed.section.conferenceID == this.conferenceID) {
-            auxiliaryList.push(proposalDetailed);
-            this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
-              proposalDetailed.supervisorName = data.username;
-              console.log(proposalDetailed.supervisorName);
-            });
-          }
+          // if (proposalDetailed.section.conferenceID == this.conferenceID) {
+          //
+          // }
+          // Trebe puse inapoi in if
+          auxiliaryList.push(proposalDetailed);
+          this.isCollapsed.push(false);
+          this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
+            proposalDetailed.supervisorName = data.username;
+            console.log(proposalDetailed.supervisorName);
+          });
         });
       });
       this.conferenceProposalDetailedObserver.next(auxiliaryList);

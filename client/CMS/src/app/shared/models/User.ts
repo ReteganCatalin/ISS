@@ -5,7 +5,6 @@ export class User {
   private _isValidated: boolean;
   private _userInfoID: number;
 
-
   constructor() {
     this._userID = 0;
     this._username = "";

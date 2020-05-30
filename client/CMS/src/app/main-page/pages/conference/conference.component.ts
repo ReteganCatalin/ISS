@@ -1,23 +1,42 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {
+  AfterViewInit, ChangeDetectorRef,
+  Component,
+  ComponentFactoryResolver,
+  Input,
+  OnInit,
+  ViewChild,
+  ViewContainerRef
+} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {HttpClient} from "@angular/common/http";
 import {Conference} from "../../../shared/models/Conference";
+import {AddConferenceComponent} from "../../custom-components/add-conference/add-conference.component";
+import {AddProposalComponent} from "../../custom-components/add-proposal/add-proposal.component";
 
 @Component({
   selector: 'app-conference',
   templateUrl: './conference.component.html',
   styleUrls: ['./conference.component.css']
 })
-export class ConferenceComponent implements OnInit {
+export class ConferenceComponent implements OnInit, AfterViewInit {
 
   @Input() conferenceID: number;
+
+  @ViewChild('addProposalForm', { read: ViewContainerRef }) entry: ViewContainerRef;
 
   conference: Conference;
   conferenceDaysUntil: number;
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private resolver: ComponentFactoryResolver,
+              private changeDetectorRef: ChangeDetectorRef) {
       this.conferenceID = +this.activatedRoute.snapshot.paramMap.get("conferenceID");
       console.log(this.conferenceID);
+  }
+
+  ngAfterViewInit(): void {
+    const formFormFactory = this.resolver.resolveComponentFactory(AddProposalComponent);
+    this.entry.createComponent(formFormFactory);
+    this.changeDetectorRef.detectChanges();
   }
 
   ngOnInit(): void {

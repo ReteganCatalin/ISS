@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 
 @Component({
   selector: 'app-add-proposal',
@@ -7,7 +8,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class AddProposalComponent implements OnInit {
 
-  constructor() { }
+  keywords : string;
+  topics : string;
+  name : string;
+
+  abstractLocation: string;
+  abstractFormat: string;
+
+  paperLocation: string;
+  paperFormat: string;
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
   }

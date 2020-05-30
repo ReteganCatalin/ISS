@@ -1,1 +1,41 @@
-<p>add-proposal works!</p>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+  <li class="nav-item">
+    <a class="nav-link active" id="meta-info-tab" data-toggle="tab" href="#meta-info" role="tab" aria-controls="meta-info" aria-selected="true">Meta-Info</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="abstract-tab" data-toggle="tab" href="#abstract" role="tab" aria-controls="abstract" aria-selected="false">Abstract</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" id="paper-tab" data-toggle="tab" href="#paper" role="tab" aria-controls="paper" aria-selected="false">Paper</a>
+  </li>
+</ul>
+<div class="tab-content" id="myTabContent">
+  <div class="tab-pane fade show active" id="meta-info" role="tabpanel" aria-labelledby="meta-info-tab">
+    <div class="form-group">
+      <label for="name">Proposal Name</label>
+      <input type="text" class="form-control" id="name" [(ngModel)]="name" #ctrl="ngModel">
+    </div>
+
+    <div class="input-group mycustom">
+      <input type="text" class="form-control rounded-0" id="validationDefaultUsername" placeholder="Username" aria-describedby="inputGroupPrepend2" required>
+      <div class="input-group-prepend">
+        <input type="submit" vlaue="submit" class="btn btn-primary btn-sm rounded-0" id="inputGroupPrepend2">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="name">Proposal Topics</label>
+      <input type="text" class="form-control" id="topics" [(ngModel)]="topics" #ctrl="ngModel">
+    </div>
+    <div class="form-group">
+      <label for="name">Proposal Keywords</label>
+      <input type="text" class="form-control" id="keywords" [(ngModel)]="keywords" #ctrl="ngModel">
+    </div>
+  </div>
+  <div class="tab-pane fade" id="abstract" role="tabpanel" aria-labelledby="abstract-tab">
+
+  </div>
+  <div class="tab-pane fade" id="paper" role="tabpanel" aria-labelledby="paper-tab">
+
+  </div>
+</div>
