@@ -64,9 +64,9 @@ public class ConferenceController {
   INNER JOIN public."proposal" as prop ON prop.proposal_id = als.proposal_id
   INNER JOIN public."meta_info" as mtf ON mtf.meta_info_id = prop.proposal_id
   WHERE bid.conference_id = 1 and als.user_id=1
-
-
    */
+
+
   //Meta info, proposal only id, analysis everything, bid everyhting
   @RequestMapping(value = "/conferences/detail/{id}/{userId}", method = RequestMethod.GET)
   public Map<String,Object> getConferenceDetail(@PathVariable Integer id,@PathVariable Integer userId) {
