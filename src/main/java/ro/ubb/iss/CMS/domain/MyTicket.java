@@ -13,6 +13,10 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @ToString
 @Builder
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "ticketWithUser",
+                attributeNodes = @NamedAttributeNode(value = "user")),
+})
 public class MyTicket {
 
   @Id

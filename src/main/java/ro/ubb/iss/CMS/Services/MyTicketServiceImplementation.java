@@ -29,9 +29,9 @@ public class MyTicketServiceImplementation implements MyTicketService {
   }
 
   @Override
-  public List<MyTicket> findAll() {
+  public List<MyTicket> findAllByUser(int userID) {
     log.trace("findAll - method entered");
-    List<MyTicket> result = myTicketRepository.findAll();
+    List<MyTicket> result = myTicketRepository.findAllByUser_ID(userID);
     log.trace("findAll - method exit result={}", result);
     return result;
   }

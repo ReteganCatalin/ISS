@@ -11,7 +11,7 @@ public interface MyTicketService {
 
   Optional<MyTicket> findMyTicket(int ticketID);
 
-  List<MyTicket> findAll();
+  List<MyTicket> findAllByUser(int userID);
 
   MyTicket updateMyTicket(int ticketID, User user, Section section, int price);
 
