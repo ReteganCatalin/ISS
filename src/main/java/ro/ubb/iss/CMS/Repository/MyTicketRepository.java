@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface MyTicketRepository extends JpaRepository<MyTicket, Integer> {
 
-    @Query("SElECT distinct ticket From ticketing ticket where ticket.user_id=:user_id")
+    @Query("SElECT distinct ticket From MyTicket ticket where ticket.user.userID=:user_id")
     @EntityGraph(value = "ticketWithUser", type =
             EntityGraph.EntityGraphType.LOAD)
     List<MyTicket> findAllByUser_ID(@Param("user_id") Integer user_id);
