@@ -8,7 +8,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 import java.io.IOException;
 
 public class EmailSender {
-    public static final String ORIGIN_EMAIL = "rcie2615@scs.ubbcluj.ro";
+    public static final String ORIGIN_EMAIL = "cmsprojectie2020@gmail.com";
     public static final String WELCOME_SUBJECT = "Welcome to CMS!";
     public static final String JOIN_SUBJECT = "Conference Invitation";
     public static final String PURCHASE_SUBJECT = "Your Purchase";
