@@ -16,6 +16,13 @@ import javax.persistence.*;
 @NamedEntityGraphs({
         @NamedEntityGraph(name = "ticketWithUser",
                 attributeNodes = @NamedAttributeNode(value = "user")),
+        @NamedEntityGraph(name = "ticketWithUserAndUserInfo",
+                attributeNodes = @NamedAttributeNode(value = "user",
+                        subgraph = "UserWithUserInfo"),
+                subgraphs = @NamedSubgraph(name = "UserWithUserInfo",
+                        attributeNodes = @NamedAttributeNode(value =
+                                "userInfo")))
+
 })
 public class MyTicket {
 
