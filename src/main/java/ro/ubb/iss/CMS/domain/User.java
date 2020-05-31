@@ -16,6 +16,11 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString
 @Builder
+@NamedEntityGraphs({
+        @NamedEntityGraph(name = "userWithUserInfo",
+                attributeNodes = @NamedAttributeNode(value = "userInfo")),
+
+})
 public class User {
 
   @Id

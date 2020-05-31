@@ -7,6 +7,7 @@ import org.springframework.data.repository.query.Param;
 import ro.ubb.iss.CMS.domain.MyTicket;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MyTicketRepository extends JpaRepository<MyTicket, Integer> {
 
@@ -15,6 +16,11 @@ public interface MyTicketRepository extends JpaRepository<MyTicket, Integer> {
             EntityGraph.EntityGraphType.LOAD)
     List<MyTicket> findAllByUser_ID(@Param("user_id") Integer user_id);
 
+
+    @Query("SElECT distinct ticket From MyTicket ticket where ticket.user.userID=:user_id")
+    @EntityGraph(value = "ticketWithUserAndUserInfo", type =
+            EntityGraph.EntityGraphType.LOAD)
+    Optional<MyTicket> findByUserWithUserInfo(@Param("user_id") Integer user_id);
 
 
 }
