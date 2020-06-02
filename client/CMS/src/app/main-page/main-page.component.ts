@@ -26,7 +26,7 @@ export class MainPageComponent implements OnInit, AfterViewInit{
               private conferenceService: ConferenceService,
               private applicationRef: ApplicationRef) {
     this.conferenceList = [];
-    this.visible = 0;
+    this.visible = 1;
   }
 
   ngOnInit(): void {

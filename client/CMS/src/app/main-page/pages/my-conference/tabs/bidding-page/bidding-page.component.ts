@@ -1,10 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {BehaviorSubject} from "rxjs";
-import {ProposalDetailed} from "../../../../../shared/models/ProposalDetailed";
-import {Proposal, Proposals} from "../../../../../shared/models/Proposal";
 import {HttpClient} from "@angular/common/http";
-import {ConferenceComponent} from "../../../conference/conference.component";
-import {User} from "../../../../../shared/models/User";
+import {UserService} from "../../../../../shared/services/user.service";
 
 @Component({
   selector: 'bidding-page',
@@ -13,32 +9,48 @@ import {User} from "../../../../../shared/models/User";
 })
 export class BiddingPageComponent implements OnInit{
   @Input("conferenceID") conferenceID;
-  conferenceProposalDetailedObserver: BehaviorSubject<Array<ProposalDetailed>>;
-  conferenceProposalObserver: BehaviorSubject<Array<Proposal>>;
+  conferenceProposals: Array<any>;
+  biddingProcess;
 
-  public isCollapsed: Array<boolean>;
-  constructor(private http: HttpClient) {
-    this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
-    this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
-    this.isCollapsed = [];
-    console.log(this.conferenceID);
+  constructor(private http: HttpClient,
+              private userService: UserService) {
+    this.conferenceProposals = [];
   }
 
   ngOnInit(): void {
+    this.loadData();
+  }
 
-    this.http.get<Proposals>('http://localhost:8081/proposals').subscribe(proposals => {
-      let auxiliaryList = new Array<ProposalDetailed>();
-      proposals.proposalDtoList.forEach(proposal => {
-        this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed =>{
-          // if (proposalDetailed.section.conferenceID == this.conferenceID) {
-          //
-          // }
-          // Trebe puse inapoi in if
-          auxiliaryList.push(proposalDetailed);
-          this.isCollapsed.push(false);
-        });
-      });
-      this.conferenceProposalDetailedObserver.next(auxiliaryList);
-    });
+  loadData() {
+    this.http.get<any>(`http://localhost:8081/conferences/detail/${this.conferenceID}/${this.userService.getUserID()}`).subscribe(proposalJson => {
+      this.biddingProcess = proposalJson["bidding_process"];
+      this.conferenceProposals = proposalJson["proposals"];
+    })
+  }
+
+  addAnalysis(proposal, briefAnalysis) {
+    let analysisJson = {};
+    analysisJson["bidID"] = this.biddingProcess["bidID"];
+    analysisJson["userID"] = this.userService.getUserID();
+    analysisJson["proposalID"] = proposal["proposalData"]["proposalID"];
+    analysisJson["briefAnalysis"] = briefAnalysis;
+    analysisJson["refuse"] = briefAnalysis === "Refuse to review";
+
+    if (proposal['analysis']['briefAnalysis'] == null) {
+      console.log(analysisJson);
+      this.http.post(`http://localhost:8081/analyses`, analysisJson).subscribe(data => {
+        this.loadData();
+      })
+    }
+    else {
+      this.http.put(`http://localhost:8081/analyses`, analysisJson).subscribe(data => {
+        this.loadData();
+      })
+    }
+  }
+
+  textStyle(briefAnalysis) {
+    console.log(briefAnalysis);
+    return "{'text-success'}"
   }
 }

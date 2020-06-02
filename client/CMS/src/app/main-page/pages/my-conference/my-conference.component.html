@@ -1,16 +1,23 @@
 <ul class="nav nav-tabs pr-2 pl-2" id="tabsMyConference" role="tablist">
   <li class="nav-item">
-    <a class="nav-link active" id="biddingTab" data-toggle="tab" role="tab" aria-controls="proposals" aria-selected="true" href="#bidding"> Bidding </a>
+    <a class="nav-link" id="biddingTab" data-toggle="tab" role="tab" aria-controls="proposals" aria-selected="true" href="#bidding"> Bidding </a>
   </li>
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" id="reviewTab" role="tab" aria-controls="review" aria-selected="true" href="#review"> Review </a>
   </li>
+  <li class="nav-item">
+    <a class="nav-link active" data-toggle="tab" id="assignTab" role="tab" aria-controls="assign" aria-selected="true" href="#assign"> Assign</a>
+  </li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane fade show active" id="bidding" role="tabpanel" aria-labelledby="biddingTab">
+  <div class="tab-pane fade show" id="bidding" role="tabpanel" aria-labelledby="biddingTab">
     <bidding-page [conferenceID]="conferenceID"></bidding-page>
   </div>
   <div class="tab-pane fade show" id="review" role="tabpanel" aria-labelledby="reviewTab">
     ...
+  </div>
+
+  <div class="tab-pane fade show active" id="assign" role="tabpanel" aria-labelledby="reviewTab">
+    <assign-reviewer [conferenceID]="conferenceID"></assign-reviewer>
   </div>
 </div>

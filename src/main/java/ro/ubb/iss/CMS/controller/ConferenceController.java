@@ -14,6 +14,7 @@ import ro.ubb.iss.CMS.Services.ConferenceService;
 import ro.ubb.iss.CMS.domain.*;
 import ro.ubb.iss.CMS.dto.*;
 
+import javax.persistence.Access;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,7 @@ public class ConferenceController {
   @Autowired private AnalysisConverter analysisConverter;
   @Autowired private AbstractConverter abstractConverter;
   @Autowired private PaperConverter paperConverter;
+  @Autowired private ReviewConverter reviewConverter;
 
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
   public ResponseEntity<ConferencesDto> getAllConferences() {
@@ -83,15 +85,6 @@ public class ConferenceController {
         result = new HashMap<>();
         BiddingProcess biddingProcess = conference.get().getBiddingProcess();
         result.put("bidding_process", biddingProcessConverter.convertModelToDto(biddingProcess));
-        //        Map<AnalysisDto,Map<Integer,MetaInfoDto>> proposalMap = analyses.stream()
-        //                .collect(Collectors
-        //                        .toMap(key->analysisConverter.convertModelToDto(key),
-        //                                value->{
-        //                                  Map<Integer,MetaInfoDto> resultMap = new HashMap<>();
-        //
-        // resultMap.put(value.getProposal().getProposalID(),metaInfoConverter.convertModelToDto(value.getProposal().getMetaInformation()));
-        //                                  return resultMap;
-        //                                }));
 
         result.put("proposals",conference.get()
                 .getProposalsForConference().stream().map(elem->{
@@ -101,6 +94,7 @@ public class ConferenceController {
                   map.put("metaInfoForProposal",metaInfoConverter.convertModelToDto(elem.getProposal().getMetaInformation()));
                   map.put("abstract",abstractConverter.convertModelToDto(elem.getProposal().getAnAbstract()));
                   map.put("paper",paperConverter.convertModelToDto(elem.getProposal().getPaper()));
+                  map.put("author_list", elem.getProposal().getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
 
                   Analysis analysis =
                           biddingProcess.getAnalyses().stream()
@@ -108,50 +102,43 @@ public class ConferenceController {
                                   .filter(analysis1 -> analysis1.getProposal().getProposalID().equals(elem.getProposal().getProposalID()))
                                   .findFirst().orElse(Analysis.builder().analysisKey(new AnalysisKey()).build());
 
-//                  Map<String, Object> InnerMap =
-//                          analyses.stream()
-//                                  .map(
-//                                          currentAnalysis -> {
-//                                            Map<String, Object> values = new HashMap<>();
-//                                            values.put("analysis_key", currentAnalysis.getAnalysisKey());
-//                                            values.put(
-//                                                    "analysis_data", analysisConverter.convertModelToDto(currentAnalysis));
-//                                            return values;
-//                                          })
-//                                  .findFirst().get();
-
-
                   map.put("analysis",analysisConverter.convertModelToDto(analysis));
 
                   return map;
                 }).collect(Collectors.toList()));
-
-//        List<Map<String, Object>> resultMapList =
-//            analyses.stream()
-//                .map(
-//                    currentAnalysis -> {
-//                      Map<String, Object> values = new HashMap<>();
-//                      values.put("analysis_key", currentAnalysis.getAnalysisKey());
-//                      values.put(
-//                          "analysis_data", analysisConverter.convertModelToDto(currentAnalysis));
-//                      Map<String, Object> proposalData = new HashMap<>();
-//                      proposalData.put(
-//                          "proposal_id", currentAnalysis.getProposal().getProposalID());
-//                      proposalData.put(
-//                          "meta_information",
-//                          metaInfoConverter.convertModelToDto(
-//                              currentAnalysis.getProposal().getMetaInformation()));
-//                      values.put("proposal_data", proposalData);
-//                      return values;
-//                    })
-//                .collect(Collectors.toList());
-
-//        result.put("analyses", resultMapList);
-
-        //        result.put("analysis_data",proposalMap);
       }
     }
     log.trace("getConferenceDetail - method finished: result={}", result);
+    return result;
+  }
+
+  @RequestMapping(value = "/conferences/assign/{conferenceID}", method = RequestMethod.GET)
+  public Map<String, Object> getProposalsWithBidding(@PathVariable Integer conferenceID) {
+    Optional<Conference> conference = service.findConference(conferenceID);
+
+    Map<String, Object> result = null;
+    if (conference.isPresent()) {
+      result = new HashMap<>();
+      result.put("proposals" ,conference.get().getProposalsForConference().stream()
+              .map(conferenceProposal -> {
+                Proposal proposal = conferenceProposal.getProposal();
+                HashMap<String,Object> map = new HashMap<>();
+                Set<AnalysisDto> analyses = conferenceProposal.getProposal().getAnalyses().stream()
+                        .filter(analysis -> proposal.getProposalID().equals(conferenceProposal.getProposal().getProposalID()))
+                        .map(analysis -> analysisConverter.convertModelToDto(analysis))
+                        .collect(Collectors.toSet());
+                map.put("analyses", analyses);
+                map.put("proposalData",proposalConverter.convertModelToDto(proposal));
+                map.put("metaInfoForProposal",metaInfoConverter.convertModelToDto(proposal.getMetaInformation()));
+                map.put("abstract",abstractConverter.convertModelToDto(proposal.getAnAbstract()));
+                map.put("paper",paperConverter.convertModelToDto(proposal.getPaper()));
+                map.put("author_list", proposal.getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
+                map.put("reviews", proposal.getReviews().stream().map(review -> reviewConverter.convertModelToDto(review)).collect(Collectors.toList()));
+                return map;
+              })
+              .collect(Collectors.toList()));
+    }
+
     return result;
   }
 

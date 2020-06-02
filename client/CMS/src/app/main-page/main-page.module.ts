@@ -9,6 +9,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MyConferenceComponent } from './pages/my-conference/my-conference.component';
 import { BiddingPageComponent } from './pages/my-conference/tabs/bidding-page/bidding-page.component';
 import {AddProposalComponent} from "./custom-components/add-proposal/add-proposal.component";
+import { AssignReviewerComponent } from './pages/my-conference/tabs/assign-reviewer/assign-reviewer.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import {AddProposalComponent} from "./custom-components/add-proposal/add-proposa
     ConferenceComponent,
     MyConferenceComponent,
     BiddingPageComponent,
-    AddProposalComponent
+    AddProposalComponent,
+    AssignReviewerComponent
   ],
   exports: [
     MyConferenceComponent

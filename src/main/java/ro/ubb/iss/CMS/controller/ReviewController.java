@@ -64,6 +64,7 @@ public class ReviewController {
               entityManager.getReference(Proposal.class, reviewDto.getProposalID()),
               entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
               entityManager.getReference(User.class, reviewDto.getUserID()));
+
     } catch (TooManyReviewersException
         | AllAnalysesRefusedByUser
         | AlreadyInTheReviewersException ex) {
@@ -73,7 +74,8 @@ public class ReviewController {
     }
     ReviewDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveReview - method finished: result={}", resultToReturn);
-    return new ResponseEntity(result,HttpStatus.OK);
+
+    return new ResponseEntity(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/reviews", method = RequestMethod.PUT)

@@ -9,6 +9,7 @@ import { ConferencesPageComponent } from './conferences-page/conferences-page.co
 import { MainPageComponent } from './main-page/main-page.component';
 import {ConferenceService} from './shared/services/conference.service';
 import {MainPageModule} from "./main-page/main-page.module";
+import {UserService} from "./shared/services/user.service";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {MainPageModule} from "./main-page/main-page.module";
     MainPageModule
   ],
   providers: [
-    ConferenceService
+    ConferenceService,
+    UserService
   ],
   bootstrap: [AppComponent]
 })
