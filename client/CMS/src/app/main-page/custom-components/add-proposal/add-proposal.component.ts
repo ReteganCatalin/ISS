@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {HttpClient, HttpEventType, HttpRequest, HttpResponse} from "@angular/common/http";
+import {HttpClient} from "@angular/common/http";
 import {MetaInfo} from "../../../shared/models/MetaInfo";
 import {PaperProposal} from "../../../shared/models/PaperProposal";
 import {AbstractProposal} from "../../../shared/models/AbstractProposal";
 import {Proposal} from "../../../shared/models/Proposal";
 import {Author} from "../../../shared/models/Author";
 import {ConferenceProposal} from "../../../shared/models/ConferenceProposal";
-import {UploadFileService} from "../upload-file.service";
 
 @Component({
   selector: 'app-add-proposal',
@@ -14,13 +13,6 @@ import {UploadFileService} from "../upload-file.service";
   styleUrls: ['./add-proposal.component.css']
 })
 export class AddProposalComponent implements OnInit {
-
-  selectedAbstractFiles: FileList;
-  selectedPaperFiles: FileList;
-  abstractFileUpload: File;
-  paperFileUpload: File;
-  abstractProgress: { percentage: number } = { percentage: 0 };
-  paperProgress: { percentage: number } = { percentage: 0 };
 
   keywords : Array<string>;
   keyword : string;
@@ -38,7 +30,7 @@ export class AddProposalComponent implements OnInit {
   paperLocation: string;
   paperFormat: string;
 
-  constructor(private http: HttpClient,private uploadService: UploadFileService) {
+  constructor(private http: HttpClient) {
     this.keywords = [];
     this.topics = [];
     this.authors = [];
@@ -86,13 +78,6 @@ export class AddProposalComponent implements OnInit {
     ///prima data ce e in proposal
     /// dupa author list
     /// dupa conference proposal
-
-    this.abstractFileUpload = this.selectedAbstractFiles.item(0);
-    this.paperFileUpload = this.selectedPaperFiles.item(0);
-    const abstractForm: FormData = new FormData();
-    const paperForm: FormData = new FormData();
-
-
     let metaInfo = new MetaInfo();
     metaInfo.keywords = this.keywords.join(',');
     metaInfo.topics = this.topics.join(',');
@@ -105,19 +90,16 @@ export class AddProposalComponent implements OnInit {
       let paper = new PaperProposal();
       paper.byteFileLocation = this.paperLocation;
       paper.format = this.paperFormat;
-      paperForm.append("file",this.paperFileUpload);
-      //const req = new HttpRequest('POST', 'http://localhost:8081/papers', paperForm);
 
-      this.http.post<PaperProposal>(`http://localhost:8081/papers`, paperForm).subscribe(data =>{
-      //this.http.request<PaperProposal>(req).subscribe(data =>{
+      this.http.post<PaperProposal>('http://localhost:8081/papers', paper).subscribe(data =>{
         paperID = data.paperId;
 
         let abstractID = null;
         let abs = new AbstractProposal();
         abs.byteFileLocation = this.abstractLocation;
         abs.format = this.abstractFormat;
-        abstractForm.append("file",this.abstractFileUpload);
-        this.http.post<AbstractProposal>(`http://localhost:8081/abstracts`, abstractForm).subscribe(data =>{
+
+        this.http.post<AbstractProposal>('http://localhost:8081/abstracts', abs).subscribe(data =>{
           abstractID = data.abstractID;
 
           let proposal = new Proposal();
@@ -146,41 +128,5 @@ export class AddProposalComponent implements OnInit {
 
 
 
-  }
-
-  selectAbstractFile(event) {
-    this.selectedAbstractFiles = event.target.files;
-  }
-
-  selectPaperFile(event) {
-    this.selectedPaperFiles = event.target.files;
-  }
-
-  uploadAbstract() {
-    this.abstractProgress.percentage = 0;
-
-    this.uploadService.pushFileToStorage(this.abstractFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.abstractProgress.percentage = Math.round(100 * event.loaded / event.total);
-      } else if (event instanceof HttpResponse) {
-        console.log('File is completely uploaded!');
-      }
-    });
-
-    this.selectedAbstractFiles = undefined;
-  }
-
-  uploadPaper() {
-    this.paperProgress.percentage = 0;
-
-    this.uploadService.pushFileToStorage(this.paperFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.paperProgress.percentage = Math.round(100 * event.loaded / event.total);
-      } else if (event instanceof HttpResponse) {
-        console.log('File is completely uploaded!');
-      }
-    });
-
-    this.selectedAbstractFiles = undefined;
   }
 }

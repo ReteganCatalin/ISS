@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-
+import {ConferenceProposalDtos} from "../../../shared/models/ConferenceProposalDtos";
 import {ProposalDetailed} from "../../../shared/models/ProposalDetailed";
 import {User} from "../../../shared/models/User";
 import {BehaviorSubject} from "rxjs";
 import {Proposal} from "../../../shared/models/Proposal";
 import {Conference} from "../../../shared/models/Conference";
-import {ConferenceProposalDtos} from "../../../shared/models/ConferenceProposalDtos";
 
 @Component({
   selector: 'app-my-proposals',

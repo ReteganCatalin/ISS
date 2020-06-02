@@ -7,16 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
-import org.springframework.web.multipart.MultipartFile;
 import ro.ubb.iss.CMS.MyExceptions.UnableToCreateStorageDirectoryException;
 import ro.ubb.iss.CMS.MyExceptions.UnableToSaveFileToStorage;
-import ro.ubb.iss.CMS.Services.FileService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.domain.Abstract;
 import ro.ubb.iss.CMS.dto.AbstractDto;
 import ro.ubb.iss.CMS.dto.AbstractsDto;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @RestController
@@ -27,8 +29,7 @@ public class AbstractController {
   @Autowired private AbstractService service;
 
   @Autowired private AbstractConverter converter;
-  @Autowired
-  FileService fileService;
+
   @RequestMapping(value = "/abstracts", method = RequestMethod.GET)
   public ResponseEntity<AbstractsDto> getAllAbstracts() {
     log.trace("getAllAbstracts - method entered");
@@ -49,21 +50,10 @@ public class AbstractController {
   }
 
   @RequestMapping(value = "/abstracts", method = RequestMethod.POST)
-  public ResponseEntity<AbstractDto> saveAbstract(@RequestParam("file") MultipartFile file) {
-
-    AbstractDto abstractDto=new AbstractDto(0,"","");
+  public ResponseEntity<AbstractDto> saveAbstract(@RequestBody AbstractDto abstractDto) {
     log.trace("saveAbstract - method entered abstractDto={}", abstractDto);
     Abstract result;
-    String path = "";
     try {
-      path=fileService.store(file);
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
-    try {
-      abstractDto.setByteFileLocation(path);
-      abstractDto.setFormat("csp");
       result = service.saveAbstract(abstractDto.getFormat(), abstractDto.getByteFileLocation());
     } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
       log.trace("saveAbstract - exception occurred: ex={}", ex.getMessage());
