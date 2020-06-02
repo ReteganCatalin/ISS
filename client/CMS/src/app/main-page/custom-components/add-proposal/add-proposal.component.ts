@@ -6,6 +6,7 @@ import {AbstractProposal} from "../../../shared/models/AbstractProposal";
 import {Proposal} from "../../../shared/models/Proposal";
 import {Author} from "../../../shared/models/Author";
 import {ConferenceProposal} from "../../../shared/models/ConferenceProposal";
+import {rejects} from "assert";
 
 @Component({
   selector: 'app-add-proposal',
@@ -125,20 +126,12 @@ export class AddProposalComponent implements OnInit {
 
             let asd = new ConferenceProposal(proposalID, conferenceID);
             console.log(asd);
-            this.http.post('http://localhost:8081/conference_proposal', asd).subscribe(data => {
-              console.log(data)
+            this.http.post('http://localhost:8081/conference_proposal', asd).subscribe(data=> {
+              console.log("asd");
             });
           });
         });
       });
     });
-
-
-
-
-
-
-
-
   }
 }
