@@ -19,6 +19,7 @@ import ro.ubb.iss.CMS.dto.AbstractsDto;
 
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class AbstractController {
 

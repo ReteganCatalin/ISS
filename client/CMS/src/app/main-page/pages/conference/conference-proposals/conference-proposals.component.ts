@@ -69,7 +69,7 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
     });
   }
 
-  private loadData(){
+  loadData(){
     this.http.get<ConferenceProposalDtos>('http://localhost:8081/conference_proposal').subscribe(proposals => {
       let auxiliaryList = new Array<ProposalDetailed>();
       proposals.conferenceProposalDtos.forEach(proposal => {
@@ -101,11 +101,10 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   createProposal() {
     this.formAddProposal.instance.createProposal(this.conferenceID);
-    this.loadData();
   }
 
   updateProposal() {
-    this.formEditProposal.instance.updateProposalData();
+    this.formEditProposal.instance.updateProposalData().finally(() => {this.closeEditModal();});
   }
 
   editProposal(index: number) {
@@ -125,5 +124,9 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   closeEditModal() {
     this.formEditProposal.destroy();
+  }
+
+  deleteProposal(proposalID: number) {
+    this.http.delete('http://localhost:8081/proposals/' + proposalID).subscribe(() => {this.loadData();});
   }
 }

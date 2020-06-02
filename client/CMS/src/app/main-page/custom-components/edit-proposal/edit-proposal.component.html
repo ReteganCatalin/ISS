@@ -20,7 +20,7 @@
     <div>
       <label>Authors:</label>
     </div>
-    <div *ngFor="let auth of proposal.author_list; let i = index" class="d-inline-block mr-1 border-right mb-1">
+    <div *ngFor="let auth of authors; let i = index" class="d-inline-block mr-1 border-right mb-1">
       <div class="d-inline-block">
         {{auth}}
         <i class="fas fa-minus pr-1 text-danger" (click)="deleteAuthor(i)"></i>
