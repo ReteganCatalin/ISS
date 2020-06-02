@@ -5,3 +5,7 @@
 .add-proposal-btn{
   color: grey;
 }
+
+.pointerHand:hover{
+  cursor: pointer;
+}

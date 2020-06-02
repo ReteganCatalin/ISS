@@ -27,6 +27,7 @@ export class ConferenceComponent implements OnInit {
 
   constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {
       this.conferenceID = +this.activatedRoute.snapshot.paramMap.get("conferenceID");
+      this.conference = new Conference();
       console.log(this.conferenceID);
   }
 
