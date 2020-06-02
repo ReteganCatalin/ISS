@@ -62,6 +62,7 @@ export class AddProposalComponent implements OnInit {
   }
 
   changePaperFormat() {
+    console.log(this.paperLocation);
     this.paperFormat = this.paperLocation.slice(this.paperLocation.lastIndexOf("."), this.paperLocation.length);
   }
 
@@ -88,15 +89,16 @@ export class AddProposalComponent implements OnInit {
       metaInfoID = data.metaInfoId;
       let paperID = null;
       let paper = new PaperProposal();
-      paper.byteFileLocation = this.paperLocation;
+      paper.byteFileLocation = "";
       paper.format = this.paperFormat;
 
+      console.log(paper.byteFileLocation);
       this.http.post<PaperProposal>('http://localhost:8081/papers', paper).subscribe(data =>{
         paperID = data.paperId;
 
         let abstractID = null;
         let abs = new AbstractProposal();
-        abs.byteFileLocation = this.abstractLocation;
+        abs.byteFileLocation = "";
         abs.format = this.abstractFormat;
 
         this.http.post<AbstractProposal>('http://localhost:8081/abstracts', abs).subscribe(data =>{
@@ -108,14 +110,24 @@ export class AddProposalComponent implements OnInit {
           this.http.post<Proposal>('http://localhost:8081/proposals', proposal).subscribe(data =>{
             proposalID = data.proposalID;
 
-            for (let authorName of this.authors)
-              this.http.post<Proposal>('http://localhost:8081/authors', new Author(authorName, proposalID, 0));
+            console.log("Intra in for");
+            for (let authorName of this.authors) {
+              console.log(authorName);
+              let asd =  new Author();
+              asd.name = authorName;
+              asd.proposalId = proposalID;
+              console.log(asd);
+              this.http.post<Proposal>('http://localhost:8081/authors', asd).subscribe(data => {
+                console.log(data);
+              });
+            }
+            console.log("Iese in for");
 
-            this.http.post<Proposal>('http://localhost:8081/proposals', proposal).subscribe(data => {
-              this.http.post<Proposal>('http://localhost:8081/conference_proposal', new ConferenceProposal(proposalID, conferenceID));
-              }
-            );
-
+            let asd = new ConferenceProposal(proposalID, conferenceID);
+            console.log(asd);
+            this.http.post('http://localhost:8081/conference_proposal', asd).subscribe(data=> {
+              console.log("asd");
+            });
           });
         });
       });

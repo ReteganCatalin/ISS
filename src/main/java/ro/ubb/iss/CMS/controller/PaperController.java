@@ -17,6 +17,7 @@ import ro.ubb.iss.CMS.dto.PapersDto;
 
 import java.util.Optional;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 public class PaperController {
 
