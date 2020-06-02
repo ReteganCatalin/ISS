@@ -7,6 +7,8 @@ import {FormsModule} from '@angular/forms';
 import { ConferenceComponent } from './pages/conference/conference.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { AddProposalComponent } from './custom-components/add-proposal/add-proposal.component';
+import { MyProposalsComponent } from './pages/my-proposals/my-proposals.component';
+import { EditProposalComponent } from './custom-components/edit-proposal/edit-proposal.component';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import { AddProposalComponent } from './custom-components/add-proposal/add-propo
     ConferencesComponent,
     AddConferenceComponent,
     ConferenceComponent,
-    AddProposalComponent
+    AddProposalComponent,
+    MyProposalsComponent,
+    EditProposalComponent
   ],
   imports: [
     CommonModule,

@@ -55,9 +55,10 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
             console.log(proposalDetailed.section.conferenceID);
             auxiliaryList.push(proposalDetailed);
             this.isCollapsed.push(false);
-            this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
-              proposalDetailed.supervisorName = data.username;
-            });
+            if (proposalDetailed.section.supervisorID)
+              this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
+                proposalDetailed.supervisorName = data.username;
+              });
           });
         }
       });
@@ -80,5 +81,13 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   createProposal() {
     this.formAddProposal.instance.createProposal(this.conferenceID);
+  }
+
+  updateProposal() {
+
+  }
+
+  editProposal(i: number) {
+
   }
 }

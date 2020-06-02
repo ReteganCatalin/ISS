@@ -7,10 +7,22 @@
 <div class="col">
   <div *ngFor='let proposalDetailed of conferenceProposalDetailedObserver | async; let i = index' class="flex-column">
     <div class="card mb-5">
-      <div class="card-body">
-        <div class="card-header" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
-          <h2 class="card-title">{{proposalDetailed.meta_info.name}}</h2>
-          <p class="card-text" >Authors: <i *ngFor="let author of proposalDetailed.author_list">{{author}} </i></p>
+      <div class="card-body pb-0">
+        <div class="card-header pb-1">
+          <div class="d-flex justify-content-between">
+            <div>
+              <h2 class="card-title">{{proposalDetailed.meta_info.name}}</h2>
+              <p class="card-text mb-2" >Authors: <i *ngFor="let author of proposalDetailed.author_list">{{author}} </i></p>
+            </div>
+            <div ngbDropdown class="d-flex align-items-center">
+              <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Options</button>
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button ngbDropdownItem>Edit proposal</button>
+                <button ngbDropdownItem>Delete Proposal</button>
+              </div>
+            </div>
+          </div>
+
         </div>
 
         <div class="card-body">
@@ -25,7 +37,20 @@
 
           <div class="card-text pb-2" >Topics: {{proposalDetailed.meta_info.topics}}</div>
 
-          <div id="collapseExample"  class="mt-2" [ngbCollapse]="!isCollapsed[i]">
+          <div class="mb-1" *ngIf="isCollapsed[i].valueOf() == false; else other_less_information">
+            <div class="d-inline-block" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
+              <i class="fas fa-chevron-down mr-1"></i>
+              More Info
+            </div>
+          </div>
+          <ng-template #other_less_information>
+            <div class="d-inline-block" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
+              <i class="fas fa-chevron-up mr-1"></i>
+              Less Info
+            </div>
+          </ng-template>
+
+          <div id="collapseExample" [ngbCollapse]="!isCollapsed[i]">
             <div class="card-text pb-2">Review qualifier:
               <i *ngFor="let qualifier of proposalDetailed.qualifier.slice(0, 3)">
                 {{qualifier}}
@@ -70,7 +95,25 @@
       </div>
     </div>
   </div>
+</div>
 
+<div class="modal fade" id="edit-proposal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editProposalLabel">Edit Proposal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div #editProposalForm></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-dismiss="modal" (click)="updateProposal()">Create Proposal</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 
