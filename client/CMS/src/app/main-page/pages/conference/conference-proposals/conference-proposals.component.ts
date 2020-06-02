@@ -103,8 +103,9 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
     this.formAddProposal.instance.createProposal(this.conferenceID);
   }
 
-  updateProposal() {
-    this.formEditProposal.instance.updateProposalData().finally(() => {this.closeEditModal();});
+  async updateProposal() {
+    this.formEditProposal.instance.updateProposalData();
+    this.closeEditModal();
   }
 
   editProposal(index: number) {
