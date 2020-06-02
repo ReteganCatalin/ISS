@@ -10,28 +10,28 @@ import { MainPageComponent } from './main-page/main-page.component';
 import {ConferenceService} from './shared/services/conference.service';
 import {MainPageModule} from "./main-page/main-page.module";
 import {UserService} from "./shared/services/user.service";
-import { ReviewComponent } from './review/review.component';
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
     AppComponent,
     ConferencesPageComponent,
-    MainPageComponent,
-    ReviewComponent
+    MainPageComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbCollapseModule
+    NgbCollapseModule,
     FormsModule,
     MainPageModule
   ],
   providers: [
     ConferenceService,
     UserService
+  ],
+  exports: [
   ],
   bootstrap: [AppComponent]
 })

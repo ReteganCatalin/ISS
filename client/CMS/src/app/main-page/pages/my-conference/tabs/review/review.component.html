@@ -1,0 +1,98 @@
+<div class="col pt-3">
+  <div *ngFor='let proposal of proposalsList; let i = index' class="flex-column">
+
+
+    <div class="card mb-5">
+      <div class="card-body">
+        <div class="border-bottom" style="cursor: pointer" aria-controls="collapseExample">
+          <h2 class="card-title">{{proposal['meta_info']['name']}}</h2>
+          <p class="card-text">Authors: <i *ngFor="let author of proposal.author_list">{{author}} </i></p>
+        </div>
+
+        <div class="card-body">
+          <div class="card-text pb-2">Keywords: {{proposal.meta_info.keywords}}</div>
+          <div class="card-text pb-2">Topics: {{proposal.meta_info.topics}}</div>
+
+          <button class="btn btn-primary mr-4" type="button">
+            Open Paper
+          </button>
+          <button class="btn btn-primary" type="button">
+            Open Abstract Paper
+          </button>
+        </div>
+
+        <hr class="mt-0">
+        <div class="d-flex justify-content-between">
+          <h5 class="font-weight-normal p-2 m-0">My review:</h5>
+          <div class="btn-group mr-3">
+            <button type="button" class="btn btn-light">Qualifier:
+              <span  *ngIf="proposal?.review['qualifierID'] >= 1 && proposal?.review['qualifierID'] <= 3" class="text-danger">{{qualifiers[proposal?.review['qualifierID']]['name']}}</span>
+              <span  *ngIf="proposal?.review['qualifierID'] == 4">{{qualifiers[proposal?.review['qualifierID']]['name']}}</span>
+              <span  *ngIf="proposal?.review['qualifierID'] >= 5 && proposal?.review['qualifierID'] <= 7" class="text-success">{{qualifiers[proposal?.review['qualifierID']]['name']}}</span>
+            </button>
+            <div class="btn-group" ngbDropdown role="group">
+              <button class="btn btn-light dropdown-toggle-split" ngbDropdownToggle></button>
+              <div class="dropdown-menu" ngbDropdownMenu>
+                <div *ngFor="let qualifier of qualifiers; let i = index" (click)="addQualifier(proposal, i)">
+                  <button ngbDropdownItem *ngIf="i >= 1 && i <= 3" class="text-danger">{{qualifier['name']}}</button>
+                  <button ngbDropdownItem *ngIf="i == 4">{{qualifier['name']}}</button>
+                  <button ngbDropdownItem *ngIf="i >= 5 && i <= 7" class="text-success">{{qualifier['name']}}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div id="collapseExample" class="mt-2" [ngbCollapse]="!isCollapsed[i]">
+          <div class="card-body">
+            <span class="">My recommendations <i class="fas fa-plus-circle"></i></span>
+
+
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">
+                <div class="row align-items-start">
+                  <div class="col-11">
+                    oCras justo odi Cras justo odi Cras justo odi Cras justo odi Cras justo odi Cras justo odi
+                    Cras justo odiCras justo odiCras justo odiCras justo odiCras justo odiCras justo odiCras justo odiCras
+                    justo odi
+                  </div>
+                  <div class="col-1">
+                    <i class="far fa-trash-alt"></i>
+                  </div>
+                </div>
+              </li>
+            </ul>
+
+          </div>
+
+          <div class="card-text pb-2">
+            <div class="mt-4">
+
+
+              <!--<div class="mt-4">
+                <h6 class="card-title">Other Reviews:</h6>
+                <ul class="list-group">
+                  <li class="list-group-item">Cras justo odio</li>
+                  <li class="list-group-item">Dapibus ac facilisis in</li>
+                  <li class="list-group-item">Morbi leo risus</li>
+                  <li class="list-group-item">Porta ac consectetur ac</li>
+                  <li class="list-group-item">Vestibulum at eros</li>
+                </ul>
+              </div>-->
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="d-flex justify-content-end">
+        <div class="d-inline-block" (click)="collapsedChangeStatus(i)" [attr.aria-expanded]="!isCollapsed[i]">
+          <a class="nav-link text-primary" *ngIf="!isCollapsed[i]">see more</a>
+          <a class="nav-link text-primary" *ngIf="isCollapsed[i]">see less</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.ConferenceDataService;
+import ro.ubb.iss.CMS.Services.ReviewService;
 import ro.ubb.iss.CMS.converter.*;
 import ro.ubb.iss.CMS.Services.ConferenceService;
 import ro.ubb.iss.CMS.domain.*;
@@ -25,6 +26,7 @@ public class ConferenceController {
 
   @Autowired private ConferenceService service;
   @Autowired private ConferenceDataService conferenceDataService;
+  @Autowired private ReviewService reviewService;
 
   @Autowired private ConferenceConverter converter;
   @Autowired private ProposalConverter proposalConverter;
@@ -141,6 +143,42 @@ public class ConferenceController {
 
     return result;
   }
+
+  @RequestMapping(value = "/conferences/{conferenceID}/proposals/reviewer/{userID}", method = RequestMethod.GET)
+  public Map<String, Object> getProposalsWithReview(@PathVariable Integer conferenceID, @PathVariable Integer userID) {
+      Optional<Conference> conference = service.findConference(conferenceID);
+
+      Map<String, Object> result = null;
+      if (conference.isPresent()) {
+          result = new HashMap<>();
+          List<Proposal> proposalList = conference.get().getProposalsForConference().stream()
+                  .map(conferenceProposal -> conferenceProposal.getProposal())
+                  .collect(Collectors.toList());
+
+          result.put("proposals",proposalList.stream()
+                  .map(proposal -> {
+                      HashMap<String,Object> map = new HashMap<>();
+                      Optional<Review> reviewOptional = proposal.getReviews().stream()
+                              .filter(review -> review.getUser().getUserID().equals(userID)).findFirst();
+                      if(reviewOptional.isPresent()) {
+                          map.put("proposalData",proposalConverter.convertModelToDto(proposal));
+                          map.put("meta_info",metaInfoConverter.convertModelToDto(proposal.getMetaInformation()));
+                          map.put("abstract",abstractConverter.convertModelToDto(proposal.getAnAbstract()));
+                          map.put("paper",paperConverter.convertModelToDto(proposal.getPaper()));
+                          map.put("author_list", proposal.getAuthors().stream().map(Author::getName).collect(Collectors.toList()));
+                          map.put("review", reviewConverter.convertModelToDto(reviewOptional.get()));
+                          return Optional.of(map);
+                      }
+                      else
+                          return Optional.empty();
+                  })
+                  .filter(optional -> optional.isPresent())
+                  .collect(Collectors.toList()));
+      }
+
+      return result;
+  }
+
 
   @RequestMapping(value = "/conferences/{id}/accepted", method = RequestMethod.GET)
   public ResponseEntity<ProposalsDto> getConferenceAcceptedProposals(@PathVariable Integer id) {

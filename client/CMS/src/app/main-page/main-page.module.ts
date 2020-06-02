@@ -10,6 +10,7 @@ import { MyConferenceComponent } from './pages/my-conference/my-conference.compo
 import { BiddingPageComponent } from './pages/my-conference/tabs/bidding-page/bidding-page.component';
 import {AddProposalComponent} from "./custom-components/add-proposal/add-proposal.component";
 import { AssignReviewerComponent } from './pages/my-conference/tabs/assign-reviewer/assign-reviewer.component';
+import {ReviewComponent} from "./pages/my-conference/tabs/review/review.component";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { AssignReviewerComponent } from './pages/my-conference/tabs/assign-revie
     MyConferenceComponent,
     BiddingPageComponent,
     AddProposalComponent,
-    AssignReviewerComponent
+    AssignReviewerComponent,
+    ReviewComponent
   ],
   exports: [
     MyConferenceComponent
