@@ -18,26 +18,18 @@ import {AddProposalComponent} from "../../custom-components/add-proposal/add-pro
   templateUrl: './conference.component.html',
   styleUrls: ['./conference.component.css']
 })
-export class ConferenceComponent implements OnInit, AfterViewInit {
+export class ConferenceComponent implements OnInit {
 
   @Input() conferenceID: number;
-
-  @ViewChild('addProposalForm', { read: ViewContainerRef }) entry: ViewContainerRef;
 
   conference: Conference;
   conferenceDaysUntil: number;
 
-  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient, private resolver: ComponentFactoryResolver,
-              private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private activatedRoute: ActivatedRoute, private http: HttpClient) {
       this.conferenceID = +this.activatedRoute.snapshot.paramMap.get("conferenceID");
       console.log(this.conferenceID);
   }
 
-  ngAfterViewInit(): void {
-    const formFormFactory = this.resolver.resolveComponentFactory(AddProposalComponent);
-    this.entry.createComponent(formFormFactory);
-    this.changeDetectorRef.detectChanges();
-  }
 
   ngOnInit(): void {
     this.http.get<Conference>('http://localhost:8081/conferences/' + this.conferenceID).subscribe(conference => {

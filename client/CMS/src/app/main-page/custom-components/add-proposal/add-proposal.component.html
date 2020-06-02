@@ -9,33 +9,96 @@
     <a class="nav-link" id="paper-tab" data-toggle="tab" href="#paper" role="tab" aria-controls="paper" aria-selected="false">Paper</a>
   </li>
 </ul>
-<div class="tab-content" id="myTabContent">
+
+<div class="tab-content mt-3" id="myTabContent">
   <div class="tab-pane fade show active" id="meta-info" role="tabpanel" aria-labelledby="meta-info-tab">
     <div class="form-group">
       <label for="name">Proposal Name</label>
       <input type="text" class="form-control" id="name" [(ngModel)]="name" #ctrl="ngModel">
     </div>
 
-    <div class="input-group mycustom">
-      <input type="text" class="form-control rounded-0" id="validationDefaultUsername" placeholder="Username" aria-describedby="inputGroupPrepend2" required>
-      <div class="input-group-prepend">
-        <input type="submit" vlaue="submit" class="btn btn-primary btn-sm rounded-0" id="inputGroupPrepend2">
+    <div>
+      <label>Authors:</label>
+    </div>
+    <div *ngFor="let auth of authors; let i = index" class="d-inline-block mr-1 border-right mb-1">
+      <div class="d-inline-block">
+        {{auth}}
+        <i class="fas fa-minus pr-1 text-danger" (click)="deleteAuthor(i)"></i>
+      </div>
+    </div>
+    <div class="form-group mycustom">
+      <input type="text" class="form-control" id="authorInput" placeholder="Add a new author" aria-describedby="authorInputBtn" [(ngModel)]="author" required>
+      <div class="input-group-prepend border-left m-0 w-25 justify-content-center">
+        <div class="btn btn-primary btn-sm w-100" style="background: transparent; color: black; border-color: transparent" id="authorInputBtn" (click)="addAuthor()">
+          Add Author
+        </div>
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="name">Proposal Topics</label>
-      <input type="text" class="form-control" id="topics" [(ngModel)]="topics" #ctrl="ngModel">
+
+    <div>
+      <label>Keywords:</label>
     </div>
-    <div class="form-group">
-      <label for="name">Proposal Keywords</label>
-      <input type="text" class="form-control" id="keywords" [(ngModel)]="keywords" #ctrl="ngModel">
+    <div *ngFor="let key of keywords; let i = index" class="d-inline-block mr-1 border-right mb-1">
+      <div class="d-inline-block">
+        {{key}}
+        <i class="fas fa-minus pr-1 text-danger" (click)="deleteKeyword(i)"></i>
+      </div>
+    </div>
+    <div class="form-group mycustom">
+      <input type="text" class="form-control" id="keywordInput" placeholder="Add a new keyword" aria-describedby="keywordInputBtn" [(ngModel)]="keyword" required>
+      <div class="input-group-prepend border-left m-0 w-25 justify-content-center">
+        <div class="btn btn-primary btn-sm w-100" style="background: transparent; color: black; border-color: transparent" id="keywordInputBtn" (click)="addKeyword()">
+          Add Keyword
+        </div>
+      </div>
+    </div>
+
+
+    <div>
+      <label>Topics:</label>
+    </div>
+    <div *ngFor="let top of topics; let i = index" class="d-inline-block mr-1 border-right mb-1">
+      <div class="d-inline-block">
+        {{top}}
+        <i class="fas fa-minus pr-1 text-danger" (click)="deleteTopic(i)"></i>
+      </div>
+    </div>
+    <div class="form-group mycustom">
+      <input type="text" class="form-control" id="topicsInput" placeholder="Add a new Topic" aria-describedby="topicsInputBtn" [(ngModel)]="topic" required>
+      <div class="input-group-prepend border-left m-0 w-25 justify-content-center">
+        <div class="btn btn-primary btn-sm w-100" style="background: transparent; color: black; border-color: transparent" id="topicsInputBtn" (click)="addTopic()">
+          Add Topic
+        </div>
+      </div>
     </div>
   </div>
+
   <div class="tab-pane fade" id="abstract" role="tabpanel" aria-labelledby="abstract-tab">
 
-  </div>
-  <div class="tab-pane fade" id="paper" role="tabpanel" aria-labelledby="paper-tab">
+    <div class="input-group mb-3">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="abstractProposalLocation" [(ngModel)]="abstractLocation" (ngModelChange)="changeAbstractFormat()">
+        <label class="custom-file-label" for="abstractProposalLocation">{{abstractLocation}}</label>
+      </div>
+    </div>
 
+    <div>
+      <label>File extension: {{abstractFormat}}</label>
+    </div>
+
+  </div>
+
+  <div class="tab-pane fade" id="paper" role="tabpanel" aria-labelledby="paper-tab">
+    <div class="input-group mb-3">
+      <div class="custom-file">
+        <input type="file" class="custom-file-input" id="paperProposalLocation" [(ngModel)]="paperLocation" (ngModelChange)="changePaperFormat()">
+        <label class="custom-file-label" for="paperProposalLocation">{{paperLocation}}</label>
+      </div>
+    </div>
+
+    <div>
+      <label>File extension: {{paperFormat}}</label>
+    </div>
   </div>
 </div>
