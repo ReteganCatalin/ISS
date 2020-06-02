@@ -65,12 +65,7 @@ public class PaperServiceImplementation implements PaperService {
   public Paper savePaper(String format, String byteFileLocation) {
     log.trace(
         "saveMyTicket - method entered: format={}, byteFileLocation={}", format, byteFileLocation);
-
-    String newFileLocation = SaveToStorageUtility.saveFileToStorage(MAIN_STORAGE, byteFileLocation);
-    if (newFileLocation == null)
-      throw new UnableToSaveFileToStorage("Was not able to save the file to storage");
-
-    Paper newPaper = Paper.builder().byteFileLocation(newFileLocation).format(format).build();
+    Paper newPaper = Paper.builder().byteFileLocation(byteFileLocation).format(format).build();
 
     paperRepository.save(newPaper);
 
