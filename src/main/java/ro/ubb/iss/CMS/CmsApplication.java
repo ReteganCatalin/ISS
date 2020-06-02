@@ -5,6 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import ro.ubb.iss.CMS.Services.FileService;
+
+import javax.annotation.Resource;
 
 @SpringBootApplication
 public class CmsApplication {
@@ -18,7 +21,11 @@ public class CmsApplication {
     return new WebMvcConfigurer() {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**").allowedOrigins("http://localhost:4200");
+        registry.addMapping("/**")
+                .allowedOrigins("http://localhost:4200")
+                .allowedMethods("GET", "PUT", "POST", "DELETE")
+                .allowedHeaders("*");
+
       }
     };
   }

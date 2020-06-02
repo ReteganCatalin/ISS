@@ -76,11 +76,9 @@ public class AbstractServiceImplementation implements AbstractService {
     log.trace(
         "saveAbstract - method entered: format={}, byteFileLocation={}", format, byteFileLocation);
 
-    String newFileLocation = SaveToStorageUtility.saveFileToStorage(MAIN_STORAGE, byteFileLocation);
-    if (newFileLocation == null)
-      throw new UnableToSaveFileToStorage("Was not able to save the file to storage");
+
     Abstract newAbstract =
-        Abstract.builder().format(format).byteFileLocation(newFileLocation).build();
+        Abstract.builder().format(format).byteFileLocation(byteFileLocation).build();
     abstractRepository.save(newAbstract);
     log.trace("saveAbstract - method finished result={}", newAbstract);
     return newAbstract;

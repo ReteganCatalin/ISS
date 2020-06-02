@@ -7,11 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
+import org.springframework.web.multipart.MultipartFile;
 import ro.ubb.iss.CMS.MyExceptions.UnableToCreateStorageDirectoryException;
 import ro.ubb.iss.CMS.MyExceptions.UnableToSaveFileToStorage;
+import ro.ubb.iss.CMS.Services.FileService;
 import ro.ubb.iss.CMS.converter.PaperConverter;
 import ro.ubb.iss.CMS.Services.PaperService;
 import ro.ubb.iss.CMS.domain.Paper;
+import ro.ubb.iss.CMS.dto.AbstractDto;
 import ro.ubb.iss.CMS.dto.PaperDto;
 import ro.ubb.iss.CMS.dto.PapersDto;
 
@@ -25,6 +28,10 @@ public class PaperController {
   @Autowired private PaperService service;
 
   @Autowired private PaperConverter converter;
+
+  @Autowired
+  FileService fileService;
+
 
   @RequestMapping(value = "/papers", method = RequestMethod.GET)
   public ResponseEntity<PapersDto> getAllPapers() {
@@ -45,11 +52,22 @@ public class PaperController {
   }
 
   @RequestMapping(value = "/papers", method = RequestMethod.POST)
-  public ResponseEntity<PaperDto> savePaper(@RequestBody PaperDto paperDto) {
+  public ResponseEntity<PaperDto> savePaper(@RequestParam("file") MultipartFile file) {
+    PaperDto paperDto=new PaperDto(0,"","");
     log.trace("savePaper - method entered paperDto={}", paperDto);
     Paper result;
+    String path = "";
     try {
-      result = service.savePaper(paperDto.getFormat(), paperDto.getByteFileLocation());
+      path=fileService.store(file);
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    try {
+      paperDto.setByteFileLocation(path);
+      paperDto.setFormat("csp");
+      result = service.savePaper(paperDto.getFormat(), path);
+
     } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
       log.trace("savePaper - exception occurred: ex={}", ex.getMessage());
       ex.printStackTrace();
