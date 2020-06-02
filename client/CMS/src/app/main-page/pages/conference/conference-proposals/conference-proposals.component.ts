@@ -17,8 +17,6 @@ import {ConferenceComponent} from "../conference.component";
 import {User} from "../../../../shared/models/User";
 import {newArray} from "@angular/compiler/src/util";
 import {AddProposalComponent} from "../../../custom-components/add-proposal/add-proposal.component";
-import {ConferenceProposal} from "../../../../shared/models/ConferenceProposal";
-import {ConferenceProposalDtos} from "../../../../shared/models/ConferenceProposalDtos";
 
 
 @Component({
@@ -47,19 +45,19 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.http.get<ConferenceProposalDtos>('http://localhost:8081/conference_proposal').subscribe(proposals => {
+    this.http.get<Proposals>('http://localhost:8081/proposals').subscribe(proposals => {
       let auxiliaryList = new Array<ProposalDetailed>();
-      proposals.conferenceProposalDtos.forEach(proposal => {
-        if (proposal.conferenceID == this.conferenceID) {
-          this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed => {
-            console.log(proposalDetailed.section.conferenceID);
+      proposals.proposalDtoList.forEach(proposal => {
+        this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed =>{
+          if (proposalDetailed.section.conferenceID == this.conferenceID) {
             auxiliaryList.push(proposalDetailed);
             this.isCollapsed.push(false);
             this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
               proposalDetailed.supervisorName = data.username;
+              console.log(proposalDetailed.supervisorName);
             });
-          });
-        }
+          }
+        });
       });
       this.conferenceProposalDetailedObserver.next(auxiliaryList);
     });

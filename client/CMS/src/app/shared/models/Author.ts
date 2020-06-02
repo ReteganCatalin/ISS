@@ -1,11 +1,12 @@
 export class Author {
-  name: string;
-  proposalId: number;
-  authorId: number;
+   name: string;
+   proposalId: number;
+   authorId: number;
 
-  constructor() {
-    this.name = "";
-    this.proposalId = 0;
-    this.authorId = 0;
+
+  constructor(name: string, proposalId: number, authorId: number) {
+    this.name = "name";
+    this.proposalId = proposalId;
+    this.authorId = authorId;
   }
 }
