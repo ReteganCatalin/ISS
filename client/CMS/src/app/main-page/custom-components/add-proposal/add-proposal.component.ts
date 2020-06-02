@@ -130,9 +130,7 @@ export class AddProposalComponent implements OnInit {
             console.log("Intra in for");
             for (let authorName of this.authors) {
               console.log(authorName);
-              let asd =  new Author();
-              asd.name = authorName;
-              asd.proposalId = proposalID;
+              let asd =  new Author(authorName,proposalID,0);
               console.log(asd);
               this.http.post<Proposal>('http://localhost:8081/authors', asd).subscribe(data => {
                 console.log(data);
