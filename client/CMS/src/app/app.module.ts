@@ -7,18 +7,22 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { ConferencesPageComponent } from './conferences-page/conferences-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { ReviewComponent } from './review/review.component';
+import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   declarations: [
     AppComponent,
     ConferencesPageComponent,
-    MainPageComponent
+    MainPageComponent,
+    ReviewComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbCollapseModule
   ],
   providers: [],
   bootstrap: [AppComponent]

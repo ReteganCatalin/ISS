@@ -3,6 +3,8 @@ export class AbstractProposal {
    format: string;
    byteFileLocation: string;
 
+
+
   constructor() {
     this.abstractID = 0;
     this.format = "";
