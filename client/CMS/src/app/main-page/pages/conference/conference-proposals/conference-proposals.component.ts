@@ -8,11 +8,12 @@ import {
   ViewChild, ViewChildren,
   ViewContainerRef
 } from '@angular/core';
+import * as fileSaver from 'file-saver';// npm i --save file-saver
 import {BehaviorSubject} from "rxjs";
 import {ProposalDetailed} from "../../../../shared/models/ProposalDetailed";
 import {Proposal, Proposals} from "../../../../shared/models/Proposal";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {HttpClient,HttpHeaders, HttpResponse} from "@angular/common/http";
+import {ActivatedRoute, Resolve} from "@angular/router";
 import {ConferenceComponent} from "../conference.component";
 import {User} from "../../../../shared/models/User";
 import {newArray} from "@angular/compiler/src/util";
@@ -20,6 +21,7 @@ import {AddProposalComponent} from "../../../custom-components/add-proposal/add-
 import {ConferenceProposal} from "../../../../shared/models/ConferenceProposal";
 import {ConferenceProposalDtos} from "../../../../shared/models/ConferenceProposalDtos";
 import {EditProposalComponent} from "../../../custom-components/edit-proposal/edit-proposal.component";
+import {PaperProposal} from "../../../../shared/models/PaperProposal";
 
 
 @Component({
@@ -128,5 +130,44 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   deleteProposal(proposalID: number) {
     this.http.delete('http://localhost:8081/proposals/' + proposalID).subscribe(() => {this.loadData();});
+  }
+
+  downloadPaper(proposal :ProposalDetailed) {
+    console.log(proposal);
+    this.http.get<Proposal>('http://localhost:8081/proposals/' + proposal.proposal_id).subscribe( prop => {
+      let headers = new HttpHeaders();
+      headers = headers.append('Accept', 'image/gif');
+      this.http.get('http://localhost:8081/papers/' + prop.paperID+'/file',{
+        headers: headers,
+        observe: 'response',
+        responseType: 'blob'
+      }).subscribe( file => {
+        console.log(file);
+        this.saveFile(file.body,proposal.paper_location.split("\\").reverse()[0]);
+        //const blob = new Blob([paper], { type: 'application/octet-stream' });
+        //window.open(window.URL.createObjectURL(blob));
+      } );
+    });
+  }
+  saveFile(data: any, filename?: string) {
+    const blob = new Blob([data], {type: 'text/csv; charset=utf-8'});
+    fileSaver.saveAs(blob, filename);
+  }
+  downloadAbstract(proposal) {
+    console.log(proposal);
+    this.http.get<Proposal>('http://localhost:8081/proposals/' + proposal.proposal_id).subscribe( prop => {
+      let headers = new HttpHeaders();
+      headers = headers.append('Accept', 'text/csv; charset=utf-8');
+      this.http.get('http://localhost:8081/abstracts/' + prop.abstractID+'/file',{
+        headers: headers,
+        observe: 'response',
+        responseType: 'blob'
+      }).subscribe( file => {
+        console.log(file);
+        this.saveFile(file.body,proposal.abstract_location.split("\\").reverse()[0]);
+        //const blob = new Blob([paper], { type: 'application/octet-stream' });
+        //window.open(window.URL.createObjectURL(blob));
+      } );
+    });
   }
 }

@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,17 @@ public class PaperController {
     log.trace("getPaper - method finished: result={}", result);
     return new ResponseEntity<>(result,HttpStatus.OK);
   }
+  @RequestMapping(value = "/papers/{id}/file", method = RequestMethod.GET)
+  public ResponseEntity<Resource> getPaperFile(@PathVariable Integer id) {
+    log.trace("getPaperFile - method entered id={}", id);
+    Optional<Paper> paper = service.findPaper(id);
+    PaperDto paperResult = null;
+    if (paper.isPresent()) paperResult = converter.convertModelToDto(paper.get());
+    Resource file = fileService.downloadFile(paperResult.getByteFileLocation());
 
+    log.trace("getPaperFile - method finished: result={}", file);
+    return new ResponseEntity<>(file,HttpStatus.OK);
+  }
   @RequestMapping(value = "/papers", method = RequestMethod.POST)
   public ResponseEntity<PaperDto> savePaper(@RequestParam("file") MultipartFile file) {
     PaperDto paperDto=new PaperDto(0,"","");
