@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AuthService} from "../services/auth.service";
+import {AuthService} from "../shared/services/auth.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'app-login-page',
@@ -13,7 +14,7 @@ export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
   showErrorMessage: boolean;
 
-  constructor(private formBuilder: FormBuilder, private auth: AuthService) {
+  constructor(private formBuilder: FormBuilder, private auth: AuthService, private route: Router) {
   }
 
   ngOnInit(): void {
@@ -21,7 +22,7 @@ export class LoginPageComponent implements OnInit {
       username: ['', Validators.compose([Validators.required, Validators.minLength(6)])],
       password: ['', Validators.compose([Validators.required, Validators.minLength(6)])]
     });
-    this.showErrorMessage = true;
+    this.showErrorMessage = false;
   }
 
   login() {
@@ -29,7 +30,8 @@ export class LoginPageComponent implements OnInit {
       return;
     }
     this.auth.login(this.username.value, this.password.value).subscribe(data =>{
-      console.log('merge');
+      this.showErrorMessage = false;
+      this.route.navigateByUrl('/main-page');
     },
     error => {
       this.showErrorMessage = true;

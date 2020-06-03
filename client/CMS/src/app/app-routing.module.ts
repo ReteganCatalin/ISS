@@ -6,8 +6,6 @@ import {LoginPageComponent} from "./login-page/login-page.component";
 
 
 const routes: Routes = [
-  {path: 'add-conference', component: AddConferenceComponent},
-  {path: 'conferences-page', component: ConferencesPageComponent},
   {path: 'main-page', loadChildren: () => import('./main-page/main-page.module').then(m => m.MainPageModule)},
   {path: 'login', component: LoginPageComponent},
   {path: '', redirectTo: 'login', pathMatch: 'full'}

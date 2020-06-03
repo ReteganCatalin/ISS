@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, first, map} from "rxjs/operators";
 import {rejects} from "assert";
-import {UserList} from "../shared/models/User";
+import {UserList} from "../models/User";
 
 @Injectable({
   providedIn: 'root'
@@ -12,9 +12,11 @@ export class AuthService {
   constructor(private http: HttpClient) { }
 
   logout(): void {
-    sessionStorage.setItem('isLoggedIn', "false");
+    console.log(sessionStorage.getItem('uid'));
+
     sessionStorage.removeItem('token');
     sessionStorage.removeItem('uid');
+    console.log(sessionStorage.getItem('uid'));
   }
 
   login(username, password){
