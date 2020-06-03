@@ -29,9 +29,18 @@ public class MyTicketServiceImplementation implements MyTicketService {
   }
 
   @Override
-  public List<MyTicket> findAll() {
+  public Optional<MyTicket> findMyTicketWithUserAndUserInfo(int ticketID) {
+    log.trace("findMyTicket - method entered ticketID={}", ticketID);
+    Optional<MyTicket> result = myTicketRepository.findByUserWithUserInfo(ticketID);
+    log.trace("findMyTicket - method exit result={}", result);
+    return result;
+  }
+
+
+  @Override
+  public List<MyTicket> findAllByUser(int userID) {
     log.trace("findAll - method entered");
-    List<MyTicket> result = myTicketRepository.findAll();
+    List<MyTicket> result = myTicketRepository.findAllByUser_ID(userID);
     log.trace("findAll - method exit result={}", result);
     return result;
   }
@@ -64,7 +73,7 @@ public class MyTicketServiceImplementation implements MyTicketService {
     log.trace("saveMyTicket - method entered: user={}, section={},topics={}", user, section, price);
     MyTicket newMyTicket = MyTicket.builder().user(user).section(section).price(price).build();
 
-    myTicketRepository.save(newMyTicket);
+    newMyTicket = myTicketRepository.save(newMyTicket);
 
     log.trace("saveMyTicket - method finished result={}", newMyTicket);
     return newMyTicket;

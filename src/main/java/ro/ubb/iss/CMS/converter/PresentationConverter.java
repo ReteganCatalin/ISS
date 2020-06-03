@@ -20,7 +20,7 @@ public class PresentationConverter implements BaseConverter<Presentation, Presen
     return Presentation.builder()
         .presentationID(presentationDto.getPresentationID())
         .section(entityManager.getReference(Section.class, presentationDto.getSectionID()))
-        .conference(entityManager.getReference(Conference.class, presentationDto.getConferenceID()))
+       // .conference(entityManager.getReference(Conference.class, presentationDto.getConferenceID()))
         .format(presentationDto.getFormat())
         .byteFileLocation(presentationDto.getByteFileLocation())
         .build();
@@ -31,7 +31,7 @@ public class PresentationConverter implements BaseConverter<Presentation, Presen
     return PresentationDto.builder()
         .presentationID(presentation.getPresentationID())
         .sectionID(presentation.getSection().getSectionID())
-        .conferenceID(presentation.getConference().getConferenceID())
+        //.conferenceID(presentation.getConference().getConferenceID())
         .format(presentation.getFormat())
         .byteFileLocation(presentation.getByteFileLocation())
         .build();

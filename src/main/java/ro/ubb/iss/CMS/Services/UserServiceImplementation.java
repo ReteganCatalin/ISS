@@ -88,4 +88,9 @@ public class UserServiceImplementation implements UserService {
     userRepository.deleteById(userID);
     log.trace("deleteUser - method finished");
   }
+
+  @Override
+  public Optional<User> getUserWithUserInfo(Integer userID) {
+    return userRepository.findUserWithUserInfoById(userID);
+  }
 }
