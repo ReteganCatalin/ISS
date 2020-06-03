@@ -6,6 +6,10 @@ import {AddConferenceComponent} from './custom-components/add-conference/add-con
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ConferenceComponent } from './pages/conference/conference.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { MyConferenceComponent } from './pages/my-conference/my-conference.component';
+import { BiddingPageComponent } from './pages/my-conference/tabs/bidding-page/bidding-page.component';
+import { AssignReviewerComponent } from './pages/my-conference/tabs/assign-reviewer/assign-reviewer.component';
+import {ReviewComponent} from "./pages/my-conference/tabs/review/review.component";
 import { AddProposalComponent } from './custom-components/add-proposal/add-proposal.component';
 import { MyProposalsComponent } from './pages/my-proposals/my-proposals.component';
 import { EditProposalComponent } from './custom-components/edit-proposal/edit-proposal.component';
@@ -16,9 +20,16 @@ import { EditProposalComponent } from './custom-components/edit-proposal/edit-pr
     ConferencesComponent,
     AddConferenceComponent,
     ConferenceComponent,
-    AddProposalComponent,
     MyProposalsComponent,
-    EditProposalComponent
+    EditProposalComponent,
+    MyConferenceComponent,
+    BiddingPageComponent,
+    AddProposalComponent,
+    AssignReviewerComponent,
+    ReviewComponent
+  ],
+  exports: [
+    MyConferenceComponent
   ],
   imports: [
     CommonModule,

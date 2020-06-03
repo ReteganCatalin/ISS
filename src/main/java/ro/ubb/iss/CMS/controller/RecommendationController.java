@@ -22,7 +22,9 @@ import ro.ubb.iss.CMS.dto.RecommendationsDto;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class RecommendationController {
@@ -53,6 +55,14 @@ public class RecommendationController {
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getRecommendation - method finished: result={}", result);
     return new ResponseEntity(result,HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/recommendations/review/{reviewID}")
+  public List<RecommendationDto> getRecommendationsForReview(@PathVariable Integer reviewID) {
+    return this.service.findAll().stream()
+            .filter(recommendation -> recommendation.getReview().getReviewID().equals(reviewID))
+            .map(recommendation -> converter.convertModelToDto(recommendation))
+            .collect(Collectors.toList());
   }
 
   @RequestMapping(value = "/recommendations", method = RequestMethod.POST)

@@ -1,0 +1,63 @@
+<div class="col pt-3">
+  <div *ngFor='let proposal of conferenceProposals; let i = index' class="flex-column">
+    <div class="card mb-5">
+      <div class="card-body">
+        <div class="border-bottom">
+          <h2 class="card-title">{{proposal["metaInfoForProposal"]["name"]}}</h2>
+          <p class="card-text" >Authors: <i *ngFor="let author of proposal.author_list">{{author}} </i></p>
+        </div>
+
+        <div class="card-body">
+
+          <div class="card-text pb-2" >Keywords: {{proposal.metaInfoForProposal.keywords}}</div>
+
+          <div class="card-text pb-2" >Topics: {{proposal.metaInfoForProposal.topics}}</div>
+
+          <button class="btn btn-primary mr-4" type="button">
+            Open Paper
+          </button>
+          <button class="btn btn-primary" type="button">
+            Open Abstract Paper
+          </button>
+        </div>
+
+        <hr class="border-top">
+
+        <div>
+          <h5 class="d-inline-block font-weight-normal">Reviewers</h5>
+
+          <div ngbDropdown class="d-inline-block">
+            <button id="dropdownPcMembers" ngbDropdownToggle><i class="fas fa-plus-circle"></i></button>
+
+            <div ngbDropdownMenu aria-labelledby="dropdownPcMembers">
+              <div *ngFor="let analysis of proposal['analyses']">
+                <button ngbDropdownItem (click)="addReviewer(proposal, analysis['userID'])" *ngIf="containsReviewerID(proposal['reviews'], analysis['userID']) == false; else elseButton">
+                    <span *ngIf="analysis['refuse'] == true; else elseBlock" class="text-danger">{{pcMembers.get(analysis['userID'])?.username}}</span>
+                    <ng-template #elseBlock>{{pcMembers.get(analysis['userID'])?.username}}</ng-template>
+                </button>
+                <ng-template #elseButton>
+                  <button ngbDropdownItem disabled>
+                    <span>{{pcMembers.get(analysis['userID'])?.username}}</span>
+                  </button>
+                </ng-template>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="card col-4 m-2" *ngFor="let review of proposal['reviews']">
+            <div class="card-body">
+              <h5 class="card-title justify-content-between d-flex">{{pcMembers.get(review['userID'])?.username}}
+                <i class="far fa-trash-alt" (click)="deleteReview(review['reviewID'])"></i>
+              </h5>
+              <h6 class="card-subtitle mb-2 text-muted">Qualifier: qua</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

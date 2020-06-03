@@ -7,7 +7,9 @@ import {HttpClientModule} from '@angular/common/http';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ConferencesPageComponent } from './conferences-page/conferences-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
-import { ReviewComponent } from './review/review.component';
+import {ConferenceService} from './shared/services/conference.service';
+import {MainPageModule} from "./main-page/main-page.module";
+import {UserService} from "./shared/services/user.service";
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -17,7 +19,6 @@ import { LoginPageComponent } from './login-page/login-page.component';
     AppComponent,
     ConferencesPageComponent,
     MainPageComponent,
-    ReviewComponent,
     DashboardComponent,
     LoginPageComponent
   ],
@@ -27,9 +28,17 @@ import { LoginPageComponent } from './login-page/login-page.component';
     HttpClientModule,
     FormsModule,
     NgbCollapseModule,
+    NgbCollapseModule,
+    FormsModule,
+    MainPageModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    ConferenceService,
+    UserService
+  ],
+  exports: [
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
