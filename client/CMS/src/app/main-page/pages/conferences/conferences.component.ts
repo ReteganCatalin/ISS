@@ -17,7 +17,7 @@ export class ConferencesComponent implements OnInit {
   ngOnInit(): void {
 
     this.http.get<Conferences>('http://localhost:8081/conferences').subscribe(data => {
-      this.conferenceObserver.next(data.conferenceDtos);
+      this.conferenceObserver.next(data["conferenceDtos"]);
     });
   }
 

@@ -1,0 +1,46 @@
+<div class="col pt-3">
+  <div *ngFor='let proposal of conferenceProposals; let i = index' class="flex-column">
+    <div class="card mb-5">
+      <div class="card-body">
+        <div class="border-bottom">
+          <h2 class="card-title">{{proposal["metaInfoForProposal"]["name"]}}</h2>
+          <p class="card-text" >Authors: <i *ngFor="let author of proposal.author_list">{{author}} </i></p>
+        </div>
+
+        <div class="card-body">
+
+          <div class="card-text pb-2" >Keywords: {{proposal.metaInfoForProposal.keywords}}</div>
+
+          <div class="card-text pb-2" >Topics: {{proposal.metaInfoForProposal.topics}}</div>
+
+            <button class="btn btn-primary mr-4" type="button">
+              Open Paper
+            </button>
+            <button class="btn btn-primary" type="button">
+              Open Abstract Paper
+            </button>
+        </div>
+
+        <div class="btn-group mr-3">
+          <div class="btn btn-light">Response:
+            <span *ngIf="proposal['analysis']['briefAnalysis']=='Pleased to review'" class="text-success">{{proposal["analysis"]["briefAnalysis"]}}</span>
+            <span *ngIf="proposal['analysis']['briefAnalysis']=='Could review'">{{proposal["analysis"]["briefAnalysis"]}}</span>
+            <span *ngIf="proposal['analysis']['briefAnalysis']=='Refuse to review'" class="text-danger">{{proposal["analysis"]["briefAnalysis"]}}</span>
+            <span *ngIf="proposal['analysis']['briefAnalysis']==null"> none</span>
+          </div>
+          <div class="btn-group" ngbDropdown role="group" aria-label="Button group with nested dropdown">
+            <button class="btn btn-light dropdown-toggle-split" ngbDropdownToggle></button>
+            <div class="dropdown-menu" ngbDropdownMenu>
+              <button class="text-success" ngbDropdownItem (click)="addAnalysis(proposal, 'Pleased to review')">Pleased to review</button>
+              <button ngbDropdownItem (click)="addAnalysis(proposal, 'Could review')">Could review</button>
+              <button class="text-danger" ngbDropdownItem (click)="addAnalysis(proposal, 'Refuse to review')">Refuse to review</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+

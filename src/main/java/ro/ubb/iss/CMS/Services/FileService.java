@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 public class FileService {
 
-  public String uploadDir="D:/test";
+  public String uploadDir="C:/test";
   public Path pathDir;
 
 

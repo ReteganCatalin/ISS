@@ -1,0 +1,9 @@
+#dropdownPcMembers.dropdown-toggle::after {
+    content: none;
+}
+
+#dropdownPcMembers {
+  background-color: transparent;
+  border: none;
+}
+

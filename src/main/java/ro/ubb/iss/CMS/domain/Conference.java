@@ -80,14 +80,14 @@ public class Conference {
   //  @EqualsAndHashCode.Exclude
   //  Set<ProposalList> proposalLists = new HashSet<>();
 
-  @OneToMany(
-      mappedBy = "conference",
-      orphanRemoval = true,
-      cascade = CascadeType.ALL,
-      fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude
-  @ToString.Exclude
-  Set<Presentation> presentations = new HashSet<>();
+//  @OneToMany(
+//      mappedBy = "conference",
+//      orphanRemoval = true,
+//      cascade = CascadeType.ALL,
+//      fetch = FetchType.LAZY)
+//  @EqualsAndHashCode.Exclude
+//  @ToString.Exclude
+//  Set<Presentation> presentations = new HashSet<>();
 
   @OneToOne(
       mappedBy = "conference",

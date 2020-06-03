@@ -50,7 +50,7 @@ public class Proposal {
   @ToString.Exclude
   Set<ConferenceProposal> proposalAssignedForConference = new HashSet<>();
 
-  @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "user_info_id")
   @EqualsAndHashCode.Exclude
   @ToString.Exclude

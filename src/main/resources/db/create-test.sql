@@ -254,8 +254,8 @@ CREATE TABLE IF NOT EXISTS public."user"
     CONSTRAINT user_pkey PRIMARY KEY (user_id),
     CONSTRAINT "FK_User_Info_ID_USER_INFO" FOREIGN KEY (user_info_id)
         REFERENCES public.user_info (user_info_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID
 )
 GO
@@ -295,8 +295,8 @@ CREATE TABLE IF NOT EXISTS public.bidding_process
     CONSTRAINT bidding_process_pkey PRIMARY KEY (bid_id),
     CONSTRAINT "FK_Conference_ID_CONFERENCE" FOREIGN KEY (conference_id)
         REFERENCES public.conference (conference_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 )
 GO
 
@@ -372,23 +372,23 @@ CREATE TABLE IF NOT EXISTS public.proposal
     CONSTRAINT proposal_pkey PRIMARY KEY (proposal_id),
     CONSTRAINT "FK_Abstract_ID" FOREIGN KEY (abstract_id)
         REFERENCES public.abstract (abstract_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID,
     CONSTRAINT "FK_Meta_Info_ID" FOREIGN KEY (meta_info_id)
         REFERENCES public.meta_info (meta_info_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID,
     CONSTRAINT "FK_Paper_ID_PAPER" FOREIGN KEY (paper_id)
         REFERENCES public.paper (paper_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID,
     CONSTRAINT "FK_User_Info_ID_USER_INFO" FOREIGN KEY (user_info_id)
         REFERENCES public.user_info (user_info_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID
 )
 GO
@@ -410,16 +410,16 @@ CREATE TABLE IF NOT EXISTS public.analysis
     refuse        boolean,
     CONSTRAINT "FK_Bid_ID_BIDDING_PROCESS" FOREIGN KEY (bid_id)
         REFERENCES public.bidding_process (bid_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT "FK_Proposal_ID_PROPOSAL" FOREIGN KEY (proposal_id)
         REFERENCES public.proposal (proposal_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT "FK_User_ID_USER" FOREIGN KEY (user_id)
         REFERENCES public."user" (user_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 )
 GO
 
@@ -436,8 +436,8 @@ CREATE TABLE IF NOT EXISTS public.author_list
     name        character varying(40) COLLATE pg_catalog."default",
     CONSTRAINT "FK_Proposal_ID_PROPOSAL" FOREIGN KEY (proposal_id)
         REFERENCES public.proposal (proposal_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 )
 GO
 
@@ -486,12 +486,12 @@ CREATE TABLE IF NOT EXISTS public.permission_list
     permission_id integer NOT NULL,
     CONSTRAINT "FK_Permission_ID_PERMISSION" FOREIGN KEY (permission_id)
         REFERENCES public.permission (permission_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT "FK_User_ID_USER" FOREIGN KEY (user_id)
         REFERENCES public."user" (user_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 )
 GO
 
@@ -511,13 +511,13 @@ CREATE TABLE IF NOT EXISTS public.section
     CONSTRAINT section_pkey PRIMARY KEY (section_id),
     CONSTRAINT "FK_Conference_ID_CONFERENCE" FOREIGN KEY (conference_id)
         REFERENCES public.conference (conference_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID,
     CONSTRAINT "FK_Supervisor_ID_USER" FOREIGN KEY (supervisor_id)
         REFERENCES public."user" (user_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID
 )
 GO
@@ -535,13 +535,13 @@ CREATE TABLE IF NOT EXISTS public.proposal_list
     proposal_id integer NOT NULL,
     CONSTRAINT "FK_Proposal_ID_PROPOSAL" FOREIGN KEY (proposal_id)
         REFERENCES public.proposal (proposal_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID,
     CONSTRAINT "FK_Section_ID_SECTION" FOREIGN KEY (section_id)
         REFERENCES public.section (section_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
         NOT VALID
 )
 GO
@@ -593,16 +593,16 @@ CREATE TABLE IF NOT EXISTS public.review_list
     CONSTRAINT review_list_pkey PRIMARY KEY (review_id),
     CONSTRAINT "FK_Proposal_ID_PROPOSAL" FOREIGN KEY (proposal_id)
         REFERENCES public.proposal (proposal_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT "FK_Qualifier_ID_QUALIFIER" FOREIGN KEY (qualifier_id)
         REFERENCES public.qualifier (qualifier_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
     CONSTRAINT "FK_User_ID_USER" FOREIGN KEY (user_id)
         REFERENCES public."user" (user_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 )
 GO
 

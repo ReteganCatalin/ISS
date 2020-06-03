@@ -13,3 +13,7 @@ export class User {
     this.userInfoID = 0;
   }
 }
+
+export class UserList {
+  userDtoList: Array<User>;
+}
