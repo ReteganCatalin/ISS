@@ -101,6 +101,7 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   createProposal() {
     this.formAddProposal.instance.createProposal(this.conferenceID);
+    this.closeAddModal()
   }
 
   async updateProposal() {
@@ -127,7 +128,8 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
     this.formEditProposal.destroy();
   }
 
-  deleteProposal(proposalID: number) {
-    this.http.delete('http://localhost:8081/proposals/' + proposalID).subscribe(() => {this.loadData();});
+  deleteProposal(proposalIndex: number) {
+    console.log(proposalIndex);
+    this.http.delete('http://localhost:8081/proposals/' + this.conferenceProposalDetailedObserver.getValue()[proposalIndex].proposal_id).subscribe(() => {this.loadData();});
   }
 }

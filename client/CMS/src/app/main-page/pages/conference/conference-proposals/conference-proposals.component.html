@@ -18,7 +18,7 @@
               <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Options</button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <button ngbDropdownItem data-toggle="modal" data-target="#edit-proposal" (click)="openModalEdit(i)">Edit proposal</button>
-                <button ngbDropdownItem (click)="deleteProposal(proposalDetailed.proposal_id)">Delete Proposal</button>
+                <button ngbDropdownItem (click)="deleteProposal(i)">Delete Proposal</button>
               </div>
             </div>
           </div>

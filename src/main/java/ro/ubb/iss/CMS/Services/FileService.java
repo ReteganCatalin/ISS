@@ -20,7 +20,7 @@ import java.nio.file.StandardCopyOption;
 @Service
 public class FileService {
 
-  public String uploadDir="D:/test";
+  public String uploadDir="C:/test";
   public Path pathDir;
 
 
