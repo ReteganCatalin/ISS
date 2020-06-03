@@ -13,6 +13,7 @@ import {UserService} from "./shared/services/user.service";
 import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginPageComponent } from './login-page/login-page.component';
+import { RegisterPageComponent } from './register-page/register-page.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { LoginPageComponent } from './login-page/login-page.component';
     ConferencesPageComponent,
     MainPageComponent,
     DashboardComponent,
-    LoginPageComponent
+    LoginPageComponent,
+    RegisterPageComponent
   ],
   imports: [
     BrowserModule,
