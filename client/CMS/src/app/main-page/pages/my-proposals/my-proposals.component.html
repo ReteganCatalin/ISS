@@ -1,0 +1,49 @@
+<div class="col mt-3">
+  <div *ngFor='let proposalDetailed of conferenceProposalDetailedObserver | async; let i = index' class="flex-column">
+    <div class="card mb-5">
+      <div class="card-body">
+        <div class="card-header" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
+          <h2 class="card-title">{{proposalDetailed.meta_info.name}}</h2>
+          <h4 class="card-subtitle">Conference: {{proposalDetailed.conferenceName}}</h4>
+          <p class="card-text mb-2" >Authors: <i>{{proposalDetailed.author_list.join(', ')}}</i></p>
+        </div>
+
+        <div class="card-body">
+          <div class="card-text pb-2">
+            <div *ngIf="!proposalDetailed.section;else other_content">
+              No Presentation Day
+            </div>
+            <ng-template #other_content>Presentation Day: {{proposalDetailed.section.dateOfPresentation}}</ng-template>
+          </div>
+
+          <div class="card-text pb-2" >Keywords: {{proposalDetailed.meta_info.keywords}}</div>
+
+          <div class="card-text pb-2" >Topics: {{proposalDetailed.meta_info.topics}}</div>
+
+          <div id="collapseExample"  class="mt-2" [ngbCollapse]="!isCollapsed[i]">
+            <div class="card-text pb-2">Review qualifier:
+              <i *ngFor="let qualifier of proposalDetailed.qualifier.slice(0, 3)">
+                {{qualifier}}
+              </i>
+            </div>
+            <div class="card-text pb-2">
+              Price: {{proposalDetailed.section.price}}
+            </div>
+            <div class="card-text pb-2">
+              <div *ngIf="!proposalDetailed.supervisorName;else other_content_supervisor">
+                No Supervisor yet
+              </div>
+              <ng-template #other_content_supervisor>Supervisor Name during presentation: {{proposalDetailed.supervisorName}}</ng-template>
+            </div>
+            <button class="btn btn-primary mr-4" type="button">
+              Open Paper
+            </button>
+            <button class="btn btn-primary" type="button">
+              Open Abstract Paper
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

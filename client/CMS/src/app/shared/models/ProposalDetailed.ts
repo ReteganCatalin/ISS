@@ -10,6 +10,7 @@ export class ProposalDetailed {
    qualifier: Array<string>;
    section: Section;
    supervisorName: string;
+   conferenceName: string;
 
   constructor() {
     this.proposal_id = 0;

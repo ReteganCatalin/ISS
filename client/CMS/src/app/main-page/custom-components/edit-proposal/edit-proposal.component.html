@@ -14,7 +14,7 @@
   <div class="tab-pane fade show active" id="meta-info" role="tabpanel" aria-labelledby="meta-info-tab">
     <div class="form-group">
       <label for="name">Proposal Name</label>
-      <input type="text" class="form-control" id="name" [(ngModel)]="name" #ctrl="ngModel">
+      <input type="text" class="form-control" id="name" [(ngModel)]="proposal.meta_info.name" #ctrl="ngModel">
     </div>
 
     <div>
@@ -72,16 +72,14 @@
         </div>
       </div>
     </div>
-
   </div>
+
   <div class="tab-pane fade" id="abstract" role="tabpanel" aria-labelledby="abstract-tab">
 
     <div class="input-group mb-3">
       <div class="custom-file">
-
-        <input type="file" class="custom-file-input" id="abstractProposalUpload" [(ngModel)]="abstractLocation" (ngModelChange)="changeAbstractFormat()" (change)="selectAbstractFile($event)">
-
-        <label class="custom-file-label" for="abstractProposalUpload">{{abstractLocation}}</label>
+        <input type="file" class="custom-file-input" id="abstractProposalLocation" [(ngModel)]="abstractLocation" (ngModelChange)="changeAbstractFormat()">
+        <label class="custom-file-label" for="abstractProposalLocation">{{abstractLocation}}</label>
       </div>
     </div>
 
@@ -94,10 +92,8 @@
   <div class="tab-pane fade" id="paper" role="tabpanel" aria-labelledby="paper-tab">
     <div class="input-group mb-3">
       <div class="custom-file">
-
-        <input type="file" class="custom-file-input" id="paperProposalUpload" [(ngModel)]="paperLocation" (ngModelChange)="changePaperFormat()" (change)="selectPaperFile($event)">
-
-        <label class="custom-file-label" for="paperProposalUpload">{{paperLocation}}</label>
+        <input type="file" class="custom-file-input" id="paperProposalLocation" [(ngModel)]="paperLocation" (ngModelChange)="changePaperFormat()">
+        <label class="custom-file-label" for="paperProposalLocation">{{paperLocation}}</label>
       </div>
     </div>
 

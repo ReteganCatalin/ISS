@@ -5,7 +5,7 @@ import {
   ComponentFactoryResolver,
   Input,
   OnInit,
-  ViewChild,
+  ViewChild, ViewChildren,
   ViewContainerRef
 } from '@angular/core';
 import {BehaviorSubject} from "rxjs";
@@ -17,6 +17,9 @@ import {ConferenceComponent} from "../conference.component";
 import {User} from "../../../../shared/models/User";
 import {newArray} from "@angular/compiler/src/util";
 import {AddProposalComponent} from "../../../custom-components/add-proposal/add-proposal.component";
+import {ConferenceProposal} from "../../../../shared/models/ConferenceProposal";
+import {ConferenceProposalDtos} from "../../../../shared/models/ConferenceProposalDtos";
+import {EditProposalComponent} from "../../../custom-components/edit-proposal/edit-proposal.component";
 
 
 @Component({
@@ -29,7 +32,9 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   conferenceProposalObserver: BehaviorSubject<Array<Proposal>>;
 
   formAddProposal;
-  @ViewChild('addProposalForm', { read: ViewContainerRef }) entry: ViewContainerRef;
+  formEditProposal;
+  @ViewChild('AddProposalForm', { read: ViewContainerRef }) entry: ViewContainerRef;
+  @ViewChild('EditProposalForm', { read: ViewContainerRef }) entry2: ViewContainerRef;
 
   @Input() conferenceID: number;
 
@@ -45,32 +50,50 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    this.http.get<Proposals>('http://localhost:8081/proposals').subscribe(proposals => {
+    this.http.get<ConferenceProposalDtos>('http://localhost:8081/conference_proposal').subscribe(proposals => {
       let auxiliaryList = new Array<ProposalDetailed>();
-      proposals.proposalDtoList.forEach(proposal => {
-        this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed =>{
-          if (proposalDetailed.section.conferenceID == this.conferenceID) {
+      proposals.conferenceProposalDtos.forEach(proposal => {
+        if (proposal.conferenceID == this.conferenceID) {
+          this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed => {
+            console.log(proposalDetailed.section.conferenceID);
             auxiliaryList.push(proposalDetailed);
             this.isCollapsed.push(false);
-            this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
-              proposalDetailed.supervisorName = data.username;
-              console.log(proposalDetailed.supervisorName);
-            });
-          }
-        });
+            if (proposalDetailed.section.supervisorID)
+              this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
+                proposalDetailed.supervisorName = data.username;
+              });
+          });
+        }
+      });
+      this.conferenceProposalDetailedObserver.next(auxiliaryList);
+    });
+  }
+
+  loadData(){
+    this.http.get<ConferenceProposalDtos>('http://localhost:8081/conference_proposal').subscribe(proposals => {
+      let auxiliaryList = new Array<ProposalDetailed>();
+      proposals.conferenceProposalDtos.forEach(proposal => {
+        if (proposal.conferenceID == this.conferenceID) {
+          this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed => {
+            console.log(proposalDetailed.section.conferenceID);
+            auxiliaryList.push(proposalDetailed);
+            this.isCollapsed.push(false);
+            if (proposalDetailed.section.supervisorID)
+              this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
+                proposalDetailed.supervisorName = data.username;
+              });
+          });
+        }
       });
       this.conferenceProposalDetailedObserver.next(auxiliaryList);
     });
   }
 
   ngAfterViewInit(): void {
-    const formFormFactory = this.resolver.resolveComponentFactory(AddProposalComponent);
-    this.formAddProposal = this.entry.createComponent(formFormFactory);
-    this.changeDetectorRef.detectChanges();
+
   }
 
   openModal(){
-    this.formAddProposal.destroy();
     const formFormFactory = this.resolver.resolveComponentFactory(AddProposalComponent);
     this.formAddProposal = this.entry.createComponent(formFormFactory);
     this.changeDetectorRef.detectChanges();
@@ -78,5 +101,32 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   createProposal() {
     this.formAddProposal.instance.createProposal(this.conferenceID);
+  }
+
+  updateProposal() {
+    this.formEditProposal.instance.updateProposalData().finally(() => {this.closeEditModal();});
+  }
+
+  editProposal(index: number) {
+    this.formEditProposal.instance.loadProposalData(this.conferenceProposalDetailedObserver.getValue()[index])
+  }
+
+  openModalEdit(index: number) {
+    const formFormFactory = this.resolver.resolveComponentFactory(EditProposalComponent);
+    this.formEditProposal = this.entry2.createComponent(formFormFactory);
+    this.editProposal(index);
+    this.changeDetectorRef.detectChanges();
+  }
+
+  closeAddModal() {
+    this.formAddProposal.destroy();
+  }
+
+  closeEditModal() {
+    this.formEditProposal.destroy();
+  }
+
+  deleteProposal(proposalID: number) {
+    this.http.delete('http://localhost:8081/proposals/' + proposalID).subscribe(() => {this.loadData();});
   }
 }
