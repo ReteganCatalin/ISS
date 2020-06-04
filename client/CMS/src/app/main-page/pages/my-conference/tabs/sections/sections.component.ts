@@ -35,6 +35,7 @@ export class SectionsComponent implements OnInit {
   }
 
   loadData() {
+    this.acceptedProposals = [];
     this.http.get<any>(`http://localhost:8081/sections/conference/${this.conferenceID}`).subscribe(result => {
       this.sections = result;
       console.log(this.sections);
@@ -62,11 +63,19 @@ export class SectionsComponent implements OnInit {
     section['conferenceID'] = this.conferenceID;
     section['price'] = Number.parseInt(this.priceString);
     section['dateOfPresentation'] = this.dateOfPresentationString;
-    this.http.post('http://localhost:8081/sections', section).subscribe((data) => {console.log(data)});
+    this.http.post('http://localhost:8081/sections', section).subscribe((data) => {this.loadData()});
   }
 
   getProposalDetailed(proposalID) {
     return this.http.get<any>(`http://localhost:8081/proposals/${proposalID}/detailed`);
+  }
+
+  proposalInASection(proposalID) {
+    for(let section of this.sections)
+      if (this.inSectionProposals(proposalID, section) == true)
+        return true;
+
+    return false;
   }
 
   inSectionProposals(proposalID, section) {
@@ -85,4 +94,21 @@ export class SectionsComponent implements OnInit {
   }
 
 
+  removeProposal(section: any, proposal: any) {
+    console.log(section, proposal);
+    let sectionID = section['section']['sectionID'];
+    console.log(sectionID);
+    let proposalID = proposal['proposal']['proposalID'];
+    console.log(proposalID);
+    this.http.delete(`http://localhost:8081/proposalLists/${sectionID}/${proposalID}/${this.conferenceID}`).subscribe(() => {
+      this.loadData()
+    })
+  }
+
+  deleteSection(section: any) {
+    console.log(section);
+    this.http.delete(`http://localhost:8081/sections/${section['section']['sectionID']}`).subscribe(() => {
+      this.loadData();
+    })
+  }
 }

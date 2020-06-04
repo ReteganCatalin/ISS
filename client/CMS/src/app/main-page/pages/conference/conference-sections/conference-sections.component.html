@@ -1,0 +1,37 @@
+<div *ngFor="let section of sections; let i = index">
+  <div class="my-2">
+    <div class="card">
+      <div class="card-header">
+        <div class="d-flex justify-content-between">
+          <h2 class="card-title">
+            Section {{i + 1}}
+          </h2>
+        </div>
+        <div class="card-body">
+          <p class="card-subtitle">
+            <span class="text-primary">Supervisor:</span> {{section?.supervisor.username}}
+          </p>
+
+          <p class="card-subtitle">
+            <span class="text-primary">Price:</span> {{section?.section.price}}
+          </p>
+
+          <p class="card-subtitle">
+            <span class="text-primary">Date:</span> {{section?.section.dateOfPresentation}}
+          </p>
+        </div>
+      </div>
+      <div class="card-body">
+        <h4 class="font-weight-light">Speakers</h4>
+        <div class="card-body">
+          <ul class="list-group">
+            <li class="list-group-item" *ngFor="let proposal of section['proposals']">{{proposal['user_info']['name']}}</li>
+          </ul>
+        </div>
+        <div class="justify-content-end">
+          <button class="btn btn-outline-dark" *ngIf="hasTicket(section['section']['sectionID']) == false" (click)="buyTicket(section)">Get your ticket!</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

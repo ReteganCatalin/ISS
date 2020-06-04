@@ -35,6 +35,7 @@ public class SectionController {
   @Autowired private UserConverter userConverter;
   @Autowired private ProposalConverter proposalConverter;
   @Autowired private MetaInfoConverter metaInfoConverter;
+  @Autowired private UserInfoConverter userInfoConverter;
 
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
@@ -86,6 +87,7 @@ public class SectionController {
                         HashMap<String, Object> proposalMap = new HashMap<>();
                         proposalMap.put("proposal",this.proposalConverter.convertModelToDto(proposalList.getProposal()));
                         proposalMap.put("meta_info", this.metaInfoConverter.convertModelToDto(proposalList.getProposal().getMetaInformation()));
+                        proposalMap.put("user_info", this.userInfoConverter.convertModelToDto(proposalList.getProposal().getUserInfo()));
                         return proposalMap;
                       })
                       .collect(Collectors.toList()));
