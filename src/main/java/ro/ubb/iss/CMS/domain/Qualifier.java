@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public enum Qualifier {
-    NONE("NONE"),
+    NONE("none"),
     STRONG_REJECT("strong reject"),
     REJECT("reject"),
     WEAK_REJECT("weak reject"),
