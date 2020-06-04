@@ -1,5 +1,15 @@
 <div class="col pt-3">
-  <div *ngFor='let proposal of conferenceProposals; let i = index' class="flex-column">
+
+  <div class="btn-group mt-3" ngbDropdown role="group">
+    <button class="btn btn-light dropdown-toggle-split" ngbDropdownToggle> Select PC Member</button>
+    <div class="dropdown-menu" ngbDropdownMenu>
+      <div *ngFor="let pcMember of possiblePCMember; let i = index">
+        <a (click)="addPCMember(i)">{{pcMember.username}}</a>
+      </div>
+    </div>
+  </div>
+
+  <div *ngFor='let proposal of conferenceProposals; let i = index' class="flex-column mt-4">
     <div class="card mb-5">
       <div class="card-body">
         <div class="border-bottom">

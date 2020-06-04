@@ -1,6 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {DownloadService} from "../../../../../shared/services/download.service";
+import {User, UserList} from "../../../../../shared/models/User";
+import {PCMember} from "../../../../../shared/models/PCMember";
 
 @Component({
   selector: 'assign-reviewer',
@@ -13,16 +15,34 @@ export class AssignReviewerComponent implements OnInit {
   pcMembers: Map<any, any>;
   qualifiers: Array<any>;
 
+  possiblePCMember: Array<User>;
+
   constructor(private http: HttpClient,
               private downloadService: DownloadService) {
     this.conferenceProposals = [];
     this.pcMembers = new Map<any, any>();
-
+    this.possiblePCMember = [];
     this.initQualifiers();
   }
 
   ngOnInit(): void {
     this.loadData();
+
+    this.http.get<UserList>('http://localhost:8081/users').subscribe(userList =>{
+      this.http.get<UserList>('http://localhost:8081/conferences/' + this.conferenceID + '/pc_members').subscribe(pcMemberList =>{
+        for (let i = 0; i < userList.userDtoList.length; i++){
+          let ok = true;
+          for(let j = 0; j < pcMemberList.userDtoList.length; j++){
+            if (pcMemberList.userDtoList[j].userID == userList.userDtoList[i].userID){
+              ok = false;
+              break;
+            }
+          }
+          if (ok != false)
+            this.possiblePCMember.push(userList.userDtoList[i]);
+        }
+      })
+    })
   }
 
   loadData() {
@@ -33,6 +53,12 @@ export class AssignReviewerComponent implements OnInit {
           this.pcMembers.set(pcMember['userID'], pcMember);
       })
     })
+  }
+
+  addPCMember(i: number) {
+    this.http.post('http://localhost:8081/pc_members', new PCMember(this.possiblePCMember[i].userID, this.conferenceID)).subscribe(data => {
+      console.log(data);
+    });
   }
 
   private initQualifiers() {

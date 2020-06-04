@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {BehaviorSubject} from 'rxjs';
 import {Conference, Conferences} from '../../../shared/models/Conference';
 import {HttpClient} from '@angular/common/http';
+import {UserList} from "../../../shared/models/User";
 
 @Component({
   selector: 'app-conferences',

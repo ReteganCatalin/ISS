@@ -12,6 +12,10 @@ export class User {
     this.isValidated = false;
     this.userInfoID = 0;
   }
+
+  isEqualTo(user : User) : boolean{
+    return user.userID == this.userID;
+  }
 }
 
 export class UserList {

@@ -12,6 +12,8 @@ import {HttpClient} from "@angular/common/http";
 import {Conference} from "../../../shared/models/Conference";
 import {AddConferenceComponent} from "../../custom-components/add-conference/add-conference.component";
 import {AddProposalComponent} from "../../custom-components/add-proposal/add-proposal.component";
+import {User, UserList} from "../../../shared/models/User";
+import {PCMember} from "../../../shared/models/PCMember";
 
 @Component({
   selector: 'app-conference',
@@ -29,6 +31,7 @@ export class ConferenceComponent implements OnInit {
     this.conference = new Conference();
       this.conferenceID = +this.activatedRoute.snapshot.paramMap.get("conferenceID");
       this.conference = new Conference();
+
       console.log(this.conferenceID);
   }
 
@@ -43,6 +46,7 @@ export class ConferenceComponent implements OnInit {
       this.conference.proposalDeadline = new Date(conference.proposalDeadline);
 
       this.conferenceDaysUntil = this.computeDate(new Date(conference.startDate));
+
     });
   }
 
@@ -52,4 +56,5 @@ export class ConferenceComponent implements OnInit {
     const diffDays = Math.ceil(diff / (1000 * 3600 * 24));
     return diffDays;
   }
+
 }
