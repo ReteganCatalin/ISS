@@ -10,6 +10,9 @@ public interface ProposalService {
 
   List<Proposal> findAll();
 
+  String getProposalStatus(Integer proposalID);
+
+
   Proposal updateProposal(
       int proposalID,
       UserInfo userInfoID,
