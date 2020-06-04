@@ -1,4 +1,4 @@
-name,start_date,end_date,proposal_deadline,paper_deadline,review_deadline
-New Philadelphia Conference,2019-11-10 00:00:00,2019-11-15 00:00:00,2019-02-01 00:00:00,2019-02-01 00:00:00,2019-05-01 00:00:00
-NextGen Conference,2020-07-30 00:00:00,2020-08-05 00:00:00,2020-02-01 00:00:00,2020-05-09 00:00:00,2020-06-19 00:00:00
+name,start_date,end_date,proposal_deadline,paper_deadline,review_deadline,chair
+New Philadelphia Conference,2019-11-10 00:00:00,2019-11-15 00:00:00,2019-02-01 00:00:00,2019-02-01 00:00:00,2019-05-01 00:00:00,1
+NextGen Conference,2020-07-30 00:00:00,2020-08-05 00:00:00,2020-02-01 00:00:00,2020-05-09 00:00:00,2020-06-19 00:00:00,1
 

@@ -2,14 +2,15 @@ package ro.ubb.iss.CMS;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ro.ubb.iss.CMS.Services.FileService;
-
-import javax.annotation.Resource;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.client.RestTemplate;
+import ro.ubb.iss.CMS.Repository.ConferenceDataRepository;
+import ro.ubb.iss.CMS.Repository.ConferenceRepository;
+import ro.ubb.iss.CMS.domain.Conference;
+import ro.ubb.iss.CMS.domain.ConferenceData;
 import ro.ubb.iss.CMS.dto.MyTicketDto;
+
+import javax.persistence.EntityManager;
 
 @SpringBootApplication
 public class CmsApplication {
@@ -18,15 +19,13 @@ public class CmsApplication {
     SpringApplication.run(CmsApplication.class, args);
   }
 
-  @Bean
-  public WebMvcConfigurer corsConfigurer() {
-    return new WebMvcConfigurer() {
-      @Override
-      public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOrigins("http://localhost:4200")
-                .allowedMethods("GET", "PUT", "POST", "DELETE")
-                .allowedHeaders("*");
+//    AnnotationConfigApplicationContext annotationConfigApplicationContext = new AnnotationConfigApplicationContext();
+//    ConferenceData conferenceData = ConferenceData.builder().conferenceID(1).format("asd").callForPaper("asd").byteFileLocation("asd").about("asd").build();
+//
+//    ConferenceDataRepository conferenceRepository = annotationConfigApplicationContext.getBean(ConferenceDataRepository.class);
+//
+//    conferenceRepository.save(conferenceData);
+
 
       }
     };

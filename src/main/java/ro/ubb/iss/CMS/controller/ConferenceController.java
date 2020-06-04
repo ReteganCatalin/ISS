@@ -60,6 +60,18 @@ public class ConferenceController {
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/conferences/{id}/bidding", method = RequestMethod.GET)
+  public ResponseEntity<BiddingProcessDto> getConferenceBidding(@PathVariable Integer id) {
+    log.trace("getConferenceBidding - method entered id={}", id);
+    Optional<Conference> conference = service.findConference(id);
+    BiddingProcessDto result = null;
+    if (conference.isPresent()) result = biddingProcessConverter.convertModelToDto(conference.get().getBiddingProcess());
+    log.trace("getConferenceBidding - method finished: result={}", result);
+    return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+
+
+
   /*
   SELECT bid.bid_id, bid.conference_id, bid.deadline,
   als.bid_id,als.user_id,als.proposal_id,als.brief_analysis,als.refuse,
@@ -353,7 +365,9 @@ public class ConferenceController {
             conferenceDto.getStartDate(),
             conferenceDto.getEndDate(),
             conferenceDto.getProposalDeadline(),
-            conferenceDto.getPaperDeadline());
+            conferenceDto.getPaperDeadline(),
+                conferenceDto.getReviewDeadline(),
+                conferenceDto.getChair());
 
     ConferenceDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveConference - method finished: result={}", resultToReturn);
@@ -371,7 +385,8 @@ public class ConferenceController {
                 conferenceDto.getStartDate(),
                 conferenceDto.getEndDate(),
                 conferenceDto.getProposalDeadline(),
-                conferenceDto.getPaperDeadline()));
+                conferenceDto.getPaperDeadline(),
+                    conferenceDto.getReviewDeadline()));
     log.trace("updateConference - method finished: result={}", result);
     return new ResponseEntity<>(result, HttpStatus.OK);
   }

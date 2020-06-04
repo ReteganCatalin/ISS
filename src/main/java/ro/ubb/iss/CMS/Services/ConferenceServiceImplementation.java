@@ -43,7 +43,7 @@ public class ConferenceServiceImplementation implements ConferenceService {
       Date startDate,
       Date endDate,
       Date proposalDeadline,
-      Date paperDeadline) {
+      Date paperDeadline,Date reviewDeadline) {
     log.trace(
         "updateConference - method entered: conferenceID={}, name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}",
         conferenceID,
@@ -51,7 +51,7 @@ public class ConferenceServiceImplementation implements ConferenceService {
         startDate,
         endDate,
         proposalDeadline,
-        paperDeadline);
+        paperDeadline,reviewDeadline);
 
     Optional<Conference> abstractOptional = conferenceRepository.findById(conferenceID);
 
@@ -70,7 +70,7 @@ public class ConferenceServiceImplementation implements ConferenceService {
 
   @Override
   public Conference saveConference(
-      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline) {
+      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline,Date reviewDeadline,int chair) {
     log.trace(
         "saveConference - method entered: name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}",
         name,
@@ -85,6 +85,8 @@ public class ConferenceServiceImplementation implements ConferenceService {
             .endDate(endDate)
             .proposalDeadline(proposalDeadline)
             .paperDeadline(paperDeadline)
+                .reviewDeadline(reviewDeadline)
+                .chair(chair)
             .build();
 
     conferenceRepository.save(newConference);
