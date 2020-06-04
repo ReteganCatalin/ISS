@@ -38,6 +38,12 @@ export class MainPageComponent implements OnInit, AfterViewInit{
     this.userService.setUserID(uid);
     this.http.get<any>(`http://localhost:8081/pc_members/conferences/${uid}`).subscribe(response => {
       this.conferenceList = response;
+      this.http.get<any>(`http://localhost:8081/conferences`).subscribe(conferencesDto => {
+        let conferences = conferencesDto['conferenceDtos'];
+        for(let conference of conferences)
+          if(conference['chair'] == this.userService.getUserID())
+            this.conferenceList.push(conference);
+      })
     });
   }
 

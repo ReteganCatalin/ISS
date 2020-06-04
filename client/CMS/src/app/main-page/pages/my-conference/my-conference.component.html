@@ -5,15 +5,15 @@
   <li class="nav-item" *ngIf="bidding_deadline < today && today <= review_deadline">
     <a class="nav-link" data-toggle="tab" id="reviewTab" role="tab" aria-controls="review" aria-selected="true" href="#review"> Review </a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="uid == conference?.chair">
     <a class="nav-link" data-toggle="tab" id="assignTab" role="tab" aria-controls="assign" aria-selected="true" href="#assign"> Assign</a>
   </li>
-  <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" id="sectionsTab" role="tab" aria-controls="sections" aria-selected="true" href="#sections"> Sections</a>
+  <li class="nav-item" *ngIf="uid == conference?.chair">
+    <a class="nav-link" data-toggle="tab" id="sectionsTab" role="tab" aria-controls="sections" aria-selected="true" href="#sections"> Sections</a>
   </li>
 </ul>
 <div class="tab-content">
-  <div class="tab-pane fade show" id="bidding" role="tabpanel" aria-labelledby="biddingTab">
+  <div class="tab-pane fade show active" id="bidding" role="tabpanel" aria-labelledby="biddingTab">
     <bidding-page [conferenceID]="conferenceID"></bidding-page>
   </div>
   <div class="tab-pane fade show" id="review" role="tabpanel" aria-labelledby="reviewTab">
@@ -24,7 +24,7 @@
     <assign-reviewer [conferenceID]="conferenceID"></assign-reviewer>
   </div>
 
-  <div class="tab-pane fade show active" id="sections" role="tabpanel" aria-labelledby="sectionsTab">
+  <div class="tab-pane fade show" id="sections" role="tabpanel" aria-labelledby="sectionsTab">
     <sections [conferenceID]="conferenceID"></sections>
   </div>
 </div>
