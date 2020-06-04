@@ -91,7 +91,7 @@
             <column header="user_info_id" type="NUMERIC" name="user_info_id"></column>
         </loadUpdateData>
     </changeSet>
-    <changeSet id="load-data-to-conference-new-1" author="catalin">
+    <changeSet id="load-data-to-conference-new-2" author="catalin">
         <loadUpdateData
                 tableName="conference"
                 primaryKey="conference_id"
