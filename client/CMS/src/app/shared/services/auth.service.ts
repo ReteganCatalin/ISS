@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {catchError, first, map} from "rxjs/operators";
-import {rejects} from "assert";
 import {User, UserList} from "../models/User";
 import {UserInfo} from "../models/UserInfo";
+import {rejects} from "assert";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,7 @@ export class AuthService {
   }
 
   login(username, password){
-    return this.getUser(username, password).pipe(map(data => {
+    return this.getUser(username, password).pipe(first(data => {
       if (data != null) {
         sessionStorage.setItem('uid', data.userID.toString());
         return true;

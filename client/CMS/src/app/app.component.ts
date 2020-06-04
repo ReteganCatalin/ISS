@@ -10,6 +10,7 @@ import {Router } from "@angular/router";
 export class AppComponent {
   title = 'CMS';
   constructor(private http: HttpClient, private route: Router) {
+    console.log(sessionStorage.getItem('uid'));
     if(sessionStorage.getItem('uid') == null) {
       this.route.navigateByUrl('/login');
     }
