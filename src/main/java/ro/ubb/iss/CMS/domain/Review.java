@@ -100,11 +100,9 @@ public class Review {
   @ToString.Exclude
   Proposal proposal;
 
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @JoinColumn(name = "qualifier_id")
-  @EqualsAndHashCode.Exclude
-  @ToString.Exclude
-  Qualifier qualifier;
+
+  @Column(name = "qualifier", nullable = false)
+  String qualifier;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "user_id")

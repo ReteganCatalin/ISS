@@ -61,22 +61,6 @@
             <column header="location" type="STRING" name="byte_file_location"></column>
         </loadUpdateData>
     </changeSet>
-    <changeSet id="test-conference" author="catalin">
-        <loadUpdateData
-                tableName="conference"
-                primaryKey="conference_id"
-                encoding="UTF-8"
-                file="db/conference.csv"
-                schemaName="public"
-                separator=","
-        >
-            <column header="name" type="STRING" name="name"></column>
-            <column header="start_date" type="DATE" name="start_date"></column>
-            <column header="end_date" type="DATE" name="end_date"></column>
-            <column header="paper_deadline" type="DATE" name="paper_deadline"></column>
-            <column header="proposal_deadline" type="DATE" name="proposal_deadline"></column>
-        </loadUpdateData>
-    </changeSet>
     <changeSet id="test-proposal1" author="catalin">
         <loadUpdateData
                 tableName="proposal"
@@ -148,30 +132,30 @@
             <column header="price" type="NUMERIC" name="price"></column>
         </loadUpdateData>
     </changeSet>
-    <changeSet id="test-qualifier" author="catalin">
-        <loadUpdateData
-                tableName="qualifier"
-                encoding="UTF-8"
-                primaryKey="qualifier_id"
-                file="db/qualifier.csv"
-                schemaName="public"
-                separator=",">
-            <column header="name" type="STRING" name="name"></column>
-        </loadUpdateData>
-    </changeSet>
-    <changeSet id="test-review_list" author="catalin">
-        <loadUpdateData
-                tableName="review_list"
-                encoding="UTF-8"
-                primaryKey="review_id"
-                file="db/review_list.csv"
-                schemaName="public"
-                separator=",">
-            <column header="user_id" type="NUMERIC" name="user_id"></column>
-            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>
-            <column header="qualifier_id" type="NUMERIC" name="qualifier_id"></column>
-        </loadUpdateData>
-    </changeSet>
+<!--    <changeSet id="test-qualifier" author="catalin">-->
+<!--        <loadUpdateData-->
+<!--                tableName="qualifier"-->
+<!--                encoding="UTF-8"-->
+<!--                primaryKey="qualifier_id"-->
+<!--                file="db/qualifier.csv"-->
+<!--                schemaName="public"-->
+<!--                separator=",">-->
+<!--            <column header="name" type="STRING" name="name"></column>-->
+<!--        </loadUpdateData>-->
+<!--    </changeSet>-->
+<!--    <changeSet id="test-review_list" author="catalin">-->
+<!--        <loadUpdateData-->
+<!--                tableName="review_list"-->
+<!--                encoding="UTF-8"-->
+<!--                primaryKey="review_id"-->
+<!--                file="db/review_list.csv"-->
+<!--                schemaName="public"-->
+<!--                separator=",">-->
+<!--            <column header="user_id" type="NUMERIC" name="user_id"></column>-->
+<!--            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>-->
+<!--            <column header="qualifier_id" type="NUMERIC" name="qualifier_id"></column>-->
+<!--        </loadUpdateData>-->
+<!--    </changeSet>-->
     <changeSet id="test-role" author="catalin">
         <loadUpdateData
                 tableName="role"

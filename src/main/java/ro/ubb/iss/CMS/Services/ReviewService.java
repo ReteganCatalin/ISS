@@ -13,9 +13,10 @@ public interface ReviewService {
 
   List<Review> findAll();
 
-  Review updateReview(int reviewID, Proposal proposalID, Qualifier qualifierID, User userID);
+  Review updateReview(int reviewID, Proposal proposalID, String qualifierID, User userID);
 
-  Review saveReview(Proposal proposalID, Qualifier qualifierID, User userID);
+  Review saveReview(Proposal proposalID, String qualifierID, User userID);
 
+  String getReviewStatus();
   void deleteReview(int reviewID);
 }

@@ -7,4 +7,5 @@
 
     <include file="db/changelog/changelog-test.xml"/>
     <include file="db/changelog/loadData.xml"/>
+    <include file="db/changelog/changelog-v2.0-done.xml"/>
 </databaseChangeLog>

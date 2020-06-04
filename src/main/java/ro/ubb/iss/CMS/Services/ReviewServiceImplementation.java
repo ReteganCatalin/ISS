@@ -13,6 +13,8 @@ import ro.ubb.iss.CMS.domain.*;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class ReviewServiceImplementation implements ReviewService {
@@ -37,14 +39,51 @@ public class ReviewServiceImplementation implements ReviewService {
   }
 
   @Override
+  public String getReviewStatus(Proposal proposal)
+  {
+    Set<String> qualifierSet =
+            proposal.getReviews().stream()
+                    .map(Review::getQualifier)
+                    .collect(Collectors.toSet());
+    boolean positive=false;
+    boolean negative=false;
+    boolean none=false;
+    if (qualifierSet.stream()
+            .anyMatch(elem1 -> elem1.equals("borderline paper")))
+      positive=true;
+    if (qualifierSet.stream()
+            .anyMatch(elem1 -> elem1.equals("weak accept")))
+      positive=true;
+    if (qualifierSet.stream()
+            .anyMatch(elem1 -> elem1.equals("accept")))
+      positive=true;
+    if (qualifierSet.stream()
+            .anyMatch(elem1 -> elem1.equals("strong accept")))
+      positive=true;
+    if (qualifierSet.stream()
+            .anyMatch(elem1 -> elem1.equals("strong reject")))
+      negative=true;
+    if (qualifierSet.stream()
+            .anyMatch(elem1 -> elem1.equals("reject")))
+      negative=true;
+    if (qualifierSet.stream()
+            .anyMatch(elem1 -> elem1.equals("weak reject")))
+      negative=true;
+
+    return positive && negative;
+
+    return positive && negative;
+  }
+
+  @Override
   @Transactional
   public Review updateReview(
-      int reviewID, Proposal proposalID, Qualifier qualifierID, User userID) {
+      int reviewID, Proposal proposalID, String qualifier, User userID) {
     log.trace(
         "updateReview - method entered: reviewID={}, proposalID={}, qualifierID={}, userID={}",
         reviewID,
         proposalID,
-        qualifierID,
+        qualifier,
         userID);
 
     Optional<Review> abstractOptional = reviewRepository.findById(reviewID);
@@ -52,7 +91,7 @@ public class ReviewServiceImplementation implements ReviewService {
     abstractOptional.ifPresent(
         newReview -> {
           newReview.setProposal(proposalID);
-          newReview.setQualifier(qualifierID);
+          newReview.setQualifier(qualifier);
           newReview.setUser(userID);
           log.debug("updateReview - updated: newReview={}", newReview);
         });
@@ -62,7 +101,7 @@ public class ReviewServiceImplementation implements ReviewService {
 
   @Override
   @Transactional
-  public Review saveReview(Proposal proposal, Qualifier qualifier, User user) {
+  public Review saveReview(Proposal proposal, String qualifier, User user) {
     log.trace(
         "saveReview - method entered: proposal={}, qualifier={}, user={}",
         proposal,

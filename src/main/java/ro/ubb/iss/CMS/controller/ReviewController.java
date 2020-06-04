@@ -23,6 +23,8 @@ import ro.ubb.iss.CMS.dto.ReviewsDto;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @RestController
 public class ReviewController {
@@ -62,7 +64,7 @@ public class ReviewController {
       result =
           service.saveReview(
               entityManager.getReference(Proposal.class, reviewDto.getProposalID()),
-              entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
+                  Qualifier.values()[reviewDto.getQualifierID()].getQualifier_value(),
               entityManager.getReference(User.class, reviewDto.getUserID()));
     } catch (TooManyReviewersException
         | AllAnalysesRefusedByUser
@@ -84,8 +86,11 @@ public class ReviewController {
             service.updateReview(
                 reviewDto.getReviewID(),
                 entityManager.getReference(Proposal.class, reviewDto.getProposalID()),
-                entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
+                Qualifier.values()[reviewDto.getQualifierID()].getQualifier_value(),
                 entityManager.getReference(User.class, reviewDto.getUserID())));
+
+
+
     log.trace("updateReview - method finished: result={}", result);
     return new ResponseEntity(result,HttpStatus.OK);
   }

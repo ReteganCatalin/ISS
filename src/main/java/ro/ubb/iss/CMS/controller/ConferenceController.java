@@ -35,6 +35,9 @@ public class ConferenceController {
   @Autowired private AbstractConverter abstractConverter;
   @Autowired private PaperConverter paperConverter;
 
+
+
+
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
   public ResponseEntity<ConferencesDto> getAllConferences() {
     log.trace("getAllConferences - method entered");
@@ -166,20 +169,21 @@ public class ConferenceController {
                           .map(ConferenceProposal::getProposal)
                           .filter(
                               elem -> {
-                                Set<Qualifier> qualifierSet =
+                                Set<String> qualifierSet =
                                     elem.getReviews().stream()
                                         .map(Review::getQualifier)
                                         .collect(Collectors.toSet());
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("strong reject")))
+                                        .anyMatch(elem1 -> elem1.equals("strong reject")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("reject")))
+                                        .anyMatch(elem1 -> elem1.equals("reject")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("weak reject")))
+                                        .anyMatch(elem1 -> elem1.equals("weak reject")))
                                   return false;
                                 return true;
+
                               })
                           .collect(Collectors.toList())))
               .build();
@@ -201,21 +205,21 @@ public class ConferenceController {
                           .map(ConferenceProposal::getProposal)
                           .filter(
                               elem -> {
-                                Set<Qualifier> qualifierSet =
+                                Set<String> qualifierSet =
                                     elem.getReviews().stream()
                                         .map(Review::getQualifier)
                                         .collect(Collectors.toSet());
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("borderline paper")))
+                                    .anyMatch(elem1 -> elem1.equals("borderline paper")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("weak accept")))
+                                    .anyMatch(elem1 -> elem1.equals("weak accept")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("accept")))
+                                    .anyMatch(elem1 -> elem1.equals("accept")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("strong reject")))
+                                    .anyMatch(elem1 -> elem1.equals("strong accept")))
                                   return false;
                                 return true;
                               })
@@ -239,16 +243,33 @@ public class ConferenceController {
                           .map(ConferenceProposal::getProposal)
                           .filter(
                               elem -> {
-                                Set<Qualifier> qualifierSet =
+                                Set<String> qualifierSet =
                                     elem.getReviews().stream()
                                         .map(Review::getQualifier)
                                         .collect(Collectors.toSet());
-                                boolean positive =
-                                    qualifierSet.stream()
-                                        .anyMatch(elem1 -> elem1.getQualifierID() >= 4);
-                                boolean negative =
-                                    qualifierSet.stream()
-                                        .anyMatch(elem1 -> elem1.getQualifierID() <= 3);
+                                boolean positive=false;
+                                boolean negative=false;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("borderline paper")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("weak accept")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("accept")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("strong accept")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("strong reject")))
+                                  negative=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("reject")))
+                                  negative=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("weak reject")))
+                                  negative=true;
 
                                 return positive && negative;
                               })
