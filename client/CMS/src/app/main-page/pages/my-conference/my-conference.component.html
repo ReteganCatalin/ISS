@@ -1,14 +1,18 @@
 <ul class="nav nav-tabs pr-2 pl-2" id="tabsMyConference" role="tablist">
-  <li class="nav-item" *ngIf="today <= bidding_deadline">
+<!--  <li class="nav-item" *ngIf="today <= bidding_deadline">-->
+  <li class="nav-item">
     <a class="nav-link" id="biddingTab" data-toggle="tab" role="tab" aria-controls="proposals" aria-selected="true" href="#bidding"> Bidding </a>
   </li>
-  <li class="nav-item" *ngIf="bidding_deadline < today && today <= review_deadline">
+  <li class="nav-item">
+<!--  <li class="nav-item" *ngIf="bidding_deadline < today && today <= review_deadline">-->
     <a class="nav-link" data-toggle="tab" id="reviewTab" role="tab" aria-controls="review" aria-selected="true" href="#review"> Review </a>
   </li>
-  <li class="nav-item" *ngIf="uid == conference?.chair">
+  <li class="nav-item">
+<!--  <li class="nav-item" *ngIf="uid == conference?.chair">-->
     <a class="nav-link" data-toggle="tab" id="assignTab" role="tab" aria-controls="assign" aria-selected="true" href="#assign"> Assign</a>
   </li>
-  <li class="nav-item" *ngIf="uid == conference?.chair">
+  <li class="nav-item">
+<!--  <li class="nav-item" *ngIf="uid == conference?.chair">-->
     <a class="nav-link" data-toggle="tab" id="sectionsTab" role="tab" aria-controls="sections" aria-selected="true" href="#sections"> Sections</a>
   </li>
 </ul>
