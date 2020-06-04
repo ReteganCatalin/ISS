@@ -35,12 +35,12 @@
     <changeSet id="drop qualifier table" author="catalin">
         <dropTable tableName="qualifier" schemaName="public"></dropTable>
     </changeSet>
-    <changeSet author="catalin" id="add column qualifier">
+    <changeSet author="catalin" id="add column qualifier two">
         <addColumn schemaName="public" tableName="review_list">
-            <column name="qualifier" type="STRING"/>
+            <column name="qualifier" type="VARCHAR(30)"/>
         </addColumn>
     </changeSet>
-    <changeSet id="test-review_list" author="catalin">
+    <changeSet id="test-review_list-else" author="catalin">
         <loadUpdateData
                 tableName="review_list"
                 encoding="UTF-8"

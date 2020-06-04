@@ -44,7 +44,8 @@ public class ConferenceDataServiceImplementation implements  ConferenceDataServi
                 "updateConferenceData - method entered: conferenceID={}, format={}, byteFileLocation={},about={}, callForPaper={}",
                 conferenceID,
                 format,
-                byteFileLocation);
+                about,
+                byteFileLocation,callForPaper);
 
         Optional<ConferenceData> conferenceDataOptional = conferenceDataRepository.findById(conferenceID);
 
@@ -61,15 +62,15 @@ public class ConferenceDataServiceImplementation implements  ConferenceDataServi
     }
 
     @Override
-    public ConferenceData saveConferenceData(String format, String byteFileLocation,String about, String callForPaper) {
+    public ConferenceData saveConferenceData(int conferenceID,String format, String byteFileLocation,String about, String callForPaper) {
         log.trace(
-                "saveConferenceData - method entered: format={}, byteFileLocation={}, about={}, callForPaper", format, byteFileLocation, about, callForPaper);
+                "saveConferenceData - method entered: conferenceID={}, format={}, byteFileLocation={}, about={}, callForPaper={}",conferenceID, format, byteFileLocation, about, callForPaper);
 
         String newFileLocation = SaveToStorageUtility.saveFileToStorage(MAIN_STORAGE, byteFileLocation);
         if (newFileLocation == null)
             throw new UnableToSaveFileToStorage("Was not able to save the file to storage");
         ConferenceData newConferenceData =
-                ConferenceData.builder().format(format).byteFileLocation(newFileLocation).about(about).callForPaper(callForPaper).build();
+                ConferenceData.builder().conferenceID(conferenceID).format(format).byteFileLocation(newFileLocation).about(about).callForPaper(callForPaper).build();
         conferenceDataRepository.save(newConferenceData);
         log.trace("saveConferenceData - method finished result={}", newConferenceData);
         return newConferenceData;

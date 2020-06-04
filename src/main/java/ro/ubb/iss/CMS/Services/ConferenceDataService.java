@@ -13,7 +13,7 @@ public interface ConferenceDataService {
 
     ConferenceData updateConferenceData(int conferenceID, String format, String byteFileLocation,String about,String callForPaper);
 
-    ConferenceData saveConferenceData(String format, String byteFileLocation,String about,String callForPaper);
+    ConferenceData saveConferenceData(int conferenceID,String format, String byteFileLocation,String about,String callForPaper);
 
     void deleteConferenceData(int conferenceDataID);
 }
