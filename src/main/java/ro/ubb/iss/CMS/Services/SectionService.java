@@ -14,9 +14,9 @@ public interface SectionService {
   List<Section> findAll();
 
   Section updateSection(
-      int sectionID, User supervisorID, Conference conferenceID, Date dateOfPresentation);
+      int sectionID, User supervisorID, Conference conferenceID,Integer price, Date dateOfPresentation);
 
-  Section saveSection(User supervisorID, Conference conferenceID, Date dateOfPresentation);
+  Section saveSection(User supervisorID, Conference conferenceID,Integer price, Date dateOfPresentation);
 
   void deleteSection(int sectionID);
 }

@@ -9,6 +9,6 @@ import lombok.*;
 @ToString
 @Builder
 public class QualifierDto {
-  private Integer qualifierID;
-  private String name;
+  private Integer ordinal;
+  private String value;
 }

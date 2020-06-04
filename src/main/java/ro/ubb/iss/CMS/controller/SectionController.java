@@ -113,6 +113,7 @@ public class SectionController {
         service.saveSection(
             entityManager.getReference(User.class, sectionDto.getSupervisorID()),
             entityManager.getReference(Conference.class, sectionDto.getConferenceID()),
+            sectionDto.getPrice(),
             sectionDto.getDateOfPresentation());
 
     SectionDto resultToReturn = converter.convertModelToDto(result);
@@ -129,7 +130,8 @@ public class SectionController {
                 sectionDto.getSectionID(),
                 entityManager.getReference(User.class, sectionDto.getSupervisorID()),
                 entityManager.getReference(Conference.class, sectionDto.getConferenceID()),
-                sectionDto.getDateOfPresentation()));
+                sectionDto.getPrice(),
+                    sectionDto.getDateOfPresentation()));
     log.trace("updateSection - method finished: result={}", result);
     return new ResponseEntity(result,HttpStatus.OK);
   }

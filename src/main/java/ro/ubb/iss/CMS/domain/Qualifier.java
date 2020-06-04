@@ -6,27 +6,29 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "qualifier")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
-@ToString
-@Builder
-public class Qualifier {
+public enum Qualifier {
+    NONE("none"),
+    STRONG_REJECT("strong reject"),
+    REJECT("reject"),
+    WEAK_REJECT("weak reject"),
+    BORDERLINE_PAPER("borderline paper"),
+    WEAK_ACCEPT("weak accept"),
+    ACCEPT("accept"),
+    STRONG_ACCEPT("strong accept");
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "qualifier_id")
-  private Integer qualifierID;
+    @Override
+    public String toString() {
+        return qualifier_value ;
+    }
 
-  @Column(name = "name", nullable = false)
-  private String name;
+    private final String qualifier_value;
 
-  @OneToMany(mappedBy = "qualifier", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-  @EqualsAndHashCode.Exclude
-  @ToString.Exclude
-  Set<Review> reviews = new HashSet<>();
+    Qualifier(String qualifier_value) {
+        this.qualifier_value=qualifier_value;
+    }
+
+    public String getQualifier_value() {
+        return qualifier_value;
+    }
 }
+
