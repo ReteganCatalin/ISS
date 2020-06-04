@@ -4,21 +4,23 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ro.ubb.iss.CMS.domain.Abstract;
+import ro.ubb.iss.CMS.domain.MetaInformation;
 import ro.ubb.iss.CMS.dto.AbstractDto;
+import ro.ubb.iss.CMS.dto.MetaInfoDto;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AbstractConverterTest {
+class MetaInfoConverterTest {
 
-  Abstract entity;
-  AbstractDto dto;
-  AbstractConverter converter;
+  MetaInformation entity;
+  MetaInfoDto dto;
+  MetaInfoConverter converter;
   @BeforeEach
   void setUp() {
 
-    entity = Abstract.builder().abstractID(1).byteFileLocation("/dummy.txt").format(".txt").build();
-    dto = AbstractDto.builder().abstractID(1).byteFileLocation("/dummy.txt").format(".txt").build();
-    converter = new AbstractConverter();
+    entity = MetaInformation.builder().metaInfoId(1).topics("topic").name("names").keywords("keywords").build();
+    dto = MetaInfoDto.builder().metaInfoId(1).topics("topic").name("names").keywords("keywords").build();
+    converter = new MetaInfoConverter();
   }
 
   @AfterEach
@@ -37,5 +39,4 @@ class AbstractConverterTest {
     assertEquals(dto, converter.convertModelToDto(entity));
 
 
-  }
-}
+  }}
