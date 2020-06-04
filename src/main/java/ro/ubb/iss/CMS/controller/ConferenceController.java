@@ -353,7 +353,8 @@ public class ConferenceController {
             conferenceDto.getStartDate(),
             conferenceDto.getEndDate(),
             conferenceDto.getProposalDeadline(),
-            conferenceDto.getPaperDeadline());
+            conferenceDto.getPaperDeadline(),
+                conferenceDto.getReviewDeadline());
 
     ConferenceDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveConference - method finished: result={}", resultToReturn);
@@ -371,7 +372,8 @@ public class ConferenceController {
                 conferenceDto.getStartDate(),
                 conferenceDto.getEndDate(),
                 conferenceDto.getProposalDeadline(),
-                conferenceDto.getPaperDeadline()));
+                conferenceDto.getPaperDeadline(),
+                    conferenceDto.getReviewDeadline()));
     log.trace("updateConference - method finished: result={}", result);
     return new ResponseEntity<>(result, HttpStatus.OK);
   }

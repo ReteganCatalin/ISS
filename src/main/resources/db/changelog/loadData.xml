@@ -160,7 +160,7 @@
 <!--            <column header="name" type="STRING" name="name"></column>-->
 <!--        </loadUpdateData>-->
 <!--    </changeSet>-->
-    <changeSet id="test-review_list" author="catalin">
+    <changeSet id="test-review_list1" author="catalin">
         <loadUpdateData
                 tableName="review_list"
                 encoding="UTF-8"
@@ -340,6 +340,19 @@
             <column header="format" type="STRING" name="format"></column>
             <column header="location" type="STRING" name="byte_file_location"></column>
             <column header="call_for_paper" type="STRING" name="call_for_paper"></column>
+        </loadUpdateData>
+    </changeSet>
+    <changeSet id="test-chair" author="catalin">
+        <loadUpdateData
+                tableName="chair"
+                primaryKey="conference_id"
+                encoding="UTF-8"
+                file="db/chair.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="conference_id" type="NUMERIC" name="conference_id"></column>
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
         </loadUpdateData>
     </changeSet>
 </databaseChangeLog>
