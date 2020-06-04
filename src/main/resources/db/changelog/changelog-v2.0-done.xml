@@ -37,7 +37,7 @@
     </changeSet>
     <changeSet author="catalin" id="add column qualifier">
         <addColumn schemaName="public" tableName="review_list">
-            <column name="qualifier" type="STRING"/>
+            <column name="qualifier" type="varchar(30)"/>
         </addColumn>
     </changeSet>
     <changeSet id="test-review_list" author="catalin">
