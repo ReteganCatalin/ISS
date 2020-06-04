@@ -41,7 +41,7 @@ public class SectionServiceImplementation implements SectionService {
   @Override
   @Transactional
   public Section updateSection(
-      int sectionID, User supervisorID, Conference conferenceID, Date dateOfPresentation) {
+      int sectionID, User supervisorID, Conference conferenceID,Integer price, Date dateOfPresentation) {
     log.trace(
         "updateSection - method entered: sectionID={}, supervisorID={}, conferenceID={}, dateOfPresentation={}",
         sectionID,
@@ -56,6 +56,7 @@ public class SectionServiceImplementation implements SectionService {
           newSection.setSupervisor(supervisorID);
           newSection.setConference(conferenceID);
           newSection.setDateOfPresentation(dateOfPresentation);
+          newSection.setPrice(price);
           log.debug("updateSection - updated: newSection={}", newSection);
         });
     log.trace("updateSection - method finished result={}", abstractOptional);
@@ -63,7 +64,7 @@ public class SectionServiceImplementation implements SectionService {
   }
 
   @Override
-  public Section saveSection(User supervisorID, Conference conferenceID, Date dateOfPresentation) {
+  public Section saveSection(User supervisorID, Conference conferenceID,Integer price, Date dateOfPresentation) {
     log.trace(
         "saveSection - method entered: supervisorID={}, conferenceID={}, dateOfPresentation={}",
         supervisorID,
