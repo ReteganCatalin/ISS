@@ -2,17 +2,18 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
+  ComponentFactoryResolver, Injectable,
   Input,
   OnInit,
   ViewChild, ViewChildren,
   ViewContainerRef
 } from '@angular/core';
+import * as fileSaver from 'file-saver';// npm i --save file-saver
 import {BehaviorSubject} from "rxjs";
 import {ProposalDetailed} from "../../../../shared/models/ProposalDetailed";
 import {Proposal, Proposals} from "../../../../shared/models/Proposal";
-import {HttpClient} from "@angular/common/http";
-import {ActivatedRoute} from "@angular/router";
+import {HttpClient,HttpHeaders, HttpResponse} from "@angular/common/http";
+import {ActivatedRoute, Resolve} from "@angular/router";
 import {ConferenceComponent} from "../conference.component";
 import {User} from "../../../../shared/models/User";
 import {newArray} from "@angular/compiler/src/util";
@@ -21,6 +22,8 @@ import {ConferenceProposal} from "../../../../shared/models/ConferenceProposal";
 import {ConferenceProposalDtos} from "../../../../shared/models/ConferenceProposalDtos";
 import {EditProposalComponent} from "../../../custom-components/edit-proposal/edit-proposal.component";
 import {UserService} from "../../../../shared/services/user.service";
+import {PaperProposal} from "../../../../shared/models/PaperProposal";
+import {DownloadService} from "../../../../shared/services/download.service";
 
 
 @Component({
@@ -41,8 +44,10 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   uid: number;
 
   public isCollapsed: Array<boolean>;
-  constructor(private http: HttpClient, private parent: ConferenceComponent, private resolver: ComponentFactoryResolver,
-              private changeDetectorRef: ChangeDetectorRef, private userService: UserService) {
+  constructor(private http: HttpClient, private parent: ConferenceComponent,
+              private resolver: ComponentFactoryResolver,
+              private changeDetectorRef: ChangeDetectorRef,
+              private downloadService:DownloadService, private userService: UserService) {
     this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
     this.conferenceID = +this.parent.conferenceID;
@@ -82,6 +87,7 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   }
 
   openModal(){
+    this.entry.clear();
     const formFormFactory = this.resolver.resolveComponentFactory(AddProposalComponent);
     this.formAddProposal = this.entry.createComponent(formFormFactory);
     this.changeDetectorRef.detectChanges();
@@ -102,6 +108,7 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   }
 
   openModalEdit(index: number) {
+    this.entry2.clear();
     const formFormFactory = this.resolver.resolveComponentFactory(EditProposalComponent);
     this.formEditProposal = this.entry2.createComponent(formFormFactory);
     this.editProposal(index);
@@ -119,5 +126,13 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   deleteProposal(proposalIndex: number) {
     console.log(proposalIndex);
     this.http.delete('http://localhost:8081/proposals/' + this.conferenceProposalDetailedObserver.getValue()[proposalIndex].proposal_id).subscribe(() => {this.loadData();});
+  }
+
+  downloadPaper(proposal :ProposalDetailed) {
+    this.downloadService.downloadPaper(proposal.proposal_id)
+  }
+
+  downloadAbstract(proposal :ProposalDetailed) {
+    this.downloadService.downloadAbstract(proposal.proposal_id)
   }
 }

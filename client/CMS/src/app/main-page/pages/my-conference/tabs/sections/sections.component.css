@@ -2,11 +2,11 @@ a:hover {
   cursor: pointer;
 }
 
-#dropdownAddRecommendation {
+#dropdownAcceptedProposals {
   background-color: transparent;
   border: none;
 }
 
-#dropdownAddRecommendation.dropdown-toggle::after {
+#dropdownAcceptedProposals.dropdown-toggle::after {
   content: none;
 }

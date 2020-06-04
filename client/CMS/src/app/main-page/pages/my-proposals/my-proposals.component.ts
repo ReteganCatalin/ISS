@@ -7,6 +7,7 @@ import {BehaviorSubject} from "rxjs";
 import {Proposal} from "../../../shared/models/Proposal";
 import {Conference} from "../../../shared/models/Conference";
 import {ConferenceProposalDtos} from "../../../shared/models/ConferenceProposalDtos";
+import {DownloadService} from "../../../shared/services/download.service";
 
 @Component({
   selector: 'app-my-proposals',
@@ -20,7 +21,8 @@ export class MyProposalsComponent implements OnInit {
 
   public isCollapsed: Array<boolean>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private downloadService: DownloadService) {
     this.isCollapsed = [];
     this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
@@ -44,6 +46,14 @@ export class MyProposalsComponent implements OnInit {
       });
       this.conferenceProposalDetailedObserver.next(auxiliaryList);
     });
+  }
+
+  downloadPaper(proposal :ProposalDetailed) {
+    this.downloadService.downloadPaper(proposal.proposal_id)
+  }
+
+  downloadAbstract(proposal :ProposalDetailed) {
+    this.downloadService.downloadAbstract(proposal.proposal_id)
   }
 
 }

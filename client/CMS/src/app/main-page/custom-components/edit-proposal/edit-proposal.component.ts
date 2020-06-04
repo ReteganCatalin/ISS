@@ -13,6 +13,10 @@ import {ConferenceProposal} from "../../../shared/models/ConferenceProposal";
   styleUrls: ['./edit-proposal.component.css']
 })
 export class EditProposalComponent implements OnInit {
+  selectedAbstractFiles: FileList;
+  selectedPaperFiles: FileList;
+  abstractFileUpload: File;
+  paperFileUpload: File;
 
   keywords : Array<string>;
   keyword : string;
@@ -80,8 +84,12 @@ export class EditProposalComponent implements OnInit {
     this.proposal.meta_info.topics = this.topics.join(',');
     this.proposal.meta_info.name = this.name;
 
+    const abstractForm: FormData = new FormData();
+    const paperForm: FormData = new FormData();
+
+
     this.http.put<MetaInfo>('http://localhost:8081/meta_informations', this.proposal.meta_info).subscribe(() => {
-      if(this.abstractLocation != "") {
+      /*if(this.abstractLocation != "") {
 
         let paper = new PaperProposal();
         paper.byteFileLocation = this.proposal.paper_location;
@@ -112,7 +120,24 @@ export class EditProposalComponent implements OnInit {
             this.http.put<AbstractProposal>('http://localhost:8081/abstracts', abstractProposal).subscribe(() => {
             });
         }
+      }*/
+      if (this.paperLocation != "") {
+        this.paperFileUpload = this.selectedPaperFiles.item(0);
+        let paperId = this.proposal["proposal_proper_info"]["paperID"];
+
+        paperForm.append("file",this.paperFileUpload);
+        this.http.put<PaperProposal>(`http://localhost:8081/papers/${paperId}`, paperForm).subscribe(data =>{ });
       }
+
+      if (this.abstractLocation != "") {
+
+        this.abstractFileUpload = this.selectedAbstractFiles.item(0);
+        let abstractID = this.proposal["proposal_proper_info"]["paperID"];
+
+        abstractForm.append("file",this.abstractFileUpload);
+        this.http.put<PaperProposal>(`http://localhost:8081/abstracts/${abstractID}`, abstractForm).subscribe(data =>{ });
+      }
+
     });
   }
 
@@ -128,6 +153,14 @@ export class EditProposalComponent implements OnInit {
 
     this.abstractLocation = "";
     this.paperLocation = "";
+  }
+
+  selectAbstractFile(event) {
+    this.selectedAbstractFiles = event.target.files;
+  }
+
+  selectPaperFile(event) {
+    this.selectedPaperFiles = event.target.files;
   }
 
 }

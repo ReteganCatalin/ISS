@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -51,7 +52,17 @@ public class PaperController {
     log.trace("getPaper - method finished: result={}", result);
     return new ResponseEntity<>(result,HttpStatus.OK);
   }
+  @RequestMapping(value = "/papers/{id}/file", method = RequestMethod.GET)
+  public ResponseEntity<Resource> getPaperFile(@PathVariable Integer id) {
+    log.trace("getPaperFile - method entered id={}", id);
+    Optional<Paper> paper = service.findPaper(id);
+    PaperDto paperResult = null;
+    if (paper.isPresent()) paperResult = converter.convertModelToDto(paper.get());
+    Resource file = fileService.downloadFile(paperResult.getByteFileLocation());
 
+    log.trace("getPaperFile - method finished: result={}", file);
+    return new ResponseEntity<>(file,HttpStatus.OK);
+  }
   @RequestMapping(value = "/papers", method = RequestMethod.POST)
   public ResponseEntity<PaperDto> savePaper(@RequestParam("file") MultipartFile file) {
     PaperDto paperDto=new PaperDto(0,"","");
@@ -80,15 +91,41 @@ public class PaperController {
     return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/papers", method = RequestMethod.PUT)
-  public ResponseEntity<PaperDto> updatePaper(@RequestBody PaperDto paperDto) {
-    log.trace("updatePaper - method entered: paperDto={}", paperDto);
+  @RequestMapping(value = "/papers/{paperID}", method = RequestMethod.PUT)
+  public ResponseEntity<PaperDto> updatePaper(@RequestParam("file") MultipartFile file, @PathVariable Integer paperID) {
+    /*log.trace("updatePaper - method entered: paperDto={}", paperDto);
     PaperDto result =
         converter.convertModelToDto(
             service.updatePaper(
                 paperDto.getPaperId(), paperDto.getFormat(), paperDto.getByteFileLocation()));
     log.trace("updatePaper - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result,HttpStatus.OK);*/
+
+    PaperDto paperDto = new PaperDto(paperID, "", "");
+    log.trace("updatePaper - method entered paperDto={}", paperDto);
+
+    Paper result;
+    String path = "";
+    try {
+      path=fileService.store(file);
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    try {
+      paperDto.setByteFileLocation(path);
+      paperDto.setFormat("csp");
+      result = service.updatePaper(paperDto.getPaperId(), paperDto.getFormat(), path);
+
+    } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
+      log.trace("updatePaper - exception occurred: ex={}", ex.getMessage());
+      ex.printStackTrace();
+      return null;
+    }
+
+    PaperDto resultToReturn = converter.convertModelToDto(result);
+    log.trace("updatePaper - method finished: result={}", resultToReturn);
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/papers/{id}", method = RequestMethod.DELETE)

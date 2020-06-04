@@ -19,8 +19,6 @@ export class AddProposalComponent implements OnInit {
   selectedPaperFiles: FileList;
   abstractFileUpload: File;
   paperFileUpload: File;
-  abstractProgress: { percentage: number } = { percentage: 0 };
-  paperProgress: { percentage: number } = { percentage: 0 };
 
   keywords : Array<string>;
   keyword : string;
@@ -38,7 +36,7 @@ export class AddProposalComponent implements OnInit {
   paperLocation: string;
   paperFormat: string;
 
-  constructor(private http: HttpClient,private uploadService: UploadFileService) {
+  constructor(private http: HttpClient) {
     this.keywords = [];
     this.topics = [];
     this.authors = [];
@@ -103,9 +101,7 @@ export class AddProposalComponent implements OnInit {
     this.http.post<MetaInfo>('http://localhost:8081/meta_informations', metaInfo).subscribe(data =>{
       metaInfoID = data.metaInfoId;
       let paperID = null;
-      let paper = new PaperProposal();
-      paper.byteFileLocation = "";
-      paper.format = this.paperFormat;
+
       paperForm.append("file",this.paperFileUpload);
       //const req = new HttpRequest('POST', 'http://localhost:8081/papers', paperForm);
 
@@ -147,49 +143,13 @@ export class AddProposalComponent implements OnInit {
         });
       });
     });
-
-
-
-
-
-
-
-
   }
 
-  selectAbstractFile(event) {
-    this.selectedAbstractFiles = event.target.files;
-  }
+    selectAbstractFile(event) {
+      this.selectedAbstractFiles = event.target.files;
+    }
 
-  selectPaperFile(event) {
-    this.selectedPaperFiles = event.target.files;
-  }
-
-  uploadAbstract() {
-    this.abstractProgress.percentage = 0;
-
-    this.uploadService.pushFileToStorage(this.abstractFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.abstractProgress.percentage = Math.round(100 * event.loaded / event.total);
-      } else if (event instanceof HttpResponse) {
-        console.log('File is completely uploaded!');
-      }
-    });
-
-    this.selectedAbstractFiles = undefined;
-  }
-
-  uploadPaper() {
-    this.paperProgress.percentage = 0;
-
-    this.uploadService.pushFileToStorage(this.paperFileUpload).subscribe(event => {
-      if (event.type === HttpEventType.UploadProgress) {
-        this.paperProgress.percentage = Math.round(100 * event.loaded / event.total);
-      } else if (event instanceof HttpResponse) {
-        console.log('File is completely uploaded!');
-      }
-    });
-
-    this.selectedAbstractFiles = undefined;
-  }
+    selectPaperFile(event) {
+      this.selectedPaperFiles = event.target.files;
+    }
 }

@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
+import {DownloadService} from "../../../../../shared/services/download.service";
 
 @Component({
   selector: 'assign-reviewer',
@@ -11,7 +12,8 @@ export class AssignReviewerComponent implements OnInit {
   conferenceProposals: Array<any>;
   pcMembers: Map<any, any>;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient,
+              private downloadService: DownloadService) {
     this.conferenceProposals = [];
     this.pcMembers = new Map<any, any>();
   }
@@ -53,5 +55,13 @@ export class AssignReviewerComponent implements OnInit {
     this.http.delete(`http://localhost:8081/reviews/${reviewID}`).subscribe(
       result => {this.loadData();},
       error => console.log(error));//todo delete this
+  }
+
+  downloadPaper(proposalID) {
+    this.downloadService.downloadPaper(proposalID)
+  }
+
+  downloadAbstract(proposalID) {
+    this.downloadService.downloadAbstract(proposalID)
   }
 }

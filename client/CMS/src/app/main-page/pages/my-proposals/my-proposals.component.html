@@ -2,7 +2,8 @@
   <div *ngFor='let proposalDetailed of conferenceProposalDetailedObserver | async; let i = index' class="flex-column">
     <div class="card mb-5">
       <div class="card-body pb-0">
-        <div class="card-header pb-1" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
+
+        <div class="card-header pb-1">
           <h2 class="card-title mb-1">{{proposalDetailed.meta_info.name}}</h2>
           <h4 class="card-subtitle mb-1">Conference: {{proposalDetailed.conferenceName}}</h4>
           <p class="card-text mb-1" >Authors: <i>{{proposalDetailed.author_list.join(', ')}}</i></p>
@@ -26,10 +27,10 @@
                 {{qualifier}}
               </i>
             </div>
-            <button class="btn btn-primary mr-4" type="button">
+            <button class="btn btn-primary mr-4" type="button" (click)="downloadPaper(proposalDetailed)">
               Open Paper
             </button>
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary" type="button" (click)="downloadAbstract(proposalDetailed)">
               Open Abstract Paper
             </button>
           </div>

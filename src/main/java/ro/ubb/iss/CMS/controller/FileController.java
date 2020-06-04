@@ -19,9 +19,9 @@ import java.util.stream.Collectors;
 
 @Controller
 public class FileController {
-
-
 /*
+
+
   @GetMapping("/files/{filename:.+}")
   @ResponseBody
   public ResponseEntity<Resource> getFile(@PathVariable String filename) {

@@ -78,7 +78,7 @@
 
     <div class="input-group mb-3">
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="abstractProposalLocation" [(ngModel)]="abstractLocation" (ngModelChange)="changeAbstractFormat()">
+        <input type="file" class="custom-file-input" id="abstractProposalLocation" [(ngModel)]="abstractLocation" (ngModelChange)="changeAbstractFormat()" (change)="selectAbstractFile($event)">
         <label class="custom-file-label" for="abstractProposalLocation">{{abstractLocation}}</label>
       </div>
     </div>
@@ -92,7 +92,7 @@
   <div class="tab-pane fade" id="paper" role="tabpanel" aria-labelledby="paper-tab">
     <div class="input-group mb-3">
       <div class="custom-file">
-        <input type="file" class="custom-file-input" id="paperProposalLocation" [(ngModel)]="paperLocation" (ngModelChange)="changePaperFormat()">
+        <input type="file" class="custom-file-input" id="paperProposalLocation" [(ngModel)]="paperLocation" (ngModelChange)="changePaperFormat()" (change)="selectPaperFile($event)">
         <label class="custom-file-label" for="paperProposalLocation">{{paperLocation}}</label>
       </div>
     </div>

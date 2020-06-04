@@ -1,0 +1,12 @@
+So the the structure of the cod is similar to the one from the first laboratory. 
+
+I saved in a config file the conn string parent table name and child table name. 
+
+I use the conn string to create an SqlConnection then i use that connection along with the table names from the config file 
+to get data from the database into some sql data adapter. Then the content of them are put in the local storage, the data set. 
+
+After that a relation is created and added to the data set using the primary key of the parent table and the foreign key from the
+child table, this are also saved in the config file.
+
+Finally we populate the gui elements using the data from the local storage. When the update button is clicked 
+the local changes are propagated to the database.
