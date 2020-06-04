@@ -1,0 +1,7 @@
+Use Case Name: Shutdown Server
+
+Entry Condition: 1. Admin uses the "stop" command.
+
+Flow Of Events: 2. Nothing happens.
+
+Exit Condition: 3. Server is stopped.

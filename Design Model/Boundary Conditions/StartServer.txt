@@ -1,0 +1,7 @@
+Use Case Name: Start Server
+
+Entry Condition: 1. Server is run.
+
+Flow Of Events: 2. Upon server started, the server extracts data from the database.
+
+Exit Condition: 3. Server is waiting for client connections.
