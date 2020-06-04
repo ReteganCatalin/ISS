@@ -43,6 +43,7 @@ public class ReviewController {
   @Autowired private ReviewConverter converter;
   @Autowired private RecommendationConverter recommendationConverter;
   @Autowired private UserConverter userConverter;
+  @Autowired private ProposalService proposalService;
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
 
