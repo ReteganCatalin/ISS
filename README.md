@@ -1,5 +1,7 @@
 # Conference Managment System
 
+###### Team BWay 2.0
+
 #### READ ME BEFORE USING THE APP !!!
 
 1.Create dev role for dev in pgAdmin  
