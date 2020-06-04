@@ -1,0 +1,7 @@
+Use Case Name: Configure Server
+
+Entry Condition: 1. On any created data in the application at runtime.
+
+Flow Of Events: 2. Data is stored in the database on data created or data is deleted from the database when data is deleted in the app.
+
+Exit Condition: 3. On finished creating or destroying data.

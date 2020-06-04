@@ -1,0 +1,7 @@
+Use Case Name: No Internet Connection or server is down
+
+Entry Condition: 1. User does not have internet or server is down.
+
+Flow Of Events: 2. User is informed that the server is unreachable.
+
+Exit Condition: 3. User closes the Client.
