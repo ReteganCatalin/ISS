@@ -65,7 +65,7 @@ public class ProposalController {
       result.put(
           "qualifier",
           proposal.get().getReviews().stream()
-              .map(elem -> elem.getQualifier().getName())
+              .map(Review::getQualifier)
               .collect(Collectors.toList()));
     }
     log.trace("getDetailedProposal - method finished: result={}", result);

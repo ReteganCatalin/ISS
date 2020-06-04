@@ -1,6 +1,6 @@
 <div class="my-conferences pt-4">
   <div class="d-flex p-3">
-    <h3 class="m-0">Proposals <i class="fas fa-plus-circle p-0 plus ml-4 add-proposal-btn" data-toggle="modal" data-target="#create-proposal" (click)="openModal()"></i></h3>
+    <h3 class="m-0">Proposals <i class="fas fa-plus-circle p-0 plus ml-4 add-proposal-btn" data-toggle="modal" data-target="#create-proposal" (click)="openModal()" *ngIf="today < proposalDeadline"></i></h3>
   </div>
 </div>
 

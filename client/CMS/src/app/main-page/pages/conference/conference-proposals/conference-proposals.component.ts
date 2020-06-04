@@ -42,6 +42,8 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
 
   @Input() conferenceID: number;
   private readonly uid: number;
+  today;
+  proposalDeadline;
 
   public isCollapsed: Array<boolean>;
   constructor(private http: HttpClient,
@@ -54,12 +56,18 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
     this.conferenceID = +this.parent.conferenceID;
     this.isCollapsed = [];
+    this.today = new Date();
     this.uid = this.userService.getUserID();
     console.log(this.uid);
   }
 
   ngOnInit(): void {
     this.loadData();
+    this.http.get<any>(`http://localhost:8081/conferences/${this.conferenceID}`).subscribe(conference =>{
+      console.log(conference);
+      this.proposalDeadline = new Date(conference.proposalDeadline);
+      console.log(this.today < this.proposalDeadline);
+    })
   }
 
   loadData(){

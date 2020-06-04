@@ -39,6 +39,9 @@ public class ConferenceController {
   @Autowired private PaperConverter paperConverter;
   @Autowired private ReviewConverter reviewConverter;
 
+
+
+
   @RequestMapping(value = "/conferences", method = RequestMethod.GET)
   public ResponseEntity<ConferencesDto> getAllConferences() {
     log.trace("getAllConferences - method entered");
@@ -46,6 +49,17 @@ public class ConferenceController {
     log.trace("getAllConferences - method finished: result={}", result);
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
+
+
+    @RequestMapping(value = "/conferences/{id}/bidding", method = RequestMethod.GET)
+    public ResponseEntity<BiddingProcessDto> getConferenceBidding(@PathVariable Integer id) {
+        log.trace("getConferenceBidding - method entered id={}", id);
+        Optional<Conference> conference = service.findConference(id);
+        BiddingProcessDto result = null;
+        if (conference.isPresent()) result = biddingProcessConverter.convertModelToDto(conference.get().getBiddingProcess());
+        log.trace("getConferenceBidding - method finished: result={}", result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
   @RequestMapping(value = "/conferences/{id}", method = RequestMethod.GET)
   public ResponseEntity<ConferenceDto> getConference(@PathVariable Integer id) {
@@ -194,20 +208,21 @@ public class ConferenceController {
                           .map(ConferenceProposal::getProposal)
                           .filter(
                               elem -> {
-                                Set<Qualifier> qualifierSet =
+                                Set<String> qualifierSet =
                                     elem.getReviews().stream()
                                         .map(Review::getQualifier)
                                         .collect(Collectors.toSet());
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("strong reject")))
+                                        .anyMatch(elem1 -> elem1.equals("strong reject")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("reject")))
+                                        .anyMatch(elem1 -> elem1.equals("reject")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("weak reject")))
+                                        .anyMatch(elem1 -> elem1.equals("weak reject")))
                                   return false;
                                 return true;
+
                               })
                           .collect(Collectors.toList())))
               .build();
@@ -229,21 +244,21 @@ public class ConferenceController {
                           .map(ConferenceProposal::getProposal)
                           .filter(
                               elem -> {
-                                Set<Qualifier> qualifierSet =
+                                Set<String> qualifierSet =
                                     elem.getReviews().stream()
                                         .map(Review::getQualifier)
                                         .collect(Collectors.toSet());
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("borderline paper")))
+                                    .anyMatch(elem1 -> elem1.equals("borderline paper")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("weak accept")))
+                                    .anyMatch(elem1 -> elem1.equals("weak accept")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("accept")))
+                                    .anyMatch(elem1 -> elem1.equals("accept")))
                                   return false;
                                 if (qualifierSet.stream()
-                                    .anyMatch(elem1 -> elem1.getName().equals("strong reject")))
+                                    .anyMatch(elem1 -> elem1.equals("strong accept")))
                                   return false;
                                 return true;
                               })
@@ -267,16 +282,33 @@ public class ConferenceController {
                           .map(ConferenceProposal::getProposal)
                           .filter(
                               elem -> {
-                                Set<Qualifier> qualifierSet =
+                                Set<String> qualifierSet =
                                     elem.getReviews().stream()
                                         .map(Review::getQualifier)
                                         .collect(Collectors.toSet());
-                                boolean positive =
-                                    qualifierSet.stream()
-                                        .anyMatch(elem1 -> elem1.getQualifierID() >= 4);
-                                boolean negative =
-                                    qualifierSet.stream()
-                                        .anyMatch(elem1 -> elem1.getQualifierID() <= 3);
+                                boolean positive=false;
+                                boolean negative=false;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("borderline paper")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("weak accept")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("accept")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("strong accept")))
+                                  positive=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("strong reject")))
+                                  negative=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("reject")))
+                                  negative=true;
+                                if (qualifierSet.stream()
+                                        .anyMatch(elem1 -> elem1.equals("weak reject")))
+                                  negative=true;
 
                                 return positive && negative;
                               })
@@ -332,7 +364,9 @@ public class ConferenceController {
             conferenceDto.getStartDate(),
             conferenceDto.getEndDate(),
             conferenceDto.getProposalDeadline(),
-            conferenceDto.getPaperDeadline());
+            conferenceDto.getPaperDeadline(),
+                conferenceDto.getReviewDeadline(),
+                conferenceDto.getChair());
 
     ConferenceDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveConference - method finished: result={}", resultToReturn);
@@ -350,7 +384,8 @@ public class ConferenceController {
                 conferenceDto.getStartDate(),
                 conferenceDto.getEndDate(),
                 conferenceDto.getProposalDeadline(),
-                conferenceDto.getPaperDeadline()));
+                conferenceDto.getPaperDeadline(),
+                    conferenceDto.getReviewDeadline()));
     log.trace("updateConference - method finished: result={}", result);
     return new ResponseEntity<>(result, HttpStatus.OK);
   }

@@ -11,6 +11,7 @@ import ro.ubb.iss.CMS.MyExceptions.AllAnalysesRefusedByUser;
 import ro.ubb.iss.CMS.MyExceptions.AlreadyInTheReviewersException;
 import ro.ubb.iss.CMS.MyExceptions.TooManyReviewersException;
 import ro.ubb.iss.CMS.Services.AbstractService;
+import ro.ubb.iss.CMS.Services.ProposalService;
 import ro.ubb.iss.CMS.Services.ReviewService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
 import ro.ubb.iss.CMS.converter.RecommendationConverter;
@@ -18,10 +19,18 @@ import ro.ubb.iss.CMS.converter.ReviewConverter;
 import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.*;
 import ro.ubb.iss.CMS.dto.*;
+import ro.ubb.iss.CMS.dto.AbstractDto;
+import ro.ubb.iss.CMS.dto.AbstractsDto;
+import ro.ubb.iss.CMS.dto.ReviewDto;
+import ro.ubb.iss.CMS.dto.ReviewsDto;
+import ro.ubb.iss.CMS.utils.EmailSender;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
@@ -34,6 +43,7 @@ public class ReviewController {
   @Autowired private ReviewConverter converter;
   @Autowired private RecommendationConverter recommendationConverter;
   @Autowired private UserConverter userConverter;
+  @Autowired private ProposalService proposalService;
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
 
@@ -63,7 +73,7 @@ public class ReviewController {
       result =
           service.saveReview(
               entityManager.getReference(Proposal.class, reviewDto.getProposalID()),
-              entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
+                  Qualifier.values()[reviewDto.getQualifierID()].getQualifier_value(),
               entityManager.getReference(User.class, reviewDto.getUserID()));
 
     } catch (TooManyReviewersException
@@ -87,8 +97,18 @@ public class ReviewController {
             service.updateReview(
                 reviewDto.getReviewID(),
                 entityManager.getReference(Proposal.class, reviewDto.getProposalID()),
-                entityManager.getReference(Qualifier.class, reviewDto.getQualifierID()),
+                Qualifier.values()[reviewDto.getQualifierID()].getQualifier_value(),
                 entityManager.getReference(User.class, reviewDto.getUserID())));
+
+    String emailStatus=proposalService.getProposalStatus(reviewDto.getProposalID());
+    if(!emailStatus.equals("Not all reviews"))
+    {
+      Optional<Review> review = service.findReview(reviewDto.getReviewID());
+      if(review.isPresent()){
+        UserInfo userInfo = review.get().getUser().getUserInfo();
+        EmailSender.send(EmailSender.ORIGIN_EMAIL, userInfo.getEmailAddress(), EmailSender.PURCHASE_SUBJECT,emailStatus);
+      }
+    }
     log.trace("updateReview - method finished: result={}", result);
     return new ResponseEntity(result,HttpStatus.OK);
   }

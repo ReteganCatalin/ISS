@@ -9,10 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.PcMemberService;
+import ro.ubb.iss.CMS.converter.ConferenceConverter;
 import ro.ubb.iss.CMS.converter.PcMemberConverter;
 import ro.ubb.iss.CMS.converter.UserConverter;
+import ro.ubb.iss.CMS.domain.Conference;
 import ro.ubb.iss.CMS.domain.PcMember;
 import ro.ubb.iss.CMS.domain.PcMemberKey;
+import ro.ubb.iss.CMS.dto.ConferenceDto;
 import ro.ubb.iss.CMS.dto.PcMemberDto;
 import ro.ubb.iss.CMS.dto.PcMembersDto;
 import ro.ubb.iss.CMS.dto.UserDto;
@@ -30,6 +33,7 @@ public class PcMemberController {
 
   @Autowired private PcMemberConverter converter;
   @Autowired private UserConverter userConverter;
+  @Autowired private ConferenceConverter conferenceConverter;
 
   @RequestMapping(value = "/pc_members", method = RequestMethod.GET)
   public ResponseEntity<PcMembersDto> getAllPcMembers() {
@@ -47,6 +51,13 @@ public class PcMemberController {
               .collect(Collectors.toList());
   }
 
+  @RequestMapping(value = "/pc_members/conferences/{userID}")
+  public List<ConferenceDto> getConferencesOfUser(@PathVariable Integer userID) {
+    return this.service.findAll().stream()
+            .filter(pcMember -> pcMember.getUser().getUserID().equals(userID))
+            .map(pcMember -> conferenceConverter.convertModelToDto(pcMember.getConference()))
+            .collect(Collectors.toList());
+  }
   @RequestMapping(value = "/pc_members/{userId}/{conferenceId}", method = RequestMethod.GET)
   public ResponseEntity<PcMemberDto> getPcMember(@PathVariable Integer userId, @PathVariable Integer conferenceId) {
     log.trace("getPcMember - method entered userId={}, conferenceId={}", userId, conferenceId);

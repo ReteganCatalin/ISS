@@ -40,15 +40,16 @@ public class ProposalServiceImplementation implements ProposalService {
     String result = "Not existing";
 
     if(proposal.isPresent()){
-      Boolean isRejected = proposal.get().getReviews().stream().anyMatch(elem -> elem.getQualifier().getName().equals("strong reject") || elem.getQualifier().getName().equals("reject") || elem.getQualifier().getName().equals("weak reject"));
-      Boolean isAccepted = proposal.get().getReviews().stream().anyMatch(elem -> elem.getQualifier().getName().equals("borderline paper") || elem.getQualifier().getName().equals("weak accept") || elem.getQualifier().getName().equals("accept") || elem.getQualifier().getName().equals("strong reject"));
-      if(isAccepted && isRejected)
+      Boolean isNone=proposal.get().getReviews().stream().anyMatch(elem->elem.getQualifier().equals("none"));
+      Boolean isRejected = proposal.get().getReviews().stream().anyMatch(elem -> elem.getQualifier().equals("strong reject") || elem.getQualifier().equals("reject") || elem.getQualifier().equals("weak reject"));
+      Boolean isAccepted = proposal.get().getReviews().stream().anyMatch(elem -> elem.getQualifier().equals("borderline paper") || elem.getQualifier().equals("weak accept") || elem.getQualifier().equals("accept") || elem.getQualifier().equals("strong reject"));
+      if(isNone)
+        result = "Not all reviews";
+      else if(isAccepted && !isRejected)
         result = "Conflicting reviews";
-      else if(!isAccepted && !isRejected)
-        result = "No reviews";
       else if(isRejected)
         result = "Rejected";
-      else result = "Accpeted";
+      else result = "Accepted";
     }
 
     return result;

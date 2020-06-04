@@ -8,17 +8,14 @@ import ro.ubb.iss.CMS.dto.QualifierDto;
 public class QualifierConverter implements BaseConverter<Qualifier, QualifierDto> {
   @Override
   public Qualifier convertDtoToModel(QualifierDto qualifierDto) {
-    return Qualifier.builder()
-        .qualifierID(qualifierDto.getQualifierID())
-        .name(qualifierDto.getName())
-        .build();
+    return Qualifier.values()[qualifierDto.getOrdinal()];
   }
 
   @Override
   public QualifierDto convertModelToDto(Qualifier qualifier) {
     return QualifierDto.builder()
-        .qualifierID(qualifier.getQualifierID())
-        .name(qualifier.getName())
+        .ordinal(qualifier.ordinal())
+        .value(qualifier.getQualifier_value())
         .build();
   }
 }

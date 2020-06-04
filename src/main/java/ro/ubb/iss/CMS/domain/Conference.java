@@ -37,9 +37,16 @@ public class Conference {
   @Temporal(TemporalType.DATE)
   java.util.Date proposalDeadline;
 
+  @Column(name = "review_deadline", nullable = false)
+  @Temporal(TemporalType.DATE)
+  java.util.Date reviewDeadline;
+
   @Column(name = "paper_deadline", nullable = false)
   @Temporal(TemporalType.DATE)
   java.util.Date paperDeadline;
+
+  @Column(name = "chair", nullable = false)
+  private int chair;
 
   //  @OneToMany(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch =
   // FetchType.LAZY)
