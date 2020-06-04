@@ -21,12 +21,12 @@ export class AuthService {
   }
 
   login(username, password){
-    return this.getUser(username, password).pipe(first(data => {
+    return this.getUser(username, password).pipe(map(data => {
       if (data != null) {
         sessionStorage.setItem('uid', data.userID.toString());
         return true;
       }
-      return rejects();
+      return Promise.reject();
     }));
   }
 
@@ -51,7 +51,7 @@ export class AuthService {
         });
         return true;
       }
-      return rejects();
+      return Promise.reject();
     }));
   }
 
