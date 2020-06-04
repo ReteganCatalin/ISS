@@ -42,8 +42,8 @@
     • Testing   
        ◦ User Testing and Manual Testing  
     • External tools/APIs we found useful:   
-      • [SendGrid → for email sending](https://sendgrid.com)  
-      • [Liquibase → version control](https://www.liquibase.org)
+      • <a href="https://sendgrid.com">SendGrid → for email sending</a>
+      • <a href="https://www.liquibase.org">Liquibase → version control</a>
      </pre> 
       
     
