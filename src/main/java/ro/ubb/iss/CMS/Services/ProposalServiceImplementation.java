@@ -34,6 +34,28 @@ public class ProposalServiceImplementation implements ProposalService {
   }
 
   @Override
+  public String getProposalStatus(Integer proposalID) {
+    Optional<Proposal> proposal = this.findProposal(proposalID);
+
+    String result = "Not existing";
+
+    if(proposal.isPresent()){
+      Boolean isRejected = proposal.get().getReviews().stream().anyMatch(elem -> elem.getQualifier().getName().equals("strong reject") || elem.getQualifier().getName().equals("reject") || elem.getQualifier().getName().equals("weak reject"));
+      Boolean isAccepted = proposal.get().getReviews().stream().anyMatch(elem -> elem.getQualifier().getName().equals("borderline paper") || elem.getQualifier().getName().equals("weak accept") || elem.getQualifier().getName().equals("accept") || elem.getQualifier().getName().equals("strong reject"));
+      if(isAccepted && isRejected)
+        result = "Conflicting reviews";
+      else if(!isAccepted && !isRejected)
+        result = "No reviews";
+      else if(isRejected)
+        result = "Rejected";
+      else result = "Accpeted";
+    }
+
+    return result;
+
+  }
+
+  @Override
   @Transactional
   public Proposal updateProposal(
       int proposalID,
