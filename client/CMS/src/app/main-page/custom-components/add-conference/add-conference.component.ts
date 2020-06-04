@@ -61,8 +61,9 @@ export class AddConferenceComponent implements OnInit {
         console.log(result);
         this.imageFileUpload = this.selectedImageFiles.item(0);
         const imageForm: FormData = new FormData();
+        imageForm.append("id",conferenceData.conferenceID.toString());
         imageForm.append("file",this.imageFileUpload);
-        this.http.post<Blob>('http://localhost:8081/conference_data_file', imageForm)
+        this.http.post<Blob>('http://localhost:8081/conference_data_file', imageForm).subscribe();
       });
 
     });

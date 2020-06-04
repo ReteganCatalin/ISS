@@ -67,7 +67,7 @@ public class ConferenceDataServiceImplementation implements  ConferenceDataServi
                 "saveConferenceData - method entered: conferenceID={}, format={}, byteFileLocation={}, about={}, callForPaper={}",conferenceID, format, byteFileLocation, about, callForPaper);
 
         ConferenceData newConferenceData =
-                ConferenceData.builder().conferenceID(conferenceID).format(format).byteFileLocation(newFileLocation).about(about).callForPaper(callForPaper).build();
+                ConferenceData.builder().conferenceID(conferenceID).format(format).byteFileLocation(byteFileLocation).about(about).callForPaper(callForPaper).build();
         conferenceDataRepository.save(newConferenceData);
         log.trace("saveConferenceData - method finished result={}", newConferenceData);
         return newConferenceData;

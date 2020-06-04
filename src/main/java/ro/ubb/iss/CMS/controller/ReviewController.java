@@ -18,14 +18,13 @@ import ro.ubb.iss.CMS.converter.RecommendationConverter;
 import ro.ubb.iss.CMS.converter.ReviewConverter;
 import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.*;
-import ro.ubb.iss.CMS.dto.AbstractDto;
-import ro.ubb.iss.CMS.dto.AbstractsDto;
-import ro.ubb.iss.CMS.dto.ReviewDto;
-import ro.ubb.iss.CMS.dto.ReviewsDto;
+import ro.ubb.iss.CMS.dto.*;
 import ro.ubb.iss.CMS.utils.EmailSender;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
