@@ -10,6 +10,7 @@ import {
 } from '@angular/core';
 import {AddConferenceComponent} from './custom-components/add-conference/add-conference.component';
 import {ConferenceService} from "../shared/services/conference.service";
+import {Conference} from "../shared/models/Conference";
 
 @Component({
   selector: 'app-main-page',
@@ -30,7 +31,9 @@ export class MainPageComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     this.conferenceService.getConferenceNamesWithIDs().subscribe(response => {
+      console.log(response);
       this.conferenceList = response;
+
     })
   }
   ngAfterViewInit() {
