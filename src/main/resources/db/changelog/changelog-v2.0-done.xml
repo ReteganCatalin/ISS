@@ -23,4 +23,32 @@
             <column name="qualifier" type="varchar(30)"/>
         </addColumn>
     </changeSet>
+    <changeSet author="catalin" id="createTable-chairs">
+        <createTable catalogName="CMS-TEST"
+                     schemaName="public"
+                     tableName="chair">
+            <column name="conference_id" type="int"/>
+            <column name="user_id" type="int"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="catalin" id="add composite primary key for Chair">
+        <addPrimaryKey columnNames="conference_id"
+                       constraintName="PK_CONFERENCE_USER_TABLE"
+                       tableName="chair"
+                       validate="true"/>
+    </changeSet>
+    <changeSet id="adding_foreign_key_constrains conference_user" author="catalin">
+        <addForeignKeyConstraint baseColumnNames="user_id"
+                                 baseTableName="chair"
+                                 baseTableSchemaName="public"
+                                 constraintName="fk_user_id"
+                                 deferrable="true"
+                                 initiallyDeferred="true"
+                                 onDelete="CASCADE"
+                                 onUpdate="CASCADE"
+                                 referencedColumnNames="user_id"
+                                 referencedTableName="users"
+                                 referencedTableSchemaName="public"
+                                 validate="true"/>
+    </changeSet>
 </databaseChangeLog>

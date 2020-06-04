@@ -18,10 +18,11 @@ public interface ConferenceService {
       Date startDate,
       Date endDate,
       Date proposalDeadline,
-      Date paperDeadline);
+      Date paperDeadline,
+      Date reviewDeadline);
 
   Conference saveConference(
-      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline);
+      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline,Date reviewDeadline);
 
   void deleteConference(int conferenceID);
 }

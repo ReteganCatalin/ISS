@@ -342,4 +342,17 @@
             <column header="call_for_paper" type="STRING" name="call_for_paper"></column>
         </loadUpdateData>
     </changeSet>
+    <changeSet id="test-chair" author="catalin">
+        <loadUpdateData
+                tableName="chair"
+                primaryKey="conference_id"
+                encoding="UTF-8"
+                file="db/chair.csv"
+                schemaName="public"
+                separator=","
+        >
+            <column header="conference_id" type="NUMERIC" name="conference_id"></column>
+            <column header="user_id" type="NUMERIC" name="user_id"></column>
+        </loadUpdateData>
+    </changeSet>
 </databaseChangeLog>
