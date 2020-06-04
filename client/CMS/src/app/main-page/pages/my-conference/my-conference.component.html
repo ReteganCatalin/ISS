@@ -1,8 +1,8 @@
 <ul class="nav nav-tabs pr-2 pl-2" id="tabsMyConference" role="tablist">
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="today <= bidding_deadline">
     <a class="nav-link" id="biddingTab" data-toggle="tab" role="tab" aria-controls="proposals" aria-selected="true" href="#bidding"> Bidding </a>
   </li>
-  <li class="nav-item">
+  <li class="nav-item" *ngIf="bidding_deadline < today && today <= review_deadline">
     <a class="nav-link" data-toggle="tab" id="reviewTab" role="tab" aria-controls="review" aria-selected="true" href="#review"> Review </a>
   </li>
   <li class="nav-item">

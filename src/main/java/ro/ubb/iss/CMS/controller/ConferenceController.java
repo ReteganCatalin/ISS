@@ -50,6 +50,16 @@ public class ConferenceController {
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
+    @RequestMapping(value = "/conferences/{id}/bidding", method = RequestMethod.GET)
+    public ResponseEntity<BiddingProcessDto> getConferenceBidding(@PathVariable Integer id) {
+        log.trace("getConferenceBidding - method entered id={}", id);
+        Optional<Conference> conference = service.findConference(id);
+        BiddingProcessDto result = null;
+        if (conference.isPresent()) result = biddingProcessConverter.convertModelToDto(conference.get().getBiddingProcess());
+        log.trace("getConferenceBidding - method finished: result={}", result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
   @RequestMapping(value = "/conferences/{id}", method = RequestMethod.GET)
   public ResponseEntity<ConferenceDto> getConference(@PathVariable Integer id) {
     log.trace("getConference - method entered id={}", id);
