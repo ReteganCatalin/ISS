@@ -107,6 +107,17 @@ public class ProposalController {
     return new ResponseEntity<>(result,HttpStatus.OK);
   }
 
+  @RequestMapping(value = "/proposals/{id}/status", method = RequestMethod.GET)
+  public ResponseEntity<String> getProposalStatus(@PathVariable Integer id) {
+    log.trace("getProposalStatus - method entered id={}", id);
+    Optional<Proposal> proposal = service.findProposal(id);
+    String result = null;
+    if (proposal.isPresent()) result = service.getProposalStatus(id);
+    log.trace("getProposalStatus - method finished: result={}", result);
+    return new ResponseEntity<>(result,HttpStatus.OK);
+  }
+
+
   @RequestMapping(value = "/proposals/{id}/reviews", method = RequestMethod.GET)
   @Transactional
   public ResponseEntity<ReviewsDto> getProposalReviews(@PathVariable Integer id) {

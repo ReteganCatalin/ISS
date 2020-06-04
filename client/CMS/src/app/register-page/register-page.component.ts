@@ -25,23 +25,24 @@ export class RegisterPageComponent implements OnInit {
       phoneNumber: [null, Validators.compose([Validators.required])],
       email: ['', Validators.compose([Validators.required, Validators.email])],
       lastName: ['', Validators.compose([Validators.required])],
-      firstName: ['', Validators.compose([Validators.required])]
+      firstName: ['', Validators.compose([Validators.required])],
+      webPage : ['', Validators.compose([Validators.required])]
     });
     this.showErrorMessage = false;
   }
 
   signUP() {
-    /*if (this.registerForm.invalid) {
+    if (this.registerForm.invalid) {
       return;
     }
     this.auth.signup(this.username.value, this.password.value, this.firstName.value, this.lastName.value,
-      this.email.value, this.phoneNumber.value, this.affiliation.value).subscribe(data =>{
+      this.email.value, this.phoneNumber.value, this.affiliation.value, this.webPage.value).subscribe(data =>{
         this.showErrorMessage = false;
-        this.route.navigateByUrl('/login');
+        this.route.navigateByUrl('/main-page');
       },
       error => {
         this.showErrorMessage = true;
-      });*/
+      });
   }
 
   get username() { return this.registerForm.get('username'); }
@@ -58,4 +59,9 @@ export class RegisterPageComponent implements OnInit {
 
   get affiliation() { return this.registerForm.get('affiliation'); }
 
+  get webPage() { return this.registerForm.get('webPage'); }
+
+  backToLogin() {
+    this.route.navigateByUrl('/login');
+  }
 }

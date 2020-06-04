@@ -8,6 +8,7 @@ import {Proposal} from "../../../shared/models/Proposal";
 import {Conference} from "../../../shared/models/Conference";
 import {ConferenceProposalDtos} from "../../../shared/models/ConferenceProposalDtos";
 import {DownloadService} from "../../../shared/services/download.service";
+import {UserService} from "../../../shared/services/user.service";
 
 @Component({
   selector: 'app-my-proposals',
@@ -20,32 +21,40 @@ export class MyProposalsComponent implements OnInit {
   conferenceProposalObserver: BehaviorSubject<Array<Proposal>>;
 
   public isCollapsed: Array<boolean>;
+  private readonly uid: number;
 
   constructor(private http: HttpClient,
-              private downloadService: DownloadService) {
+              private downloadService: DownloadService,
+              private userService: UserService) {
     this.isCollapsed = [];
     this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
+    this.uid = this.userService.getUserID();
+    console.log(this.uid);
   }
 
-  ngOnInit(): void {
+  loadData(){
     this.http.get<ConferenceProposalDtos>('http://localhost:8081/conference_proposal').subscribe(proposals => {
       let auxiliaryList = new Array<ProposalDetailed>();
       proposals.conferenceProposalDtos.forEach(proposal => {
-        this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed => {
-          auxiliaryList.push(proposalDetailed);
-          this.isCollapsed.push(false);
-          this.http.get<Conference>('http://localhost:8081/conferences/' + proposal.conferenceID).subscribe(data => {
-            proposalDetailed.conferenceName = data.name;
-            if (proposalDetailed.section.supervisorID)
-              this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
-                proposalDetailed.supervisorName = data.username;
-              });
+          this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed => {
+            console.log(proposalDetailed.section.conferenceID);
+            if (proposalDetailed['proposal_proper_info']['userInfoID'] == this.uid){
+              auxiliaryList.push(proposalDetailed);
+              this.isCollapsed.push(false);
+              if (proposalDetailed.section.supervisorID)
+                this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
+                  proposalDetailed.supervisorName = data.username;
+                });
+            }
           });
-        });
       });
       this.conferenceProposalDetailedObserver.next(auxiliaryList);
     });
+  }
+
+  ngOnInit(): void {
+    this.loadData();
   }
 
   downloadPaper(proposal :ProposalDetailed) {

@@ -10,4 +10,9 @@ export class UserService {
   public getUserID() {
     return this.userID;
   }
+
+  public setUserID(userID: number){
+    this.userID = userID;
+    console.log(this.userID);
+  }
 }
