@@ -15,6 +15,7 @@ import ro.ubb.iss.CMS.domain.Conference;
 import ro.ubb.iss.CMS.domain.ConferenceData;
 import ro.ubb.iss.CMS.utils.SaveToStorageUtility;
 
+import javax.persistence.EntityManager;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +29,9 @@ public class ConferenceDataServiceImplementation implements  ConferenceDataServi
 
     @Autowired
     private ConferenceDataRepository conferenceDataRepository;
+
+//    @Autowired
+//    private EntityManager m
 
     @Override
     public Optional<ConferenceData> findConferenceData(int conferenceID) {
