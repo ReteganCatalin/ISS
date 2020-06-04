@@ -160,7 +160,7 @@
 <!--            <column header="name" type="STRING" name="name"></column>-->
 <!--        </loadUpdateData>-->
 <!--    </changeSet>-->
-    <changeSet id="test-review_list" author="catalin">
+    <changeSet id="test-review_list1" author="catalin">
         <loadUpdateData
                 tableName="review_list"
                 encoding="UTF-8"
