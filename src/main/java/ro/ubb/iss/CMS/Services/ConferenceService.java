@@ -22,7 +22,7 @@ public interface ConferenceService {
       Date reviewDeadline);
 
   Conference saveConference(
-      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline,Date reviewDeadline);
+      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline,Date reviewDeadline,int chair);
 
   void deleteConference(int conferenceID);
 }

@@ -70,7 +70,7 @@ public class ConferenceServiceImplementation implements ConferenceService {
 
   @Override
   public Conference saveConference(
-      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline,Date reviewDeadline) {
+      String name, Date startDate, Date endDate, Date proposalDeadline, Date paperDeadline,Date reviewDeadline,int chair) {
     log.trace(
         "saveConference - method entered: name={}, startDate={},endDate={},proposalDeadline={},paperDeadline={}",
         name,
@@ -86,6 +86,7 @@ public class ConferenceServiceImplementation implements ConferenceService {
             .proposalDeadline(proposalDeadline)
             .paperDeadline(paperDeadline)
                 .reviewDeadline(reviewDeadline)
+                .chair(chair)
             .build();
 
     conferenceRepository.save(newConference);
