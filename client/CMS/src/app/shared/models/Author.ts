@@ -5,7 +5,7 @@ export class Author {
 
 
   constructor(name: string, proposalId: number, authorId: number) {
-    this.name = "name";
+    this.name = name;
     this.proposalId = proposalId;
     this.authorId = authorId;
   }

@@ -27,7 +27,6 @@ public class CmsApplication {
                 .allowedOrigins("http://localhost:4200")
                 .allowedMethods("GET", "PUT", "POST", "DELETE")
                 .allowedHeaders("*");
-
       }
     };
   }
