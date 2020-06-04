@@ -18,6 +18,7 @@ public class ConferenceConverter implements BaseConverter<Conference, Conference
         .paperDeadline(conferenceDto.getPaperDeadline())
         .proposalDeadline(conferenceDto.getProposalDeadline())
             .reviewDeadline(conferenceDto.getReviewDeadline())
+            .chair(conferenceDto.getChair())
         .build();
     //conferenceData.setConference(conference);
     //conference.setConferenceData(conferenceData);
@@ -34,6 +35,7 @@ public class ConferenceConverter implements BaseConverter<Conference, Conference
         .proposalDeadline(conference.getProposalDeadline())
         .paperDeadline(conference.getPaperDeadline())
             .reviewDeadline(conference.getReviewDeadline())
+            .chair(conference.getChair())
       ///  .about(conference.getConferenceData().getAbout())
       //  .byteFileLocation(conference.getConferenceData().getByteFileLocation())
        // .callForPaper(conference.getConferenceData().getCallForPaper())

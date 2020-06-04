@@ -326,7 +326,8 @@ public class ConferenceController {
             conferenceDto.getEndDate(),
             conferenceDto.getProposalDeadline(),
             conferenceDto.getPaperDeadline(),
-                conferenceDto.getReviewDeadline());
+                conferenceDto.getReviewDeadline(),
+                conferenceDto.getChair());
 
     ConferenceDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveConference - method finished: result={}", resultToReturn);

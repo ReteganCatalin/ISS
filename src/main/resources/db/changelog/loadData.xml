@@ -355,4 +355,10 @@
             <column header="user_id" type="NUMERIC" name="user_id"></column>
         </loadUpdateData>
     </changeSet>
+    <changeSet id="update-review-with-none" author="catalin">
+        <update tableName="review_list" schemaName="public">
+            <column name="qualifier" value="none"/>
+            <where>qualifier  = null</where>
+        </update>
+    </changeSet>
 </databaseChangeLog>

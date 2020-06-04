@@ -51,4 +51,12 @@
                                  referencedTableSchemaName="public"
                                  validate="true"/>
     </changeSet>
+    <changeSet id="add-chair" author="catalin">
+        <addColumn catalogName="CMS-TEST"
+                   schemaName="public"
+                   tableName="conference">
+            <column name="chair" type="integer"/>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>
