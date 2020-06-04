@@ -95,8 +95,11 @@ public class ReviewController {
     String emailStatus=proposalService.getProposalStatus(reviewDto.getProposalID());
     if(!emailStatus.equals("Not all reviews"))
     {
-      Optional<UserInfo> userInfo = userInfoService.findUserInfo(result.getUser().getUserInfo().getUserInfoId());
-      userInfo.ifPresent( userData -> EmailSender.send(EmailSender.ORIGIN_EMAIL, userData.getEmailAddress(), EmailSender.PURCHASE_SUBJECT,emailStatus);
+      Optional<Review> review = service.findReview(reviewDto.getReviewID());
+      if(review.isPresent()){
+        UserInfo userInfo = review.get().getUser().getUserInfo();
+        EmailSender.send(EmailSender.ORIGIN_EMAIL, userInfo.getEmailAddress(), EmailSender.PURCHASE_SUBJECT,emailStatus);
+      }
     }
     log.trace("updateReview - method finished: result={}", result);
     return new ResponseEntity(result,HttpStatus.OK);
