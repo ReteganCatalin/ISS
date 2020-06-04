@@ -1,6 +1,6 @@
 # Conference Managment System
 
-#### What you have do before starting the Application assuming you already installed postgres and pgAdmin4
+#### READ ME BEFORE USING THE APP !!!
 
 1.Create dev role for dev in pgAdmin  
 2.Create test-profile role for test in pgAdmin  
@@ -10,3 +10,31 @@
 6.In application.properties change spring.profiles.active=test/dev depending on what you want to use  
 7.Start the application  
 
+#### Members  
+[Retegan Catalin-Cristian -Team Leader](https://github.com/ReteganCatalin)   
+[Sabadus Alexandru-Bogdan](https://github.com/TheStrangeProgrammer)  
+[Rusu Raul-Mihai](https://github.com/RaulRusu)  
+[Ravasz Tamás](https://github.com/RavaszTamas)  
+[Scherer Edward-Serban](https://github.com/SabaAlex)  
+
+#### Brief Presentation of the app
+
+   The task presented to us was to create an application that is going to be used to streamline the management of conferences from start to finish. The platform should offer a way for users to submit a proposal to a conference but also a way for the steering committee alongside the program committee to manage the reviewing of the incoming proposals and internally organize the conference. Additionally users can buy tickets through the platform.
+
+#### Used technologies
+
+   • Database server: PostgreSQL, locally hosted
+   • Version Control: Liquibase
+   • Programming languages: 
+       ◦ Front-end: Typescript with Angular, HTML, CSS ,Bootstrap
+       ◦ Back-end: Java, Spring, Lombok
+   • ORM: Hibernate 
+   • Tools used for diagram creation: StarUML, draw.io 
+   • VCS: Git 
+   • Task management: Trello 
+   • Testing 
+       ◦ User Testing and Manual Testing
+   • External tools/APIs we found useful: 
+      [SendGrid → for email sending](https://sendgrid.com)  
+      [Liquibase → version control](https://www.liquibase.org)
+      
