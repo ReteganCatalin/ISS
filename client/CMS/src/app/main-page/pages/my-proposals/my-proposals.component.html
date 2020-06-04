@@ -1,14 +1,14 @@
 <div class="col mt-3">
   <div *ngFor='let proposalDetailed of conferenceProposalDetailedObserver | async; let i = index' class="flex-column">
     <div class="card mb-5">
-      <div class="card-body">
-        <div class="card-header" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
-          <h2 class="card-title">{{proposalDetailed.meta_info.name}}</h2>
-          <h4 class="card-subtitle">Conference: {{proposalDetailed.conferenceName}}</h4>
-          <p class="card-text mb-2" >Authors: <i>{{proposalDetailed.author_list.join(', ')}}</i></p>
+      <div class="card-body pb-0">
+        <div class="card-header pb-1" style="cursor: pointer" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]" aria-controls="collapseExample">
+          <h2 class="card-title mb-1">{{proposalDetailed.meta_info.name}}</h2>
+          <h4 class="card-subtitle mb-1">Conference: {{proposalDetailed.conferenceName}}</h4>
+          <p class="card-text mb-1" >Authors: <i>{{proposalDetailed.author_list.join(', ')}}</i></p>
         </div>
 
-        <div class="card-body">
+        <div class="card-body pb-1">
           <div class="card-text pb-2">
             <div *ngIf="!proposalDetailed.section;else other_content">
               No Presentation Day
@@ -26,21 +26,19 @@
                 {{qualifier}}
               </i>
             </div>
-            <div class="card-text pb-2">
-              Price: {{proposalDetailed.section.price}}
-            </div>
-            <div class="card-text pb-2">
-              <div *ngIf="!proposalDetailed.supervisorName;else other_content_supervisor">
-                No Supervisor yet
-              </div>
-              <ng-template #other_content_supervisor>Supervisor Name during presentation: {{proposalDetailed.supervisorName}}</ng-template>
-            </div>
             <button class="btn btn-primary mr-4" type="button">
               Open Paper
             </button>
             <button class="btn btn-primary" type="button">
               Open Abstract Paper
             </button>
+          </div>
+
+          <div class="d-flex justify-content-end pointerHand">
+            <div class="d-inline-block" (click)="isCollapsed[i] = !isCollapsed[i]" [attr.aria-expanded]="!isCollapsed[i]">
+              <a class="nav-link text-primary" *ngIf="!isCollapsed[i]">see more</a>
+              <a class="nav-link text-primary" *ngIf="isCollapsed[i]">see less</a>
+            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
+import {Router } from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -8,6 +9,12 @@ import {HttpClient} from '@angular/common/http';
 })
 export class AppComponent {
   title = 'CMS';
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private route: Router) {
+    if(sessionStorage.getItem('uid') == null) {
+      this.route.navigateByUrl('/login');
+    }
+    else {
+      this.route.navigateByUrl('/main-page');
+    }
   }
 }

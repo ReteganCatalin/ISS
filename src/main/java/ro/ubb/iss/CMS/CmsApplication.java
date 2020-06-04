@@ -8,6 +8,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import ro.ubb.iss.CMS.Services.FileService;
 
 import javax.annotation.Resource;
+import org.springframework.web.client.RestTemplate;
+import ro.ubb.iss.CMS.dto.MyTicketDto;
 
 @SpringBootApplication
 public class CmsApplication {

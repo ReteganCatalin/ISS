@@ -3,6 +3,7 @@ package ro.ubb.iss.CMS.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +15,10 @@ import ro.ubb.iss.CMS.Services.FileService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.domain.Abstract;
+import ro.ubb.iss.CMS.domain.Paper;
 import ro.ubb.iss.CMS.dto.AbstractDto;
 import ro.ubb.iss.CMS.dto.AbstractsDto;
+import ro.ubb.iss.CMS.dto.PaperDto;
 
 import java.util.Optional;
 
@@ -47,6 +50,18 @@ public class AbstractController {
     if (anAbstract.isPresent()) result = converter.convertModelToDto(anAbstract.get());
     log.trace("getAbstract - method finished: result={}", result);
     return new ResponseEntity<>(result, HttpStatus.OK);
+  }
+  @RequestMapping(value = "/abstracts/{id}/file", method = RequestMethod.GET)
+  public ResponseEntity<Resource> getAbstractFile(@PathVariable Integer id) {
+
+    log.trace("getAbstractFile - method entered id={}", id);
+    Optional<Abstract> abstractResult = service.findAbstract(id);
+    AbstractDto abstractDto = null;
+    if (abstractResult.isPresent()) abstractDto = converter.convertModelToDto(abstractResult.get());
+    Resource file = fileService.downloadFile(abstractDto.getByteFileLocation());
+
+    log.trace("getAbstractFile - method finished: result={}", file);
+    return new ResponseEntity<>(file,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/abstracts", method = RequestMethod.POST)

@@ -21,12 +21,6 @@ public class Presentation {
   private Integer presentationID;
 
   @ManyToOne(optional = false, fetch = FetchType.LAZY)
-  @JoinColumn(name = "conference_id")
-  @EqualsAndHashCode.Exclude
-  @ToString.Exclude
-  Conference conference;
-
-  @ManyToOne(optional = false, fetch = FetchType.LAZY)
   @JoinColumn(name = "section_id")
   @EqualsAndHashCode.Exclude
   @ToString.Exclude

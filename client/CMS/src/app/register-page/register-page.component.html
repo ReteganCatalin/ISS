@@ -1,0 +1,64 @@
+<div class="d-flex h-100 w-100 justify-content-center">
+  <div class="d-flex justify-content-center w-75 align-items-center">
+    <form [formGroup]="registerForm" class="text-center border border-light p-5 justify-content-center align-content-center" style="width: 50%">
+
+      <p class="h4 mb-4">Sign up</p>
+
+      <div class="form-row mb-4">
+        <div class="col">
+          <div class="d-flex row w-100 mr-0 ml-0">
+            <label for="username" class="">
+              Your Username
+            </label>
+            <input type="text" id="username" class="form-control" placeholder="Username" formControlName="username">
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row mb-4">
+        <div class="col">
+          <input type="text" id="firstName" class="form-control" placeholder="First name" formControlName="firstName">
+        </div>
+        <div class="col">
+          <input type="text" id="lastName" class="form-control" placeholder="Last name" formControlName="lastName">
+        </div>
+      </div>
+
+      <input type="email" id="email" class="form-control mb-4" placeholder="E-mail" formControlName="email">
+
+      <input type="text" id="affiliation" class="form-control mb-4" placeholder="Affiliation" aria-describedby="affiliation" formControlName="affiliation">
+
+      <input type="password" id="password" class="form-control" placeholder="Password" aria-describedby="password" formControlName="password">
+      <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4">
+        At least 6 characters and 1 digit
+      </small>
+
+
+      <input type="text" id="phoneNumber" class="form-control" placeholder="Phone number" aria-describedby="phoneNumber" formControlName="phoneNumber">
+      <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
+        Optional - for two-step authentication
+      </small>
+
+      <button color="info" block="true" class="my-4 btn btn-primary" type="submit">Sign in</button>
+
+      <p>or sign up with:</p>
+
+      <a type="button" class="light-blue-text mx-2">
+        <i class="fab fa-google h3"></i>
+      </a>
+      <a type="button" class="light-blue-text mx-2">
+        <i class="fab fa-linkedin h3"></i>
+      </a>
+      <a type="button" class="light-blue-text mx-2">
+        <i class="fab fa-github h3"></i>
+      </a>
+
+      <hr>
+
+      <p>By clicking
+        <em>Sign up</em> you agree to our
+        <a href="" target="_blank">terms of service</a></p>
+
+    </form>
+  </div>
+</div>

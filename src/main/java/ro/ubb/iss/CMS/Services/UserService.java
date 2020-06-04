@@ -17,4 +17,6 @@ public interface UserService {
   User saveUser(String username, String password, boolean isValidated, UserInfo userInfoID);
 
   void deleteUser(int userID);
+
+    Optional<User> getUserWithUserInfo(Integer userID);
 }

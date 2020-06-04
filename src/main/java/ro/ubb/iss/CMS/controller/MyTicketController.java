@@ -5,18 +5,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
+import ro.ubb.iss.CMS.Services.UserInfoService;
+import ro.ubb.iss.CMS.Services.UserService;
 import ro.ubb.iss.CMS.converter.MyTicketConverter;
 import ro.ubb.iss.CMS.Services.MyTicketService;
 import ro.ubb.iss.CMS.domain.MyTicket;
 import ro.ubb.iss.CMS.domain.Section;
 import ro.ubb.iss.CMS.domain.User;
+import ro.ubb.iss.CMS.domain.UserInfo;
 import ro.ubb.iss.CMS.dto.MyTicketDto;
 import ro.ubb.iss.CMS.dto.MyTicketsDto;
+import ro.ubb.iss.CMS.utils.EmailSender;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -25,16 +31,19 @@ public class MyTicketController {
   public static final Logger log = LoggerFactory.getLogger(MyTicketController.class);
 
   @Autowired private MyTicketService service;
+  @Autowired private UserService userService;
+  @Autowired private UserInfoService userInfoService;
 
   @Autowired private MyTicketConverter converter;
 
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
 
-  @RequestMapping(value = "/mytickets", method = RequestMethod.GET)
-  public ResponseEntity<MyTicketsDto> getAllMyTickets() {
+  @RequestMapping(value = "/mytickets/user={id}", method = RequestMethod.GET)
+  public ResponseEntity<MyTicketsDto> getAllMyTickets(@PathVariable Integer id) {
     log.trace("getAllMyTickets - method entered");
-    MyTicketsDto result = new MyTicketsDto(converter.convertModelsToDtos(service.findAll()));
+    MyTicketsDto result = new MyTicketsDto(converter.convertModelsToDtos(service.findAllByUser(id)));
+
     log.trace("getAllMyTickets - method finished: result={}", result);
     return new ResponseEntity<>(result,HttpStatus.OK);
   }
@@ -54,11 +63,19 @@ public class MyTicketController {
     log.trace("saveMyTicket - method entered myTicketDto={}", myTicketDto);
     MyTicket result =
         service.saveMyTicket(
-            entityManager.getReference(User.class, myTicketDto.getUserID()),
-            entityManager.getReference(Section.class, myTicketDto.getSectionID()),
+            entityManager.find(User.class, myTicketDto.getUserID()),
+            entityManager.find(Section.class, myTicketDto.getSectionID()),
             myTicketDto.getPrice());
+
+//    Optional<MyTicket> myTicketWithUserAndUserInfo = service.findMyTicketWithUserAndUserInfo(result.getTicketID());
+//    Optional<User> userWithUserInfo = userService.getUserWithUserInfo(myTicketDto.getUserID());
+    Optional<UserInfo> userInfo = userInfoService.findUserInfo(result.getUser().getUserInfo().getUserInfoId());
+    userInfo.ifPresent( userData -> EmailSender.send(EmailSender.ORIGIN_EMAIL, userData.getEmailAddress(), EmailSender.PURCHASE_SUBJECT,EmailSender.TICKETS_MSG  + "\n" + myTicketDto.getSectionID().toString()));
+
+
     MyTicketDto resultToReturn = converter.convertModelToDto(result);
     log.trace("saveMyTicket - method finished: result={}", resultToReturn);
+
     return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 

@@ -18,14 +18,14 @@
               <button class="btn btn-outline-primary" id="dropdownBasic1" ngbDropdownToggle>Options</button>
               <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
                 <button ngbDropdownItem data-toggle="modal" data-target="#edit-proposal" (click)="openModalEdit(i)">Edit proposal</button>
-                <button ngbDropdownItem (click)="deleteProposal(proposalDetailed.proposal_id)">Delete Proposal</button>
+                <button ngbDropdownItem (click)="deleteProposal(i)">Delete Proposal</button>
               </div>
             </div>
           </div>
 
         </div>
 
-        <div class="card-body">
+        <div class="card-body pb-1">
           <div class="card-text pb-2">
             <div *ngIf="!proposalDetailed.section;else other_content">
               No Presentation Day
@@ -43,10 +43,10 @@
                 {{qualifier}}
               </i>
             </div>
-            <button class="btn btn-primary mr-4" type="button">
+            <button class="btn btn-primary mr-4"  (click)="downloadPaper(proposalDetailed)" type="button" >
               Open Paper
             </button>
-            <button class="btn btn-primary" type="button">
+            <button class="btn btn-primary" (click)="downloadAbstract(proposalDetailed)" type="button">
               Open Abstract Paper
             </button>
           </div>
