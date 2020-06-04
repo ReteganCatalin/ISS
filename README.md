@@ -1,6 +1,6 @@
 # Conference Managment System
 
-##### Team BWay 2.0
+# Team BWay 2.0
 
 #### READ ME BEFORE USING THE APP !!!
 
