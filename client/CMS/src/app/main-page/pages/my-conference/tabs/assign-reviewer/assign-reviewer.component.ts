@@ -11,11 +11,14 @@ export class AssignReviewerComponent implements OnInit {
   @Input("conferenceID") conferenceID;
   conferenceProposals: Array<any>;
   pcMembers: Map<any, any>;
+  qualifiers: Array<any>;
 
   constructor(private http: HttpClient,
               private downloadService: DownloadService) {
     this.conferenceProposals = [];
     this.pcMembers = new Map<any, any>();
+
+    this.initQualifiers();
   }
 
   ngOnInit(): void {
@@ -30,6 +33,18 @@ export class AssignReviewerComponent implements OnInit {
           this.pcMembers.set(pcMember['userID'], pcMember);
       })
     })
+  }
+
+  private initQualifiers() {
+    this.qualifiers = [];
+    this.qualifiers.push({"qualifierID":0,"name":"none"});
+    this.qualifiers.push({"qualifierID": 1, "name": "strong reject"});
+    this.qualifiers.push({"qualifierID": 2, "name": "reject"});
+    this.qualifiers.push({"qualifierID":3,"name":"weak reject"});
+    this.qualifiers.push({"qualifierID":4,"name":"borderline paper"});
+    this.qualifiers.push({"qualifierID":5,"name":"weak accept"});
+    this.qualifiers.push({"qualifierID":6,"name":"accept"});
+    this.qualifiers.push({"qualifierID":7,"name":"strong accept"});
   }
 
   addReviewer(proposal, userID) {

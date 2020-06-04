@@ -51,7 +51,7 @@
               <h5 class="card-title justify-content-between d-flex">{{pcMembers.get(review['userID'])?.username}}
                 <i class="far fa-trash-alt" (click)="deleteReview(review['reviewID'])"></i>
               </h5>
-              <h6 class="card-subtitle mb-2 text-muted">Qualifier: qua</h6>
+              <h6 class="card-subtitle mb-2 text-muted">Qualifier: {{qualifiers[review['qualifierID']]['name']}}</h6>
             </div>
           </div>
         </div>

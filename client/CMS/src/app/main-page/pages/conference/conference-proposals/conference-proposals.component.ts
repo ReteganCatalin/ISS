@@ -42,7 +42,8 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   @Input() conferenceID: number;
 
   public isCollapsed: Array<boolean>;
-  constructor(private http: HttpClient, private parent: ConferenceComponent,
+  constructor(private http: HttpClient,
+              private parent: ConferenceComponent,
               private resolver: ComponentFactoryResolver,
               private changeDetectorRef: ChangeDetectorRef,
               private downloadService:DownloadService) {

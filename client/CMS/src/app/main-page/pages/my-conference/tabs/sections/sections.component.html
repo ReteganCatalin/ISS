@@ -1,5 +1,6 @@
 <div class="col pt-3" >
-  <button class="btn btn-primary" data-toggle="modal" data-target="#add-section" (click)="getPCMembers()">Add a new section</button>
+  <label for="addButton" style="font-size: 2rem" class="d-inline-block m-0 pt-3 font-weight-bold">Sections</label>
+  <button class="btn btn-primary text-primary" id="addButton" style="background-color: transparent; border: none; font-size: 1.4rem" data-toggle="modal" data-target="#add-section" (click)="getPCMembers()"><i class="fas fa-plus-circle"></i></button>
 
   <div class="modal fade" id="add-section" tabindex="-1" role="dialog" aria-labelledby="add-section-modal" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -45,23 +46,28 @@
   </div>
 
   <div *ngFor="let section of sections; let i = index">
-    <div class="mt-2">
+    <div class="my-2">
       <div class="card">
         <div class="card-header">
-          <h3 class="card-title">
-              Section {{i + 1}}
-          </h3>
-          <p class="card-subtitle">
-            <span class="text-primary">Supervisor:</span> {{section?.supervisor.username}}
-          </p>
+          <div class="d-flex justify-content-between">
+            <h2 class="card-title">
+                Section {{i + 1}}
+            </h2>
+            <i class="far fa-trash-alt pl-2" style="font-size: 1.2rem" (click)="deleteSection(section)"></i>
+          </div>
+          <div class="card-body">
+            <p class="card-subtitle">
+              <span class="text-primary">Supervisor:</span> {{section?.supervisor.username}}
+            </p>
 
-          <p class="card-subtitle">
-             <span class="text-primary">Price:</span> {{section?.section.price}}
-          </p>
+            <p class="card-subtitle">
+               <span class="text-primary">Price:</span> {{section?.section.price}}
+            </p>
 
-          <p class="card-subtitle">
-             <span class="text-primary">Date:</span> {{section?.section.dateOfPresentation}}
-          </p>
+            <p class="card-subtitle">
+               <span class="text-primary">Date:</span> {{section?.section.dateOfPresentation}}
+            </p>
+          </div>
         </div>
         <div class="card-body">
           <h4 class="d-inline-block">Proposals</h4>
@@ -69,7 +75,7 @@
             <button id="dropdownAcceptedProposals" ngbDropdownToggle><i class="fas fa-plus-circle"></i></button>
             <div ngbDropdownMenu aria-labelledby="dropdownPcMembers">
               <div *ngFor="let acceptedProposal of acceptedProposals">
-                <button ngbDropdownItem *ngIf="inSectionProposals(acceptedProposal?.proposal_id, section) == true; else elseButton" disabled> {{acceptedProposal?.meta_info['name']}}</button>
+                <button ngbDropdownItem *ngIf="proposalInASection(acceptedProposal?.proposal_id) == true; else elseButton" disabled> {{acceptedProposal?.meta_info['name']}}</button>
                 <ng-template #elseButton>
                   <button ngbDropdownItem (click)="addProposalToSection(acceptedProposal, section)"> {{acceptedProposal?.meta_info['name']}}</button>
 
@@ -77,8 +83,9 @@
               </div>
             </div>
           </div>
-          <div class="d-flex">
-            <a class="align-self-center m-0 nav-link" *ngFor="let proposal of section?.proposals"> {{proposal?.meta_info.name}}</a>
+          <div class="row" *ngFor="let proposal of section?.proposals">
+            <span style="font-size: 1.1rem" class="align-self-center m-0 nav-link" > {{proposal?.meta_info.name}} <i class="far fa-trash-alt pl-2" (click)="removeProposal(section, proposal)"></i></span>
+
           </div>
         </div>
       </div>
