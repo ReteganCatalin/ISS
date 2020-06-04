@@ -28,17 +28,17 @@
             <column header="proposal_deadline" type="DATE" name="proposal_deadline"></column>
         </loadUpdateData>
     </changeSet>
+    <changeSet  author="catalin"  id="dropColumn-qualifier_id from review_list">
+        <dropColumn columnName="qualifier_id"  schemaName="public" tableName="review_list">
+        </dropColumn>
+    </changeSet>
     <changeSet id="drop qualifier table" author="catalin">
         <dropTable tableName="qualifier" schemaName="public"></dropTable>
     </changeSet>
-    <changeSet author="catalin" id="change type of qualifier id">
-        <renameColumn
-                columnDataType="STRING"
-                newColumnName="qualifier"
-                oldColumnName="qualifier_id"
-                remarks="A String"
-                schemaName="public"
-                tableName="review_list"/>
+    <changeSet author="catalin" id="add column qualifier">
+        <addColumn schemaName="public" tableName="review_list">
+            <column name="qualifier" type="STRING"/>
+        </addColumn>
     </changeSet>
     <changeSet id="test-review_list" author="catalin">
         <loadUpdateData
