@@ -11,6 +11,7 @@ import {
 import {AddConferenceComponent} from './custom-components/add-conference/add-conference.component';
 import {ConferenceService} from "../shared/services/conference.service";
 import {Conference} from "../shared/models/Conference";
+import {UserService} from "../shared/services/user.service";
 
 @Component({
   selector: 'app-main-page',
@@ -24,18 +25,22 @@ export class MainPageComponent implements OnInit, AfterViewInit{
 
   constructor(private resolver: ComponentFactoryResolver,
               private changeDetectorRef: ChangeDetectorRef,
-              private conferenceService: ConferenceService) {
+              private conferenceService: ConferenceService,
+              private applicationRef: ApplicationRef, private userService: UserService) {
     this.conferenceList = [];
     this.visible = 1;
   }
 
   ngOnInit(): void {
+    let uid = +sessionStorage.getItem('uid');
+    this.userService.setUserID(uid);
     this.conferenceService.getConferenceNamesWithIDs().subscribe(response => {
       console.log(response);
       this.conferenceList = response;
 
     })
   }
+
   ngAfterViewInit() {
     const formFormFactory = this.resolver.resolveComponentFactory(AddConferenceComponent);
     this.entry.createComponent(formFormFactory);

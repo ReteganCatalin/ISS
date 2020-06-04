@@ -4,9 +4,9 @@
   <div class="row red h-100">
     <div class="col-2 red h-100 border-right p-0 bg-light">
       <div class="d-flex flex-column mt-1 menu">
-        <a class="nav-link active" (click)="selectVisible(0 )" routerLink = "conferences"> <i class="fas fa-home"></i> Conferences</a>
-        <a class="nav-link" (click)="selectVisible(0 )" routerLink = "proposals"> <i class="fas fa-file" ></i> My proposals</a>
-        <a class="nav-link" (click)="selectVisible(0 )" routerLink = "conferences"> <i class="fas fa-ticket-alt"></i> Tickets</a>
+        <a class="nav-link" (click)="selectVisible(0 )" routerLink = "conferences" routerLinkActive="active"> <i class="fas fa-home"></i> Conferences</a>
+        <a class="nav-link" (click)="selectVisible(0 )" routerLink = "proposals" routerLinkActive="active"> <i class="fas fa-file" ></i> My proposals</a>
+        <a class="nav-link" (click)="selectVisible(0 )" routerLinkActive="active"> <i class="fas fa-ticket-alt"></i> Tickets</a>
       </div>
       <div class="my-conferences pt-4">
         <div class="d-flex p-3 justify-content-between">

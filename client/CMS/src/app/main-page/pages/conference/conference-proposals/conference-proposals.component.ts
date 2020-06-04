@@ -2,7 +2,7 @@ import {
   AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ComponentFactoryResolver,
+  ComponentFactoryResolver, Injectable,
   Input,
   OnInit,
   ViewChild, ViewChildren,
@@ -21,6 +21,7 @@ import {AddProposalComponent} from "../../../custom-components/add-proposal/add-
 import {ConferenceProposal} from "../../../../shared/models/ConferenceProposal";
 import {ConferenceProposalDtos} from "../../../../shared/models/ConferenceProposalDtos";
 import {EditProposalComponent} from "../../../custom-components/edit-proposal/edit-proposal.component";
+import {UserService} from "../../../../shared/services/user.service";
 import {PaperProposal} from "../../../../shared/models/PaperProposal";
 import {DownloadService} from "../../../../shared/services/download.service";
 
@@ -40,38 +41,24 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   @ViewChild('EditProposalForm', { read: ViewContainerRef }) entry2: ViewContainerRef;
 
   @Input() conferenceID: number;
+  private readonly uid: number;
 
   public isCollapsed: Array<boolean>;
   constructor(private http: HttpClient, private parent: ConferenceComponent,
               private resolver: ComponentFactoryResolver,
               private changeDetectorRef: ChangeDetectorRef,
-              private downloadService:DownloadService) {
+              private downloadService:DownloadService,
+              private userService: UserService) {
     this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
     this.conferenceID = +this.parent.conferenceID;
     this.isCollapsed = [];
-    console.log(this.conferenceID);
+    this.uid = this.userService.getUserID();
+    console.log(this.uid);
   }
 
   ngOnInit(): void {
-
-    this.http.get<ConferenceProposalDtos>('http://localhost:8081/conference_proposal').subscribe(proposals => {
-      let auxiliaryList = new Array<ProposalDetailed>();
-      proposals.conferenceProposalDtos.forEach(proposal => {
-        if (proposal.conferenceID == this.conferenceID) {
-          this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed => {
-            console.log(proposalDetailed.section.conferenceID);
-            auxiliaryList.push(proposalDetailed);
-            this.isCollapsed.push(false);
-            if (proposalDetailed.section.supervisorID)
-              this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
-                proposalDetailed.supervisorName = data.username;
-              });
-          });
-        }
-      });
-      this.conferenceProposalDetailedObserver.next(auxiliaryList);
-    });
+    this.loadData();
   }
 
   loadData(){
@@ -81,12 +68,14 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
         if (proposal.conferenceID == this.conferenceID) {
           this.http.get<ProposalDetailed>('http://localhost:8081/proposals/' + proposal.proposalID + '/detailed').subscribe(proposalDetailed => {
             console.log(proposalDetailed.section.conferenceID);
-            auxiliaryList.push(proposalDetailed);
-            this.isCollapsed.push(false);
-            if (proposalDetailed.section.supervisorID)
-              this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
-                proposalDetailed.supervisorName = data.username;
-              });
+            if (proposalDetailed['proposal_proper_info']['userInfoID'] == this.uid){
+              auxiliaryList.push(proposalDetailed);
+              this.isCollapsed.push(false);
+              if (proposalDetailed.section.supervisorID)
+                this.http.get<User>('http://localhost:8081/users/' + proposalDetailed.section.supervisorID).subscribe(data => {
+                  proposalDetailed.supervisorName = data.username;
+                });
+            }
           });
         }
       });

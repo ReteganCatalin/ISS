@@ -33,13 +33,19 @@
         At least 6 characters and 1 digit
       </small>
 
+      <input type="text" id="webPage" class="form-control mb-4" placeholder="Web Page" formControlName="webPage">
 
       <input type="text" id="phoneNumber" class="form-control" placeholder="Phone number" aria-describedby="phoneNumber" formControlName="phoneNumber">
       <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
         Optional - for two-step authentication
       </small>
 
-      <button color="info" block="true" class="my-4 btn btn-primary" type="submit">Sign in</button>
+      <div class="d-flex justify-content-center">
+        <div class="d-flex flex-column justify-content-center w-50">
+          <button color="info" block="true" class="mb-2 btn btn-primary" type="submit" (click)="signUP()">Sign in</button>
+          <button color="info" block="true" class="mb-2 btn btn-primary" type="submit" (click)="backToLogin()">Back to LogIn</button>
+        </div>
+      </div>
 
       <p>or sign up with:</p>
 
