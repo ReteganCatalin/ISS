@@ -1,10 +1,12 @@
 package ro.ubb.iss.CMS.converter;
 
+import org.springframework.stereotype.Component;
 import ro.ubb.iss.CMS.domain.Conference;
 import ro.ubb.iss.CMS.domain.ConferenceData;
 import ro.ubb.iss.CMS.dto.ConferenceDataDto;
 import ro.ubb.iss.CMS.dto.ConferenceDto;
 
+@Component
 public class ConferenceDataConverter implements BaseConverter<ConferenceData, ConferenceDataDto> {
     @Override
     public ConferenceData convertDtoToModel(ConferenceDataDto conferenceDataDto){

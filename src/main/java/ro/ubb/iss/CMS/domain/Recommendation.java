@@ -19,7 +19,7 @@ public class Recommendation {
   @Column(name = "recommendation_id")
   private Integer recommendationID;
 
-  @OneToOne(cascade = CascadeType.ALL, optional = false, fetch = FetchType.LAZY)
+  @OneToOne(optional = false,orphanRemoval = true, fetch = FetchType.LAZY)
   @JoinColumn(name = "review_id")
   @EqualsAndHashCode.Exclude
   @ToString.Exclude
