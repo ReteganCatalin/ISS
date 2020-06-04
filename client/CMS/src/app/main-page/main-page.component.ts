@@ -23,8 +23,7 @@ export class MainPageComponent implements OnInit, AfterViewInit{
 
   constructor(private resolver: ComponentFactoryResolver,
               private changeDetectorRef: ChangeDetectorRef,
-              private conferenceService: ConferenceService,
-              private applicationRef: ApplicationRef) {
+              private conferenceService: ConferenceService) {
     this.conferenceList = [];
     this.visible = 1;
   }

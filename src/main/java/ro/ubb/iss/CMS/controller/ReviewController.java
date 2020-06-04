@@ -13,18 +13,16 @@ import ro.ubb.iss.CMS.MyExceptions.TooManyReviewersException;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.ReviewService;
 import ro.ubb.iss.CMS.converter.AbstractConverter;
+import ro.ubb.iss.CMS.converter.RecommendationConverter;
 import ro.ubb.iss.CMS.converter.ReviewConverter;
+import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.*;
-import ro.ubb.iss.CMS.dto.AbstractDto;
-import ro.ubb.iss.CMS.dto.AbstractsDto;
-import ro.ubb.iss.CMS.dto.ReviewDto;
-import ro.ubb.iss.CMS.dto.ReviewsDto;
+import ro.ubb.iss.CMS.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 public class ReviewController {
@@ -34,7 +32,8 @@ public class ReviewController {
   @Autowired private ReviewService service;
 
   @Autowired private ReviewConverter converter;
-
+  @Autowired private RecommendationConverter recommendationConverter;
+  @Autowired private UserConverter userConverter;
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
 
@@ -107,5 +106,51 @@ public class ReviewController {
     log.trace("deleteReview - method finished");
 
     return new ResponseEntity<>(HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/reviews/{id}/recommendation", method = RequestMethod.GET)
+  public ResponseEntity<RecommendationDto> getRecommendationOfAReviewer(@PathVariable Integer id) {
+    /*List<Review> list = service.findAll().stream()
+            .filter(review -> review.getReviewID().equals(id))
+            .filter(review -> review.getUser().getUserID().equals(reviewerID))
+            .collect(Collectors.toList());
+    if(list.size() == 0)
+      return new ArrayList<>();
+    else
+      return list.stream()
+              .filter(review -> review.getRecommendation() != null)
+              .map(review -> this.recommendationConverter.convertModelToDto(review.getRecommendation()))
+              .collect(Collectors.toList());*/
+    Optional<Review> review = service.findReview(id);
+    RecommendationDto recommendationDto = null;
+    if (review.isPresent())
+      if (review.get().getRecommendation() != null)
+        recommendationDto = this.recommendationConverter.convertModelToDto(review.get().getRecommendation());
+    return new ResponseEntity<>(recommendationDto,HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/reviews/{proposalID}/other_reviewers/{reviewerID}", method = RequestMethod.GET)
+  public List<Object> getReviewsOfTheOtherReviewers(@PathVariable Integer proposalID, @PathVariable Integer reviewerID) {
+    System.out.println(1);
+      List<Review> reviews = service.findAll().stream()
+              .filter(review -> review.getProposal().getProposalID().equals(proposalID))
+              .filter(review -> !review.getUser().getUserID().equals(reviewerID))
+              .collect(Collectors.toList());
+
+      reviews.forEach(System.out::println);
+
+      return reviews.stream()
+              .map(review -> {
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("user", this.userConverter.convertModelToDto(review.getUser()));
+                map.put("review", this.converter.convertModelToDto(review));
+                Recommendation recommendation = review.getRecommendation();
+                if(recommendation == null)
+                  map.put("recommendation", null);
+                else
+                  map.put("recommendation", this.recommendationConverter.convertModelToDto(review.getRecommendation()));
+                return map;
+              })
+              .collect(Collectors.toList());
   }
 }

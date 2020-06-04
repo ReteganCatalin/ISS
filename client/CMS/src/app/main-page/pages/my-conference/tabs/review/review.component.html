@@ -45,48 +45,46 @@
         </div>
         <div id="collapseExample" class="mt-2" [ngbCollapse]="!isCollapsed[i]">
           <div class="card-body">
-            <span class="">My recommendations <i class="fas fa-plus-circle"></i></span>
+            <span class="">My recommendation</span>
 
+            <div class="input-group mb-3">
+              <textarea class="form-control" [disabled]="!disabledTextarea[i]" aria-label="Recommendation Text" id="textarea" [(ngModel)]="recommendationText[i]" [ngModelOptions]="{standalone: true}"></textarea>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" style="width: 80px" type="button" (click)="disabledTextarea[i]=!disabledTextarea[i]" *ngIf="!disabledTextarea[i]">Edit</button>
+                <button class="btn btn-outline-secondary" style="width: 80px" type="button" (click)="saveRecommendation(i, reviewerRecommendations[i])" *ngIf="disabledTextarea[i]">Save</button>
+              </div>
+            </div>
 
-            <ul class="list-group list-group-flush">
-              <li class="list-group-item">
-                <div class="row align-items-start">
-                  <div class="col-11">
-                    oCras justo odi Cras justo odi Cras justo odi Cras justo odi Cras justo odi Cras justo odi
-                    Cras justo odiCras justo odiCras justo odiCras justo odiCras justo odiCras justo odiCras justo odiCras
-                    justo odi
+          </div>
+
+          <hr>
+
+          <div>
+            <h5 class="font-weight-normal p-2 m-0">Other reviews:</h5>
+            <div *ngFor="let reviewer of otherReviewers[i]">
+              <div class="card-body" *ngIf="reviewer != null">
+                <div class="card">
+                  <div class="p-2 border-bottom">
+                    <h5 class="font-weight-normal">Reviewer: {{reviewer['user']['username']}}</h5>
+                    <h5 class="font-weight-normal">Qualifier:
+                      <span  *ngIf="reviewer?.review['qualifierID'] >= 1 && reviewer?.review['qualifierID'] <= 3" class="text-danger">{{qualifiers[reviewer?.review['qualifierID']]['name']}}</span>
+                      <span  *ngIf="reviewer?.review['qualifierID'] == 4">{{qualifiers[reviewer?.review['qualifierID']]['name']}}</span>
+                      <span  *ngIf="reviewer?.review['qualifierID'] >= 5 && reviewer?.review['qualifierID'] <= 7" class="text-success">{{qualifiers[reviewer?.review['qualifierID']]['name']}}</span>
+                    </h5>
                   </div>
-                  <div class="col-1">
-                    <i class="far fa-trash-alt"></i>
+                  <div class="card-body">
+                    {{reviewer['recommendation']['recommendationMessage']}}
                   </div>
                 </div>
-              </li>
-            </ul>
-
-          </div>
-
-          <div class="card-text pb-2">
-            <div class="mt-4">
-
-
-              <!--<div class="mt-4">
-                <h6 class="card-title">Other Reviews:</h6>
-                <ul class="list-group">
-                  <li class="list-group-item">Cras justo odio</li>
-                  <li class="list-group-item">Dapibus ac facilisis in</li>
-                  <li class="list-group-item">Morbi leo risus</li>
-                  <li class="list-group-item">Porta ac consectetur ac</li>
-                  <li class="list-group-item">Vestibulum at eros</li>
-                </ul>
-              </div>-->
-
+              </div>
             </div>
           </div>
+
         </div>
       </div>
 
       <div class="d-flex justify-content-end">
-        <div class="d-inline-block" (click)="collapsedChangeStatus(i)" [attr.aria-expanded]="!isCollapsed[i]">
+        <div class="d-inline-block" (click)="collapsedChangeStatus(i, proposal['review']['reviewID'])" [attr.aria-expanded]="!isCollapsed[i]">
           <a class="nav-link text-primary" *ngIf="!isCollapsed[i]">see more</a>
           <a class="nav-link text-primary" *ngIf="isCollapsed[i]">see less</a>
         </div>
