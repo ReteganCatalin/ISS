@@ -11,23 +11,6 @@
             <column name="review_deadline" type="date"/>
         </addColumn>
     </changeSet>
-    <changeSet id="load-data-to-conference-new" author="catalin">
-        <loadUpdateData
-                tableName="conference"
-                primaryKey="conference_id"
-                encoding="UTF-8"
-                file="db/conferenceModified.csv"
-                schemaName="public"
-                separator=","
-        >
-            <column header="name" type="STRING" name="name"></column>
-            <column header="start_date" type="DATE" name="start_date"></column>
-            <column header="end_date" type="DATE" name="end_date"></column>
-            <column header="review_deadline" type="DATE" name="review_deadline"></column>
-            <column header="paper_deadline" type="DATE" name="paper_deadline"></column>
-            <column header="proposal_deadline" type="DATE" name="proposal_deadline"></column>
-        </loadUpdateData>
-    </changeSet>
     <changeSet  author="catalin"  id="dropColumn-qualifier_id from review_list">
         <dropColumn columnName="qualifier_id"  schemaName="public" tableName="review_list">
         </dropColumn>
@@ -39,18 +22,5 @@
         <addColumn schemaName="public" tableName="review_list">
             <column name="qualifier" type="varchar(30)"/>
         </addColumn>
-    </changeSet>
-    <changeSet id="test-review_list" author="catalin">
-        <loadUpdateData
-                tableName="review_list"
-                encoding="UTF-8"
-                primaryKey="review_id"
-                file="db/review_list.csv"
-                schemaName="public"
-                separator=",">
-            <column header="user_id" type="NUMERIC" name="user_id"></column>
-            <column header="proposal_id" type="NUMERIC" name="proposal_id"></column>
-            <column header="qualifier" type="STRING" name="qualifier"></column>
-        </loadUpdateData>
     </changeSet>
 </databaseChangeLog>
