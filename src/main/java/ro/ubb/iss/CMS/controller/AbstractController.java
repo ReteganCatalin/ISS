@@ -91,9 +91,9 @@ public class AbstractController {
     return new ResponseEntity<>(resultToReturn, HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/abstracts", method = RequestMethod.PUT)
-  public ResponseEntity<AbstractDto> updateAbstract(@RequestBody AbstractDto abstractDto) {
-    log.trace("updateAbstract - method entered: abstractDto={}", abstractDto);
+  @RequestMapping(value = "/abstracts/{abstractID}", method = RequestMethod.PUT)
+  public ResponseEntity<AbstractDto> updateAbstract(@RequestParam("file") MultipartFile file, @PathVariable Integer abstractID) {
+    /*log.trace("updateAbstract - method entered: abstractDto={}", abstractDto);
     Abstract anAbstract = converter.convertDtoToModel(abstractDto);
     AbstractDto result =
         converter.convertModelToDto(
@@ -104,7 +104,32 @@ public class AbstractController {
     log.trace("updateAbstract - method finished: result={}", result);
     if (result == null) return new ResponseEntity<>(AbstractDto.builder().build(),HttpStatus.BAD_REQUEST);
 
-    return new ResponseEntity<>(result, HttpStatus.OK);
+    return new ResponseEntity<>(result, HttpStatus.OK);*/
+
+    AbstractDto abstractDto=new AbstractDto(abstractID,"","");
+    log.trace("updateAbstract - method entered abstractDto={}", abstractDto);
+    Abstract result;
+    String path = "";
+    try {
+      path=fileService.store(file);
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    try {
+      abstractDto.setByteFileLocation(path);
+      abstractDto.setFormat("csp");
+      System.out.println(abstractDto.getFormat());
+      result = service.updateAbstract(abstractDto.getAbstractID(), abstractDto.getFormat(), abstractDto.getByteFileLocation());
+    } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
+      log.trace("updateAbstract - exception occurred: ex={}", ex.getMessage());
+      ex.printStackTrace();
+      return new ResponseEntity<>(AbstractDto.builder().build(),HttpStatus.BAD_REQUEST);
+    }
+    AbstractDto resultToReturn = converter.convertModelToDto(result);
+    log.trace("updateAbstract - method finished: result={}", resultToReturn);
+    return new ResponseEntity<>(resultToReturn, HttpStatus.OK);
+
   }
 
   @RequestMapping(value = "/abstracts/{id}", method = RequestMethod.DELETE)

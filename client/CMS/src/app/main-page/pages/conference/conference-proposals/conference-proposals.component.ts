@@ -22,6 +22,7 @@ import {ConferenceProposal} from "../../../../shared/models/ConferenceProposal";
 import {ConferenceProposalDtos} from "../../../../shared/models/ConferenceProposalDtos";
 import {EditProposalComponent} from "../../../custom-components/edit-proposal/edit-proposal.component";
 import {PaperProposal} from "../../../../shared/models/PaperProposal";
+import {DownloadService} from "../../../../shared/services/download.service";
 
 
 @Component({
@@ -41,8 +42,10 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   @Input() conferenceID: number;
 
   public isCollapsed: Array<boolean>;
-  constructor(private http: HttpClient, private parent: ConferenceComponent, private resolver: ComponentFactoryResolver,
-              private changeDetectorRef: ChangeDetectorRef) {
+  constructor(private http: HttpClient, private parent: ConferenceComponent,
+              private resolver: ComponentFactoryResolver,
+              private changeDetectorRef: ChangeDetectorRef,
+              private downloadService:DownloadService) {
     this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
     this.conferenceID = +this.parent.conferenceID;
@@ -96,6 +99,7 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   }
 
   openModal(){
+    this.entry.clear();
     const formFormFactory = this.resolver.resolveComponentFactory(AddProposalComponent);
     this.formAddProposal = this.entry.createComponent(formFormFactory);
     this.changeDetectorRef.detectChanges();
@@ -116,6 +120,7 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   }
 
   openModalEdit(index: number) {
+    this.entry2.clear();
     const formFormFactory = this.resolver.resolveComponentFactory(EditProposalComponent);
     this.formEditProposal = this.entry2.createComponent(formFormFactory);
     this.editProposal(index);
@@ -136,41 +141,10 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   }
 
   downloadPaper(proposal :ProposalDetailed) {
-    console.log(proposal);
-    this.http.get<Proposal>('http://localhost:8081/proposals/' + proposal.proposal_id).subscribe( prop => {
-      let headers = new HttpHeaders();
-      headers = headers.append('Accept', 'image/gif');
-      this.http.get('http://localhost:8081/papers/' + prop.paperID+'/file',{
-        headers: headers,
-        observe: 'response',
-        responseType: 'blob'
-      }).subscribe( file => {
-        console.log(file);
-        this.saveFile(file.body,proposal.paper_location.split("\\").reverse()[0]);
-        //const blob = new Blob([paper], { type: 'application/octet-stream' });
-        //window.open(window.URL.createObjectURL(blob));
-      } );
-    });
+    this.downloadService.downloadPaper(proposal.proposal_id)
   }
-  saveFile(data: any, filename?: string) {
-    const blob = new Blob([data], {type: 'text/csv; charset=utf-8'});
-    fileSaver.saveAs(blob, filename);
-  }
-  downloadAbstract(proposal) {
-    console.log(proposal);
-    this.http.get<Proposal>('http://localhost:8081/proposals/' + proposal.proposal_id).subscribe( prop => {
-      let headers = new HttpHeaders();
-      headers = headers.append('Accept', 'text/csv; charset=utf-8');
-      this.http.get('http://localhost:8081/abstracts/' + prop.abstractID+'/file',{
-        headers: headers,
-        observe: 'response',
-        responseType: 'blob'
-      }).subscribe( file => {
-        console.log(file);
-        this.saveFile(file.body,proposal.abstract_location.split("\\").reverse()[0]);
-        //const blob = new Blob([paper], { type: 'application/octet-stream' });
-        //window.open(window.URL.createObjectURL(blob));
-      } );
-    });
+
+  downloadAbstract(proposal :ProposalDetailed) {
+    this.downloadService.downloadAbstract(proposal.proposal_id)
   }
 }

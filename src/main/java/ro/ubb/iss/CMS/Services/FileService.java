@@ -21,7 +21,7 @@ import java.util.Optional;
 @Service
 public class FileService {
 
-  public String uploadDir="C:/test";
+  public String uploadDir="storage/all";
   public Path pathDir;
 
 
@@ -30,14 +30,15 @@ public class FileService {
     try {
       Files.copy(file.getInputStream(), fileNamePath);
     } catch (Exception e) {
-      throw new RuntimeException("FAIL!");
+      throw new RuntimeException(e.getMessage());
     }
     return fileNamePath.toString();
   }
 
   public Resource downloadFile(String filename) {
     try {
-      Path file = pathDir.resolve(filename);
+      //Path file = pathDir.resolve(filename);
+      Path file = Paths.get(filename);
       Resource resource = new UrlResource(file.toUri());
       if (resource.exists() || resource.isReadable()) {
         return resource;

@@ -31,7 +31,7 @@ export class RegisterPageComponent implements OnInit {
   }
 
   signUP() {
-    if (this.registerForm.invalid) {
+    /*if (this.registerForm.invalid) {
       return;
     }
     this.auth.signup(this.username.value, this.password.value, this.firstName.value, this.lastName.value,
@@ -41,7 +41,7 @@ export class RegisterPageComponent implements OnInit {
       },
       error => {
         this.showErrorMessage = true;
-      });
+      });*/
   }
 
   get username() { return this.registerForm.get('username'); }

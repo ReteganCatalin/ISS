@@ -1,5 +1,6 @@
 package ro.ubb.iss.CMS.controller;
 
+import liquibase.pro.packaged.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,12 +10,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.PcMemberService;
 import ro.ubb.iss.CMS.converter.PcMemberConverter;
+import ro.ubb.iss.CMS.converter.UserConverter;
 import ro.ubb.iss.CMS.domain.PcMember;
 import ro.ubb.iss.CMS.domain.PcMemberKey;
 import ro.ubb.iss.CMS.dto.PcMemberDto;
 import ro.ubb.iss.CMS.dto.PcMembersDto;
+import ro.ubb.iss.CMS.dto.UserDto;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 public class PcMemberController {
@@ -24,6 +29,7 @@ public class PcMemberController {
   @Autowired private PcMemberService service;
 
   @Autowired private PcMemberConverter converter;
+  @Autowired private UserConverter userConverter;
 
   @RequestMapping(value = "/pc_members", method = RequestMethod.GET)
   public ResponseEntity<PcMembersDto> getAllPcMembers() {
@@ -31,6 +37,14 @@ public class PcMemberController {
     PcMembersDto result = new PcMembersDto(converter.convertModelsToDtos(service.findAll()));
     log.trace("getAllPcMembers - method finished: result={}", result);
     return new ResponseEntity<>(result,HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/pc_members/{conferenceID}", method = RequestMethod.GET)
+  public List<UserDto> getPcMembersOfConference(@PathVariable Integer conferenceID) {
+      return this.service.findAll().stream()
+              .filter(pcMember -> pcMember.getConference().getConferenceID().equals(conferenceID))
+              .map(pcMember -> userConverter.convertModelToDto(pcMember.getUser()))
+              .collect(Collectors.toList());
   }
 
   @RequestMapping(value = "/pc_members/{userId}/{conferenceId}", method = RequestMethod.GET)

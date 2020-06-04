@@ -3,6 +3,7 @@ import {BehaviorSubject} from "rxjs";
 import {Proposal, Proposals} from "../../../../../shared/models/Proposal";
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../../../../../shared/services/user.service";
+import {DownloadService} from "../../../../../shared/services/download.service";
 
 @Component({
   selector: 'review',
@@ -21,7 +22,8 @@ export class ReviewComponent implements OnInit {
   @Input() conferenceID: number;
 
   constructor(private http: HttpClient,
-              private userService: UserService) {
+              private userService: UserService,
+              private downloadService: DownloadService) {
     this.isCollapsed = [];
     this.proposalsList = [];
     this.reviewerRecommendations = [];
@@ -125,5 +127,13 @@ export class ReviewComponent implements OnInit {
     else {
       this.updateRecommendation(i, reviewerRecommendation);
     }
+  }
+
+  downloadPaper(proposalID) {
+    this.downloadService.downloadPaper(proposalID)
+  }
+
+  downloadAbstract(proposalID) {
+    this.downloadService.downloadAbstract(proposalID)
   }
 }

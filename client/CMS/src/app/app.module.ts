@@ -14,6 +14,7 @@ import {NgbCollapseModule} from "@ng-bootstrap/ng-bootstrap";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { RegisterPageComponent } from './register-page/register-page.component';
+import {DownloadService} from "./shared/services/download.service";
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { RegisterPageComponent } from './register-page/register-page.component';
   ],
   providers: [
     ConferenceService,
-    UserService
+    UserService,
+    DownloadService
   ],
   exports: [
   ],

@@ -91,15 +91,41 @@ public class PaperController {
     return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
-  @RequestMapping(value = "/papers", method = RequestMethod.PUT)
-  public ResponseEntity<PaperDto> updatePaper(@RequestBody PaperDto paperDto) {
-    log.trace("updatePaper - method entered: paperDto={}", paperDto);
+  @RequestMapping(value = "/papers/{paperID}", method = RequestMethod.PUT)
+  public ResponseEntity<PaperDto> updatePaper(@RequestParam("file") MultipartFile file, @PathVariable Integer paperID) {
+    /*log.trace("updatePaper - method entered: paperDto={}", paperDto);
     PaperDto result =
         converter.convertModelToDto(
             service.updatePaper(
                 paperDto.getPaperId(), paperDto.getFormat(), paperDto.getByteFileLocation()));
     log.trace("updatePaper - method finished: result={}", result);
-    return new ResponseEntity<>(result,HttpStatus.OK);
+    return new ResponseEntity<>(result,HttpStatus.OK);*/
+
+    PaperDto paperDto = new PaperDto(paperID, "", "");
+    log.trace("updatePaper - method entered paperDto={}", paperDto);
+
+    Paper result;
+    String path = "";
+    try {
+      path=fileService.store(file);
+
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+    try {
+      paperDto.setByteFileLocation(path);
+      paperDto.setFormat("csp");
+      result = service.updatePaper(paperDto.getPaperId(), paperDto.getFormat(), path);
+
+    } catch (UnableToCreateStorageDirectoryException | UnableToSaveFileToStorage ex) {
+      log.trace("updatePaper - exception occurred: ex={}", ex.getMessage());
+      ex.printStackTrace();
+      return null;
+    }
+
+    PaperDto resultToReturn = converter.convertModelToDto(result);
+    log.trace("updatePaper - method finished: result={}", resultToReturn);
+    return new ResponseEntity<>(resultToReturn,HttpStatus.OK);
   }
 
   @RequestMapping(value = "/papers/{id}", method = RequestMethod.DELETE)

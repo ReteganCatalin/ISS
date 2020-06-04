@@ -63,8 +63,8 @@ public class AbstractServiceImplementation implements AbstractService {
 
     abstractOptional.ifPresent(
         newAbstract -> {
-          newAbstract.setByteFileLocation(format);
-          newAbstract.setFormat(byteFileLocation);
+          newAbstract.setByteFileLocation(byteFileLocation);
+          newAbstract.setFormat(format);
           log.debug("updateAbstract - updated: newAbstract={}", newAbstract);
         });
     log.trace("updateAbstract - method finished result={}", abstractOptional);

@@ -1,0 +1,12 @@
+a:hover {
+  cursor: pointer;
+}
+
+#dropdownAcceptedProposals {
+  background-color: transparent;
+  border: none;
+}
+
+#dropdownAcceptedProposals.dropdown-toggle::after {
+  content: none;
+}

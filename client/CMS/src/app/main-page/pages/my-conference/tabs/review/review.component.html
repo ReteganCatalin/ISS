@@ -13,10 +13,10 @@
           <div class="card-text pb-2">Keywords: {{proposal.meta_info.keywords}}</div>
           <div class="card-text pb-2">Topics: {{proposal.meta_info.topics}}</div>
 
-          <button class="btn btn-primary mr-4" type="button">
+          <button class="btn btn-primary mr-4" type="button" (click)="downloadPaper(proposal['proposalData']['proposalID'])">
             Open Paper
           </button>
-          <button class="btn btn-primary" type="button">
+          <button class="btn btn-primary" type="button" (click)="downloadAbstract(proposal['proposalData']['proposalID'])">
             Open Abstract Paper
           </button>
         </div>
@@ -73,7 +73,7 @@
                     </h5>
                   </div>
                   <div class="card-body">
-                    {{reviewer['recommendation']['recommendationMessage']}}
+                    {{reviewer?.recommendation?.recommendationMessage}}
                   </div>
                 </div>
               </div>

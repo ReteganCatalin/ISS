@@ -1,5 +1,6 @@
 package ro.ubb.iss.CMS.controller;
 
+import liquibase.pro.packaged.A;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,16 +11,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import ro.ubb.iss.CMS.Services.AbstractService;
 import ro.ubb.iss.CMS.Services.SectionService;
-import ro.ubb.iss.CMS.converter.AbstractConverter;
-import ro.ubb.iss.CMS.converter.PresentationConverter;
-import ro.ubb.iss.CMS.converter.SectionConverter;
-import ro.ubb.iss.CMS.converter.UserConverter;
+import ro.ubb.iss.CMS.converter.*;
 import ro.ubb.iss.CMS.domain.*;
 import ro.ubb.iss.CMS.dto.*;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 @RestController
 public class SectionController {
@@ -31,6 +33,8 @@ public class SectionController {
   @Autowired private SectionConverter converter;
   @Autowired private PresentationConverter presentationConverter;
   @Autowired private UserConverter userConverter;
+  @Autowired private ProposalConverter proposalConverter;
+  @Autowired private MetaInfoConverter metaInfoConverter;
 
   @PersistenceContext // or even @Autowired
   private EntityManager entityManager;
@@ -67,6 +71,27 @@ public class SectionController {
               .build();
     log.trace("getSectionPresentations - method finished: result={}", result);
     return new ResponseEntity(result,HttpStatus.OK);
+  }
+
+  @RequestMapping(value = "/sections/conference/{conferenceID}", method = RequestMethod.GET)
+  public List<Object> getSectionWithAllData(@PathVariable Integer conferenceID) {
+    return this.service.findAll().stream()
+            .filter(section -> section.getConference().getConferenceID().equals(conferenceID))
+            .map(section -> {
+              HashMap<String, Object> map = new HashMap<>();
+              map.put("section", this.converter.convertModelToDto(section));
+              map.put("supervisor", this.userConverter.convertModelToDto(section.getSupervisor()));
+              map.put("proposals",section.getProposalLists().stream()
+                      .map(proposalList -> {
+                        HashMap<String, Object> proposalMap = new HashMap<>();
+                        proposalMap.put("proposal",this.proposalConverter.convertModelToDto(proposalList.getProposal()));
+                        proposalMap.put("meta_info", this.metaInfoConverter.convertModelToDto(proposalList.getProposal().getMetaInformation()));
+                        return proposalMap;
+                      })
+                      .collect(Collectors.toList()));
+              return map;
+            })
+            .collect(Collectors.toList());
   }
 
   @RequestMapping(value = "/sections/{id}/suprevisor", method = RequestMethod.GET)

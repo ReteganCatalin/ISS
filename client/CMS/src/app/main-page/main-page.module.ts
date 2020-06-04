@@ -13,6 +13,7 @@ import {ReviewComponent} from "./pages/my-conference/tabs/review/review.componen
 import { AddProposalComponent } from './custom-components/add-proposal/add-proposal.component';
 import { MyProposalsComponent } from './pages/my-proposals/my-proposals.component';
 import { EditProposalComponent } from './custom-components/edit-proposal/edit-proposal.component';
+import { SectionsComponent } from './pages/my-conference/tabs/sections/sections.component';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { EditProposalComponent } from './custom-components/edit-proposal/edit-pr
     BiddingPageComponent,
     AddProposalComponent,
     AssignReviewerComponent,
-    ReviewComponent
+    ReviewComponent,
+    SectionsComponent
   ],
   exports: [
     MyConferenceComponent

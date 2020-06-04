@@ -1,6 +1,8 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {UserService} from "../../../../../shared/services/user.service";
+import {ProposalDetailed} from "../../../../../shared/models/ProposalDetailed";
+import {DownloadService} from "../../../../../shared/services/download.service";
 
 @Component({
   selector: 'bidding-page',
@@ -13,7 +15,8 @@ export class BiddingPageComponent implements OnInit{
   biddingProcess;
 
   constructor(private http: HttpClient,
-              private userService: UserService) {
+              private userService: UserService,
+              private downloadService: DownloadService) {
     this.conferenceProposals = [];
   }
 
@@ -49,8 +52,11 @@ export class BiddingPageComponent implements OnInit{
     }
   }
 
-  textStyle(briefAnalysis) {
-    console.log(briefAnalysis);
-    return "{'text-success'}"
+  downloadPaper(proposalID) {
+    this.downloadService.downloadPaper(proposalID)
+  }
+
+  downloadAbstract(proposalID) {
+    this.downloadService.downloadAbstract(proposalID)
   }
 }
