@@ -10,6 +10,10 @@
 6.In application.properties change spring.profiles.active=test/dev depending on what you want to use  
 7.Start the application  
 
+#### User Manual  
+
+[Manual](../master/Docs/UserManual)
+
 #### Members  
 [Retegan Catalin-Cristian -Team Leader](https://github.com/ReteganCatalin)   
 [Sabadus Alexandru-Bogdan](https://github.com/TheStrangeProgrammer)  
