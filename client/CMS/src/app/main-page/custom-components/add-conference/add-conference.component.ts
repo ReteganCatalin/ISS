@@ -40,16 +40,9 @@ export class AddConferenceComponent implements OnInit {
         new Date(this.endDate),
         new Date(this.proposalDeadline),
         new Date(this.paperDeadline));
-    conferenceData.setAttributes(
-      conference.conferenceID,
-      this.callForPaper,
-      this.about,
-      this.format,
-      this.byteFileLocation
-      );
+
     console.log(conferenceData);
     this.http.post<Conference>('http://localhost:8081/conferences', conference).subscribe(conferenceResult => {
-      console.log(conferenceResult);
       conferenceData.setAttributes(
         conferenceResult.conferenceID,
         this.callForPaper,
@@ -57,6 +50,7 @@ export class AddConferenceComponent implements OnInit {
         this.format,
         this.byteFileLocation
       );
+      console.log(conferenceData);
       this.http.post<ConferenceData>('http://localhost:8081/conference_data', conferenceData).subscribe(result => {
         console.log(result);
         this.imageFileUpload = this.selectedImageFiles.item(0);

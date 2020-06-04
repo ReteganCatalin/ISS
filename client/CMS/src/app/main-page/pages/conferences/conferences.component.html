@@ -1,7 +1,7 @@
 <div class="row">
-  <div *ngFor='let conference of conferenceObserver | async' class="p-5 col-6">
+  <div *ngFor='let conference of conferenceObserver | async;let i=index' class="p-5 col-6">
       <div class="card">
-        <img src="assets/test-img.jpg" alt="..." class="card-img-top">
+        <img [src]= imageLocations[i] alt="..." class="card-img-top">
         <div class="card-body">
           <h2 class="card-title">{{conference.name}}</h2>
           <p class="card-text">Some text about the conference</p>
