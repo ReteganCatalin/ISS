@@ -5,7 +5,7 @@
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                       http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
 
-    <changeSet id="test-user-info" author="catalin">
+    <changeSet id="test-user-info-version-2" author="catalin">
         <loadUpdateData
                 tableName="user_info"
                 primaryKey="user_info_id"
@@ -76,7 +76,7 @@
             <column header="abstract_id" type="NUMERIC" name="abstract_id"></column>
         </loadUpdateData>
     </changeSet>
-    <changeSet id="test-users" author="catalin">
+    <changeSet id="test-users-v-2" author="catalin">
         <loadUpdateData
                 tableName="users"
                 primaryKey="user_id"
@@ -91,7 +91,7 @@
             <column header="user_info_id" type="NUMERIC" name="user_info_id"></column>
         </loadUpdateData>
     </changeSet>
-    <changeSet id="load-data-to-conference-new" author="catalin">
+    <changeSet id="load-data-to-conference-new-1" author="catalin">
         <loadUpdateData
                 tableName="conference"
                 primaryKey="conference_id"
@@ -106,6 +106,7 @@
             <column header="review_deadline" type="DATE" name="review_deadline"></column>
             <column header="paper_deadline" type="DATE" name="paper_deadline"></column>
             <column header="proposal_deadline" type="DATE" name="proposal_deadline"></column>
+            <column header="chair" type="NUMERIC" name="chair"></column>
         </loadUpdateData>
     </changeSet>
     <changeSet id="test-bidding-process" author="catalin">
