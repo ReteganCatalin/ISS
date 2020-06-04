@@ -12,7 +12,7 @@
 
 #### User Manual  
 
-[Manual](../Documentation/Grading.pdf)
+[Manual](./Documentation/Grading.pdf)
 
 #### Members  
 [Retegan Catalin-Cristian -Team Leader](https://github.com/ReteganCatalin)   
