@@ -18,10 +18,10 @@
 
 #### Members  
 [Retegan Catalin-Cristian -Team Leader](https://github.com/ReteganCatalin)   
-[Sabadus Alexandru-Bogdan](https://github.com/TheStrangeProgrammer)  
+[Sabadus Alexandru-Bogdan](https://github.com/SabaAlex)  
 [Rusu Raul-Mihai](https://github.com/RaulRusu)  
 [Ravasz Tamás](https://github.com/RavaszTamas)  
-[Scherer Edward-Serban](https://github.com/SabaAlex)  
+[Scherer Edward-Serban](https://github.com/TheStrangeProgrammer)  
 
 #### Brief Presentation of the app
 
