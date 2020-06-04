@@ -41,13 +41,14 @@ export class ConferenceProposalsComponent implements OnInit, AfterViewInit {
   @ViewChild('EditProposalForm', { read: ViewContainerRef }) entry2: ViewContainerRef;
 
   @Input() conferenceID: number;
-  uid: number;
+  private readonly uid: number;
 
   public isCollapsed: Array<boolean>;
   constructor(private http: HttpClient, private parent: ConferenceComponent,
               private resolver: ComponentFactoryResolver,
               private changeDetectorRef: ChangeDetectorRef,
-              private downloadService:DownloadService, private userService: UserService) {
+              private downloadService:DownloadService,
+              private userService: UserService) {
     this.conferenceProposalDetailedObserver = new BehaviorSubject<Array<ProposalDetailed>>(new Array<ProposalDetailed>());
     this.conferenceProposalObserver = new BehaviorSubject<Array<Proposal>>(new Array<Proposal>());
     this.conferenceID = +this.parent.conferenceID;
