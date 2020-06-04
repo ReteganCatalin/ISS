@@ -23,18 +23,21 @@
 
 #### Used technologies
 
-   • Database server: PostgreSQL, locally hosted
-   • Version Control: Liquibase
-   • Programming languages: 
-       ◦ Front-end: Typescript with Angular, HTML, CSS ,Bootstrap
-       ◦ Back-end: Java, Spring, Lombok
-   • ORM: Hibernate 
-   • Tools used for diagram creation: StarUML, draw.io 
-   • VCS: Git 
-   • Task management: Trello 
-   • Testing 
-       ◦ User Testing and Manual Testing
-   • External tools/APIs we found useful: 
-      [SendGrid → for email sending](https://sendgrid.com)  
-      [Liquibase → version control](https://www.liquibase.org)
+   <pre> 
+    • Database server: PostgreSQL, locally hosted  
+    • Version Control: Liquibase  
+    • Programming languages:   
+        ◦ Front-end: Typescript with Angular, HTML, CSS ,Bootstrap  
+        ◦ Back-end: Java, Spring, Lombok  
+    • ORM: Hibernate   
+    • Tools used for diagram creation: StarUML, draw.io   
+    • VCS: Git  
+    • Task management: Trello   
+    • Testing   
+       ◦ User Testing and Manual Testing  
+    • External tools/APIs we found useful:   
+      • [SendGrid → for email sending](https://sendgrid.com)  
+      • [Liquibase → version control](https://www.liquibase.org)
+     </pre> 
       
+    
