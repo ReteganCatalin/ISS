@@ -17,6 +17,5 @@ public interface ReviewService {
 
   Review saveReview(Proposal proposalID, String qualifierID, User userID);
 
-  String getReviewStatus();
   void deleteReview(int reviewID);
 }

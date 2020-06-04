@@ -38,42 +38,6 @@ public class ReviewServiceImplementation implements ReviewService {
     return result;
   }
 
-  @Override
-  public String getReviewStatus(Proposal proposal)
-  {
-    Set<String> qualifierSet =
-            proposal.getReviews().stream()
-                    .map(Review::getQualifier)
-                    .collect(Collectors.toSet());
-    boolean positive=false;
-    boolean negative=false;
-    boolean none=false;
-    if (qualifierSet.stream()
-            .anyMatch(elem1 -> elem1.equals("borderline paper")))
-      positive=true;
-    if (qualifierSet.stream()
-            .anyMatch(elem1 -> elem1.equals("weak accept")))
-      positive=true;
-    if (qualifierSet.stream()
-            .anyMatch(elem1 -> elem1.equals("accept")))
-      positive=true;
-    if (qualifierSet.stream()
-            .anyMatch(elem1 -> elem1.equals("strong accept")))
-      positive=true;
-    if (qualifierSet.stream()
-            .anyMatch(elem1 -> elem1.equals("strong reject")))
-      negative=true;
-    if (qualifierSet.stream()
-            .anyMatch(elem1 -> elem1.equals("reject")))
-      negative=true;
-    if (qualifierSet.stream()
-            .anyMatch(elem1 -> elem1.equals("weak reject")))
-      negative=true;
-
-    return positive && negative;
-
-    return positive && negative;
-  }
 
   @Override
   @Transactional
