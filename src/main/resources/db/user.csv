@@ -1,3 +1,7 @@
 username,password,is_validated,user_info_id
 CatalinR,12345678,True,1
-MihaiP,12345678,False,2
+MihaiT,12345678,True,2
+MihaiL,12345678,True,3
+Catalin,12345678,True,4
+Akex,12345678,True,5
+Tommy,12345678,False,6

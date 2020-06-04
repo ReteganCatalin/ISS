@@ -14,7 +14,7 @@ public class EmailSender {
     public static final String PURCHASE_SUBJECT = "Your Purchase";
     public static final String REGISTER_LINK = "http://localhost:4200/register";
     public static final String LOGIN_LINK = "http://localhost:4200/login";
-    public static final String TICKETS_MSG = "You have succesfully bought the ticket for\n";
+    public static final String TICKETS_MSG = "You have succesfully bought the ticket for the section with id ";
     public static void send(String from, String to, String subj, String msg) {
         Email sender = new Email(from);
         Email recipient = new Email(to);
