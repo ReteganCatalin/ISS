@@ -20,5 +20,6 @@ public class ConferenceDto {
   private Date proposalDeadline;
   private Date paperDeadline;
   private Date reviewDeadline;
+  private int chair;
 
 }

@@ -45,6 +45,9 @@ public class Conference {
   @Temporal(TemporalType.DATE)
   java.util.Date paperDeadline;
 
+  @Column(name = "chair", nullable = false)
+  private int chair;
+
   //  @OneToMany(mappedBy = "conference",orphanRemoval = true, cascade = CascadeType.ALL, fetch =
   // FetchType.LAZY)
   //  Set<Participation> participations = new HashSet<>();
