@@ -1,4 +1,4 @@
-# Conference Managment System
+# Conference Management System
 
 # Team BWay 2.0
 
